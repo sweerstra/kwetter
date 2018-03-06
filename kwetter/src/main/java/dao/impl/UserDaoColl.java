@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.IUserDao;
 import domain.User;
 
 import java.util.List;

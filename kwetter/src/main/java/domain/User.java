@@ -2,6 +2,9 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,11 +15,12 @@ import java.util.List;
 @Entity
 @XmlRootElement
 public class User implements Serializable {
-
     @Id
     @GeneratedValue
     private long id;
     private String username;
+
+    @JsonIgnore
     private String password;
     private String profilePicture;
     private String bio;
@@ -25,16 +29,21 @@ public class User implements Serializable {
     private Role role;
 
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<User> followers = new ArrayList<User>();
 
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<User> following = new ArrayList<User>();
 
     // http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
+    @JsonBackReference
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> kweets = new ArrayList<Kweet>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> liked = new ArrayList<Kweet>();
 
     public enum Role {
@@ -50,6 +59,10 @@ public class User implements Serializable {
     }
 
     public User() {
+    }
+
+    public void addKweet(Kweet kweet) {
+        kweets.add(kweet);
     }
 
     public boolean addLike(Kweet kweet) {

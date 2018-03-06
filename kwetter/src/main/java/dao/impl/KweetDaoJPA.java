@@ -1,5 +1,8 @@
-package dao;
+package dao.impl;
 
+import dao.DaoFacade;
+import dao.IKweetDao;
+import dao.JPA;
 import domain.Kweet;
 import domain.User;
 
@@ -21,7 +24,7 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
 
     public List<Kweet> findByText(String text) {
         return em.createQuery("SELECT k FROM Kweet k WHERE k.text LIKE :text")
-                .setParameter("text", text)
+                .setParameter("text", "%" + text + "%")
                 .getResultList();
     }
 

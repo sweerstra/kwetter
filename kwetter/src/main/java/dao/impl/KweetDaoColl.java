@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.IKweetDao;
 import domain.Kweet;
 import domain.User;
 

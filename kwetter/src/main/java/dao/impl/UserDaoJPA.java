@@ -1,5 +1,8 @@
-package dao;
+package dao.impl;
 
+import dao.DaoFacade;
+import dao.IUserDao;
+import dao.JPA;
 import domain.User;
 
 import javax.ejb.Stateless;
@@ -19,9 +22,11 @@ public class UserDaoJPA extends DaoFacade<User> implements IUserDao {
     }
 
     public User findByUsername(String username) {
-        return (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")
+        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username")
                 .setParameter("username", username)
-                .getSingleResult();
+                .getResultList();
+
+        return users.isEmpty() ? null : users.get(0);
     }
 
     public List<User> findFollowing(long id) {

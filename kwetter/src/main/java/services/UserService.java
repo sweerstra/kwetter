@@ -5,11 +5,11 @@ import dao.JPA;
 import domain.Kweet;
 import domain.User;
 
-import javax.ejb.Stateless;
+import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
-@Stateless
+@ApplicationScoped
 public class UserService {
     @Inject
     @JPA
@@ -39,9 +39,19 @@ public class UserService {
         return dao.findAll();
     }
 
-    public void followUser(User user, User toFollow) {
-        user.addFollower(toFollow);
-        toFollow.addFollowing(user);
+    public boolean followUser(long id, long followingId) {
+        User user = dao.findById(id);
+        User toFollow = dao.findById(followingId);
+
+        if (user != null && toFollow != null) {
+            user.addFollower(toFollow);
+            toFollow.addFollowing(user);
+            dao.update(user);
+            dao.update(toFollow);
+            return true;
+        }
+
+        return false;
     }
 
     public List<User> getFollowing(long id) {

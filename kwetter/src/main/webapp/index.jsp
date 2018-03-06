@@ -22,8 +22,8 @@
         const password = this.password.value;
 
         const request = new XMLHttpRequest();
-        request.open('POST', 'http://localhost:8080/kwetter/api/user?username=' + username + '&password=' + password);
-        request.send();
+        request.open('POST', 'http://localhost:8080/kwetter/api/user');
+        request.send(JSON.stringify({ username, password }));
     });
 </script>
 

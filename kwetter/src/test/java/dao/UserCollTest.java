@@ -1,5 +1,6 @@
 package dao;
 
+import dao.impl.UserDaoColl;
 import domain.User;
 import org.junit.Test;
 

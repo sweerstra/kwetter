@@ -1,14 +1,20 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @XmlRootElement
@@ -19,22 +25,37 @@ public class Kweet implements Serializable {
     private String text;
 
     @ManyToOne
+    @JsonIgnore
+    @JsonManagedReference
     private User user;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm:ss.SSSZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date date;
 
-    @OneToMany
-    private List<User> likes;
-
     @ElementCollection
-    private List<String> hashtags;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<String> hashtags = new ArrayList<String>();
 
-    public Kweet(String text) {
+    public Kweet(String text, User user) {
         this.text = text;
+        this.user = user;
+        this.date = new Timestamp(System.currentTimeMillis());
+
+        this.setHashtags(matchList("(#\\w+)"));
+        // this.setMentions(matchList("(@\\w+)"));
     }
 
-    public Kweet() {}
+    public Kweet() {
+    }
+
+    private List<String> matchList(String regex) {
+        Matcher hashtagMatcher = Pattern.compile(regex).matcher(text);
+        List<String> list = new ArrayList<String>();
+        while (hashtagMatcher.find()) {
+            list.add(hashtagMatcher.group(1));
+        }
+        return list;
+    }
 
     public long getId() {
         return id;
@@ -68,19 +89,11 @@ public class Kweet implements Serializable {
         this.date = date;
     }
 
-    public List<User> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(ArrayList<User> likes) {
-        this.likes = likes;
-    }
-
     public List<String> getHashtags() {
         return hashtags;
     }
 
-    public void setHashtags(ArrayList<String> hashtags) {
+    public void setHashtags(List<String> hashtags) {
         this.hashtags = hashtags;
     }
 }
