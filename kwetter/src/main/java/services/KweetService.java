@@ -38,12 +38,17 @@ public class KweetService {
         return kweetDao.findForUser(user);
     }
 
-    public List<Kweet> searchKweets(String keyword) {
-        if (keyword.length() == 0) {
-            return new ArrayList<Kweet>();
-        }
+    public List<Kweet> getKweetsByTrend(String trend) {
+        trend = trend.startsWith("#") ? trend : String.format("#%s", trend);
+        return kweetDao.findByTrend(trend);
+    }
 
-        return kweetDao.findByText(keyword);
+    public List<String> getTrends() {
+        return kweetDao.findTrends();
+    }
+
+    public List<Kweet> searchKweets(String text) {
+        return kweetDao.findByText(text);
     }
 
     public Kweet postKweet(Kweet _kweet) {

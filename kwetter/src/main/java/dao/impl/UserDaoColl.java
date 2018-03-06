@@ -11,21 +11,17 @@ public class UserDaoColl implements IUserDao {
     private int ID = 1;
 
     public User findById(long id) {
-        for (User user : users) {
-            if (user.getId() == id) {
-                return user;
-            }
-        }
-        return null;
+        return users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public User findByUsername(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
+        return users.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<User> findFollowing(long id) {
@@ -68,10 +64,8 @@ public class UserDaoColl implements IUserDao {
     }
 
     public void deleteById(long id) {
-        for (User user : users) {
-            if (user.getId() == id) {
-                users.remove(user);
-            }
-        }
+        users.stream()
+                .filter(user -> user.getId() == id)
+                .forEach(users::remove);
     }
 }

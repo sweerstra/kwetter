@@ -26,7 +26,7 @@ public class KweetController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response post(Kweet _kweet) {
         if (_kweet == null) {
-            return Response.status(400).build();
+            return Response.status(404).build();
         }
 
         Kweet posted = service.postKweet(new Kweet(_kweet.getText(), _kweet.getUser()));
@@ -38,15 +38,27 @@ public class KweetController {
     }
 
     @GET
-    @Path("/search/{query}")
-    public Response searchKweets(@PathParam("query") String query) {
-        return Response.ok(service.searchKweets(query)).build();
+    @Path("/search/{text}")
+    public Response searchKweets(@PathParam("text") String text) {
+        return Response.ok(service.searchKweets(text)).build();
     }
 
     @GET
     @Path("/user/{id}")
     public Response getKweets(@PathParam("id") long id) {
         return Response.ok(service.getKweetsOfUser(id)).build();
+    }
+
+    @GET
+    @Path("/trend/{trend}")
+    public Response getKweetsByTrend(@PathParam("trend") String trend) {
+        return Response.ok(service.getKweetsByTrend(trend)).build();
+    }
+
+    @GET
+    @Path("/trends")
+    public Response getCurrentTrends() {
+        return Response.ok(service.getTrends()).build();
     }
 
     @GET

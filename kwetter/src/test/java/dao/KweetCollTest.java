@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class KweetCollTest {
     private IKweetDao dao = new KweetDaoColl();
@@ -71,6 +72,35 @@ public class KweetCollTest {
         dao.create(kweet);
 
         assertEquals(1, dao.findForUser(user1).size());
+    }
+
+    @Test
+    public void findByTrend() {
+        User user = new User("Testuser1", "Password1", User.Role.USER);
+        Kweet kweet = new Kweet("kweet #trend1 #trend2", user);
+        dao.create(kweet);
+
+        assertEquals(0, dao.findByTrend("#hashtag").size());
+        assertEquals(0, dao.findByTrend("#trend").size());
+        assertEquals(0, dao.findByTrend("trend1").size());
+        assertEquals(1, dao.findByTrend("#trend2").size());
+    }
+
+    @Test
+    public void findTrends() {
+        User user = new User("Testuser1", "Password1", User.Role.USER);
+        Kweet kweet1 = new Kweet("kweet #trend1 #trend2", user);
+        Kweet kweet2 = new Kweet("#trend2 kweetje", user);
+        dao.create(kweet1);
+        dao.create(kweet2);
+
+        assertTrue(dao.findTrends().contains("#trend1"));
+        assertTrue(dao.findTrends().contains("#trend2"));
+    }
+
+    @Test
+    public void findByMention() {
+
     }
 
     @Test

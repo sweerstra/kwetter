@@ -14,6 +14,12 @@ public interface IKweetDao {
 
     List<Kweet> findForUser(User entity);
 
+    List<Kweet> findByTrend(String trend);
+
+    List<String> findTrends();
+
+    List<Kweet> findByMention(String mention);
+
     List<Kweet> findAll();
 
     Kweet create(Kweet entity);

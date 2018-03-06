@@ -58,7 +58,7 @@ public class UserController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response post(User _user) {
+    public Response addUser(User _user) {
         User user = userService.addUser(new User(_user.getUsername(), _user.getPassword(), User.Role.USER));
         return Response.ok(user).build();
     }

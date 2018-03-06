@@ -5,30 +5,27 @@ import domain.Kweet;
 import domain.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class KweetDaoColl implements IKweetDao {
-    private final CopyOnWriteArrayList<Kweet> kweets = new CopyOnWriteArrayList<Kweet>();
+    private final CopyOnWriteArrayList<Kweet> kweets = new CopyOnWriteArrayList<>();
     private int ID = 1;
 
     public Kweet findById(long id) {
-        for (Kweet kweet : kweets) {
-            if (kweet.getId() == id) {
-                return kweet;
-            }
-        }
-        return null;
+        return kweets.stream()
+                .filter(kweet -> kweet.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public List<Kweet> findByText(String text) {
-        List<Kweet> found = new ArrayList<Kweet>();
-        for (Kweet kweet : kweets) {
-            if (kweet.getText().contains(text)) {
-                found.add(kweet);
-            }
-        }
-        return found;
+        return kweets.stream()
+                .filter(kweet -> kweet.getText().contains(text))
+                .collect(Collectors.toList());
     }
 
     public List<Kweet> findForUser(User entity) {
@@ -41,14 +38,35 @@ public class KweetDaoColl implements IKweetDao {
         return foundKweets;
     }
 
-    public List<Kweet> findByUser(long id) {
-        List<Kweet> found = new ArrayList<Kweet>();
+    public List<Kweet> findByTrend(String trend) {
+        return kweets.stream()
+                .filter(kweet -> kweet.getHashtags().contains(trend))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> findTrends() {
+        Set<String> set = new HashSet<>();
         for (Kweet kweet : kweets) {
-            if (kweet.getUser().getId() == id) {
-                found.add(kweet);
+            set.addAll(kweet.getHashtags());
+        }
+        return new ArrayList<>(set);
+    }
+
+    public List<Kweet> findByMention(String mention) {
+        /* List<Kweet> foundKweets = new ArrayList<Kweet>();
+        for (Kweet kweet : kweets) {
+            if (kweet.getMentions().contains(mention)) {
+                foundKweets.add(kweet);
             }
         }
-        return found;
+        return foundKweets; */
+        return null;
+    }
+
+    public List<Kweet> findByUser(long id) {
+        return kweets.stream()
+                .filter(kweet -> kweet.getUser().getId() == id)
+                .collect(Collectors.toList());
     }
 
     public List<Kweet> findAll() {
@@ -77,10 +95,8 @@ public class KweetDaoColl implements IKweetDao {
     }
 
     public void deleteById(long id) {
-        for (Kweet kweet : kweets) {
-            if (kweet.getId() == id) {
-                kweets.remove(kweet);
-            }
-        }
+        kweets.stream()
+                .filter(kweet -> kweet.getId() == id)
+                .forEach(kweets::remove);
     }
 }

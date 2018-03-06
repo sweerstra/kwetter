@@ -40,12 +40,14 @@ public class UserService {
     }
 
     public boolean followUser(long id, long followingId) {
+        if (id == followingId) return false;
+
         User user = dao.findById(id);
         User toFollow = dao.findById(followingId);
 
         if (user != null && toFollow != null) {
-            user.addFollower(toFollow);
-            toFollow.addFollowing(user);
+            user.addFollowing(toFollow);
+            toFollow.addFollower(user);
             dao.update(user);
             dao.update(toFollow);
             return true;
@@ -55,7 +57,8 @@ public class UserService {
     }
 
     public List<User> getFollowing(long id) {
-        return dao.findFollowing(id);
+        List<User> following = dao.findFollowing(id);
+        return following;
     }
 
     public List<User> getFollowers(long id) {

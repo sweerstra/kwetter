@@ -39,4 +39,20 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
                 .setParameter("id", entity.getId())
                 .getResultList();
     }
+
+    public List<Kweet> findByTrend(String trend) {
+        return (List<Kweet>) em.createQuery("SELECT k from Kweet k WHERE :trend in elements(k.hashtags)")
+                .setParameter("trend", trend)
+                .getResultList();
+    }
+
+    public List<String> findTrends() {
+        String query = "SELECT h.hashtags FROM kweet_hashtags as h GROUP BY h.hashtags ORDER BY COUNT(*) DESC LIMIT 10";
+        return em.createNativeQuery(query)
+                .getResultList();
+    }
+
+    public List<Kweet> findByMention(String mention) {
+        return null;
+    }
 }

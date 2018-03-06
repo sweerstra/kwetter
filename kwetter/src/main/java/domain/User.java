@@ -28,12 +28,14 @@ public class User implements Serializable {
     private String website;
     private Role role;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private List<User> followers = new ArrayList<User>();
 
-    @OneToMany
+    @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private List<User> following = new ArrayList<User>();
 
     // http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
@@ -42,7 +44,7 @@ public class User implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> kweets = new ArrayList<Kweet>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> liked = new ArrayList<Kweet>();
 
@@ -58,8 +60,7 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public User() {
-    }
+    public User() {}
 
     public void addKweet(Kweet kweet) {
         kweets.add(kweet);
