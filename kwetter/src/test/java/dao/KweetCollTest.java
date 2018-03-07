@@ -5,13 +5,10 @@ import domain.Kweet;
 import domain.User;
 import org.junit.Test;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class KweetCollTest {
     private IKweetDao dao = new KweetDaoColl();
@@ -62,7 +59,7 @@ public class KweetCollTest {
     public void findKweetsForUser() {
         Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
         User user1 = new User("Testuser1", "Password1", User.Role.USER);
-        List<User> following = new ArrayList<User>();
+        List<User> following = new ArrayList<>();
         User followingUser = new User("Testuser2", "Password2", User.Role.USER);
         following.add(followingUser);
         user1.setId(1);
@@ -135,15 +132,5 @@ public class KweetCollTest {
 
         dao.delete(kweet);
         assertEquals(0, dao.findAll().size());
-    }
-
-    @Test
-    public void deleteKweetById() {
-        dao.create(new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER)));
-        dao.create(new Kweet("niet mee eens", new User("Testuser1", "Password1", User.Role.USER)));
-        assertEquals(2, dao.findAll().size());
-
-        dao.deleteById(2);
-        assertEquals(1, dao.findAll().size());
     }
 }

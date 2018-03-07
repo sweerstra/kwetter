@@ -27,6 +27,4 @@ public interface IKweetDao {
     Kweet update(Kweet entity);
 
     void delete(Kweet entity);
-
-    void deleteById(long id);
 }

@@ -53,7 +53,7 @@ public class UserCollTest {
     @Test
     public void findUserFollowing() {
         User user1 = new User("Testuser1", "Password1", User.Role.USER);
-        List<User> following = new ArrayList<User>();
+        List<User> following = new ArrayList<>();
         following.add(new User("Testuser2", "Password2", User.Role.USER));
         user1.setFollowing(following);
 
@@ -70,7 +70,7 @@ public class UserCollTest {
     @Test
     public void findUserFollowers() {
         User user1 = new User("Testuser1", "Password1", User.Role.USER);
-        List<User> followers = new ArrayList<User>();
+        List<User> followers = new ArrayList<>();
         followers.add(new User("Testuser2", "Password2", User.Role.USER));
         user1.setFollowers(followers);
 
@@ -117,15 +117,5 @@ public class UserCollTest {
 
         dao.delete(user);
         assertEquals(0, dao.findAll().size());
-    }
-
-    @Test
-    public void deleteUserById() {
-        dao.create(new User("Testuser1", "Password1", User.Role.USER));
-        dao.create(new User("Testuser2", "Password2", User.Role.USER));
-        assertEquals(2, dao.findAll().size());
-
-        dao.deleteById(2);
-        assertEquals(1, dao.findAll().size());
     }
 }

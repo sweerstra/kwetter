@@ -93,10 +93,4 @@ public class KweetDaoColl implements IKweetDao {
     public void delete(Kweet entity) {
         kweets.remove(entity);
     }
-
-    public void deleteById(long id) {
-        kweets.stream()
-                .filter(kweet -> kweet.getId() == id)
-                .forEach(kweets::remove);
-    }
 }

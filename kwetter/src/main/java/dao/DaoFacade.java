@@ -1,7 +1,5 @@
 package dao;
 
-import domain.Kweet;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -14,10 +12,6 @@ public abstract class DaoFacade<T> {
 
     public DaoFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 
     public T create(T entity) {
@@ -35,18 +29,11 @@ public abstract class DaoFacade<T> {
 
     @SuppressWarnings("unchecked")
     public List<T> findAll() {
-        return entityManager.createQuery(String.format("from %s", this.entityClass.getName())).getResultList();
+        return entityManager.createQuery(String.format("FROM %s", this.entityClass.getName()))
+                .getResultList();
     }
 
     public void delete(T entity) {
         entityManager.remove(entity);
-    }
-
-    public void deleteById(long id) {
-        T obj = findById(id);
-
-        if (obj != null) {
-            delete(obj);
-        }
     }
 }

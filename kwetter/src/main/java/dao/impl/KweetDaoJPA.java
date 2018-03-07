@@ -41,7 +41,7 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public List<Kweet> findByTrend(String trend) {
-        return (List<Kweet>) em.createQuery("SELECT k from Kweet k WHERE :trend in elements(k.hashtags)")
+        return em.createQuery("SELECT k from Kweet k WHERE :trend in elements(k.hashtags)")
                 .setParameter("trend", trend)
                 .getResultList();
     }
@@ -53,6 +53,8 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public List<Kweet> findByMention(String mention) {
-        return null;
+        return em.createQuery("SELECT k from Kweet k WHERE :mention in elements(k.mentions)")
+                .setParameter("mention", mention)
+                .getResultList();
     }
 }

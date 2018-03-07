@@ -2,18 +2,15 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@XmlRootElement
 public class User implements Serializable {
     @Id
     @GeneratedValue
@@ -31,22 +28,22 @@ public class User implements Serializable {
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    private List<User> followers = new ArrayList<User>();
+    private List<User> followers = new ArrayList<>();
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    private List<User> following = new ArrayList<User>();
+    private List<User> following = new ArrayList<>();
 
     // http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     @JsonBackReference
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Kweet> kweets = new ArrayList<Kweet>();
+    private List<Kweet> kweets = new ArrayList<>();
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Kweet> liked = new ArrayList<Kweet>();
+    private List<Kweet> liked = new ArrayList<>();
 
     public enum Role {
         USER,
@@ -60,7 +57,8 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public void addKweet(Kweet kweet) {
         kweets.add(kweet);
@@ -89,14 +87,34 @@ public class User implements Serializable {
     }
 
     public boolean addFollower(User user) {
-        for (User followers : this.followers) {
-            if (followers.getId() == user.getId()) {
+        for (User follower : this.followers) {
+            if (follower.getId() == user.getId()) {
                 return false;
             }
         }
 
         followers.add(user);
         return true;
+    }
+
+    public boolean removeFollowing(User user) {
+        for (User following : this.following) {
+            if (following.getId() == user.getId()) {
+                this.following.remove(following);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeFollower(User user) {
+        for (User follower : this.followers) {
+            if (follower.getId() == user.getId()) {
+                this.followers.remove(follower);
+                return true;
+            }
+        }
+        return false;
     }
 
     public long getId() {

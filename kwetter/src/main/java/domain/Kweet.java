@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Entity
-@XmlRootElement
 public class Kweet implements Serializable {
     @Id
     @GeneratedValue
@@ -32,15 +30,18 @@ public class Kweet implements Serializable {
 
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<String> hashtags = new ArrayList<String>();
+    private List<String> hashtags = new ArrayList<>();
+
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<String> mentions = new ArrayList<>();
 
     public Kweet(String text, User user) {
         this.text = text;
         this.user = user;
         this.date = new Timestamp(System.currentTimeMillis());
-
         this.setHashtags(matchList("(#\\w+)"));
-        // this.setMentions(matchList("(@\\w+)"));
+        this.setMentions(matchList("(@\\w+)"));
     }
 
     public Kweet() {
@@ -48,7 +49,7 @@ public class Kweet implements Serializable {
 
     private List<String> matchList(String regex) {
         Matcher hashtagMatcher = Pattern.compile(regex).matcher(text);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         while (hashtagMatcher.find()) {
             list.add(hashtagMatcher.group(1));
         }
@@ -91,7 +92,15 @@ public class Kweet implements Serializable {
         return hashtags;
     }
 
-    public void setHashtags(List<String> hashtags) {
+    private void setHashtags(List<String> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public List<String> getMentions() {
+        return mentions;
+    }
+
+    private void setMentions(List<String> mentions) {
+        this.mentions = mentions;
     }
 }

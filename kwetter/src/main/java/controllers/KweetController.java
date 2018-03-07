@@ -26,7 +26,7 @@ public class KweetController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response post(Kweet _kweet) {
         if (_kweet == null) {
-            return Response.status(404).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         Kweet posted = service.postKweet(new Kweet(_kweet.getText(), _kweet.getUser()));
@@ -56,6 +56,12 @@ public class KweetController {
     }
 
     @GET
+    @Path("/mention/{mention}")
+    public Response getKweetsByMention(@PathParam("mention") String mention) {
+        return Response.ok(service.getKweetsByMention(mention)).build();
+    }
+
+    @GET
     @Path("/trends")
     public Response getCurrentTrends() {
         return Response.ok(service.getTrends()).build();
@@ -67,10 +73,20 @@ public class KweetController {
         return Response.ok(service.getTimeline(id)).build();
     }
 
+    @POST
+    @Path("/like/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response likeKweet(Kweet kweet, @PathParam("userId") long userId) {
+        boolean result = service.likeKweet(kweet, userId);
+        String json = String.format("{ \"response\": \"%s\" }", result);
+        return Response.ok(json).build();
+    }
+
     @DELETE
     @Path("/{id}")
     public Response deleteKweet(@PathParam("id") long id) {
         service.removeKweet(id);
-        return Response.ok().build();
+        String json = "{ \"response\": \"true\" }";
+        return Response.ok(json).build();
     }
 }

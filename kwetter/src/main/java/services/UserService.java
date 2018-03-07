@@ -2,7 +2,6 @@ package services;
 
 import dao.IUserDao;
 import dao.JPA;
-import domain.Kweet;
 import domain.User;
 
 import javax.faces.bean.ApplicationScoped;
@@ -23,10 +22,6 @@ public class UserService {
         return dao.create(entity);
     }
 
-    public User getUserById(long id) {
-        return dao.findById(id);
-    }
-
     public User getUserByUsername(String username) {
         if (username.length() == 0) {
             return null;
@@ -45,20 +40,32 @@ public class UserService {
         User user = dao.findById(id);
         User toFollow = dao.findById(followingId);
 
-        if (user != null && toFollow != null) {
-            user.addFollowing(toFollow);
-            toFollow.addFollower(user);
-            dao.update(user);
-            dao.update(toFollow);
-            return true;
-        }
+        if (user == null || toFollow == null
+                || !user.addFollowing(toFollow)
+                || !toFollow.addFollower(user)) return false;
 
-        return false;
+        dao.update(user);
+        dao.update(toFollow);
+        return true;
+    }
+
+    public boolean unfollowUser(long id, long unfollowingId) {
+        if (id == unfollowingId) return false;
+
+        User user = dao.findById(id);
+        User toFollow = dao.findById(unfollowingId);
+
+        if (user == null || toFollow == null
+                || !user.removeFollowing(toFollow)
+                || !toFollow.removeFollower(user)) return false;
+
+        dao.update(user);
+        dao.update(toFollow);
+        return true;
     }
 
     public List<User> getFollowing(long id) {
-        List<User> following = dao.findFollowing(id);
-        return following;
+        return dao.findFollowing(id);
     }
 
     public List<User> getFollowers(long id) {
@@ -66,10 +73,23 @@ public class UserService {
     }
 
     public User editUser(User user) {
-        return dao.update(user);
+        User original = dao.findByUsername(user.getUsername());
+
+        String profilePicture = user.getProfilePicture();
+        String bio = user.getBio();
+        String location = user.getLocation();
+        String website = user.getWebsite();
+
+        if (profilePicture != null) original.setProfilePicture(profilePicture);
+        if (bio != null) original.setBio(bio);
+        if (location != null) original.setLocation(location);
+        if (website != null) original.setWebsite(website);
+
+        return dao.update(original);
     }
 
-    public Kweet likeKweet(Kweet kweet, User user) {
-        return user.addLike(kweet) ? kweet : null;
+    public void deleteUser(long id) {
+        User user = dao.findById(id);
+        dao.delete(user);
     }
 }

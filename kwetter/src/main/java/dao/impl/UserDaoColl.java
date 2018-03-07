@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserDaoColl implements IUserDao {
-    private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<User>();
+    private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
     private int ID = 1;
 
     public User findById(long id) {
@@ -61,11 +61,5 @@ public class UserDaoColl implements IUserDao {
 
     public void delete(User entity) {
         users.remove(entity);
-    }
-
-    public void deleteById(long id) {
-        users.stream()
-                .filter(user -> user.getId() == id)
-                .forEach(users::remove);
     }
 }

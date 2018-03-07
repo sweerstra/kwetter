@@ -8,7 +8,6 @@ import domain.User;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -43,6 +42,11 @@ public class KweetService {
         return kweetDao.findByTrend(trend);
     }
 
+    public List<Kweet> getKweetsByMention(String mention) {
+        mention = mention.startsWith("@") ? mention : String.format("@%s", mention);
+        return kweetDao.findByMention(mention);
+    }
+
     public List<String> getTrends() {
         return kweetDao.findTrends();
     }
@@ -66,7 +70,19 @@ public class KweetService {
         return null;
     }
 
+    public boolean likeKweet(Kweet kweet, long userId) {
+        User user = userDao.findById(userId);
+        boolean result = user.addLike(kweet);
+
+        if (result) {
+            userDao.update(user);
+        }
+
+        return result;
+    }
+
     public void removeKweet(long id) {
-        kweetDao.deleteById(id);
+        Kweet kweet = kweetDao.findById(id);
+        kweetDao.delete(kweet);
     }
 }

@@ -20,6 +20,4 @@ public interface IUserDao {
     User update(User entity);
 
     void delete(User entity);
-
-    void deleteById(long id);
 }
