@@ -23,7 +23,7 @@ public class User implements Serializable {
     private String bio;
     private String location;
     private String website;
-    private Role role;
+    private String role;
 
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -45,16 +45,16 @@ public class User implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> liked = new ArrayList<>();
 
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role.toString();
+    }
+
     public enum Role {
         USER,
         MODERATOR,
         ADMINISTRATOR
-    }
-
-    public User(String username, String password, Role role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
     }
 
     public User() {
@@ -173,12 +173,12 @@ public class User implements Serializable {
         this.website = website;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
     public void setRole(Role role) {
-        this.role = role;
+        this.role = role.toString();
     }
 
     public List<User> getFollowers() {

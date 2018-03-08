@@ -30,7 +30,6 @@ public class UserCollTest {
         User foundUser = dao.findById(1);
         assertEquals("Testuser", foundUser.getUsername());
         assertEquals("Password123", foundUser.getPassword());
-        assertEquals(User.Role.USER, foundUser.getRole());
 
         User notFoundUser = dao.findById(10);
         assertNull(notFoundUser);
@@ -44,7 +43,6 @@ public class UserCollTest {
         User foundUser = dao.findByUsername("Testuser");
         assertEquals("Testuser", foundUser.getUsername());
         assertEquals("Password123", foundUser.getPassword());
-        assertEquals(User.Role.USER, foundUser.getRole());
 
         User notFoundUser = dao.findByUsername("Otheruser");
         assertNull(notFoundUser);
@@ -107,7 +105,6 @@ public class UserCollTest {
         User foundUser = dao.findById(ID);
         assertEquals("Testuser3", foundUser.getUsername());
         assertEquals("Password3", foundUser.getPassword());
-        assertEquals(User.Role.USER, foundUser.getRole());
     }
 
     @Test
