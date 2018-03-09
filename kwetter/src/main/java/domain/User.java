@@ -16,6 +16,7 @@ public class User implements Serializable {
     @GeneratedValue
     private long id;
     private String username;
+    private String email;
 
     @JsonIgnore
     private String password;
@@ -35,7 +36,6 @@ public class User implements Serializable {
     @JsonIgnore
     private List<User> following = new ArrayList<>();
 
-    // http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     @JsonManagedReference
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -65,10 +65,14 @@ public class User implements Serializable {
     }
 
     public boolean addLike(Kweet kweet) {
+        // if already liked kweet
         for (Kweet like : this.liked) {
-            if (like.getId() == kweet.getId()) {
-                return false;
-            }
+            if (like.getId() == kweet.getId()) return false;
+        }
+
+        // if it is the user's kweet
+        for (Kweet _kweet : this.kweets) {
+            if (_kweet.getId() == kweet.getId()) return false;
         }
 
         liked.add(kweet);
@@ -131,6 +135,14 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

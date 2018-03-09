@@ -30,7 +30,7 @@ public class UserService {
         return dao.findByUsername(username);
     }
 
-    public List<User> getAll() {
+    public List<User> getUsers() {
         return dao.findAll();
     }
 
@@ -53,14 +53,14 @@ public class UserService {
         if (id == unfollowingId) return false;
 
         User user = dao.findById(id);
-        User toFollow = dao.findById(unfollowingId);
+        User toUnfollow = dao.findById(unfollowingId);
 
-        if (user == null || toFollow == null
-                || !user.removeFollowing(toFollow)
-                || !toFollow.removeFollower(user)) return false;
+        if (user == null || toUnfollow == null
+                || !user.removeFollowing(toUnfollow)
+                || !toUnfollow.removeFollower(user)) return false;
 
         dao.update(user);
-        dao.update(toFollow);
+        dao.update(toUnfollow);
         return true;
     }
 
@@ -75,11 +75,13 @@ public class UserService {
     public User editUser(User user) {
         User original = dao.findByUsername(user.getUsername());
 
+        String email = user.getEmail();
         String profilePicture = user.getProfilePicture();
         String bio = user.getBio();
         String location = user.getLocation();
         String website = user.getWebsite();
 
+        if (email != null) original.setEmail(email);
         if (profilePicture != null) original.setProfilePicture(profilePicture);
         if (bio != null) original.setBio(bio);
         if (location != null) original.setLocation(location);

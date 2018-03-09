@@ -6,17 +6,24 @@ import static org.junit.Assert.*;
 
 public class UserTest {
     @Test
-    public void likeShouldOnlyBeAddedIfNew() {
+    public void likeShouldOnlyBeAddedIfNewAndNotByUser() {
         User user1 = new User("username1", "password", User.Role.USER);
         User user2 = new User("username2", "password", User.Role.USER);
-        Kweet kweet = new Kweet("@otherUsername", user2);
+        Kweet kweet1 = new Kweet("@otherUsername", user2);
 
-        boolean likeResult1 = user1.addLike(kweet);
+        boolean likeResult1 = user1.addLike(kweet1);
         assertTrue(likeResult1);
         assertEquals(1, user1.getLiked().size());
 
-        boolean likeResult2 = user1.addLike(kweet);
+        boolean likeResult2 = user1.addLike(kweet1);
         assertFalse(likeResult2);
+        assertEquals(1, user1.getLiked().size());
+
+        Kweet kweet2 = new Kweet("#hello everyone", user1);
+        user1.addKweet(kweet2);
+
+        boolean likeYourOwnKweetResult = user1.addLike(kweet2);
+        assertFalse(likeYourOwnKweetResult);
         assertEquals(1, user1.getLiked().size());
     }
 

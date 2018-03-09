@@ -35,7 +35,7 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public List<Kweet> findForUser(User entity) {
-        return em.createQuery("SELECT k from Kweet k WHERE k.user.id = :id OR k.user = k.user.following ORDER BY k.date")
+        return em.createQuery("SELECT k from Kweet k WHERE k.user.id = :id OR :id in elements(k.user.followers) ORDER BY k.date")
                 .setParameter("id", entity.getId())
                 .getResultList();
     }

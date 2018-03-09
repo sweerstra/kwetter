@@ -8,6 +8,7 @@ import domain.User;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -34,16 +35,23 @@ public class KweetService {
 
     public List<Kweet> getTimeline(long id) {
         User user = userDao.findById(id);
+
+        if (user == null) {
+            return new ArrayList<>();
+        }
+
         return kweetDao.findForUser(user);
     }
 
     public List<Kweet> getKweetsByTrend(String trend) {
-        trend = trend.startsWith("#") ? trend : String.format("#%s", trend);
-        return kweetDao.findByTrend(trend);
+        return kweetDao.findByTrend(String.format("#%s", trend));
     }
 
     public List<Kweet> getKweetsByMention(String mention) {
-        mention = mention.startsWith("@") ? mention : String.format("@%s", mention);
+        mention = mention.startsWith("@")
+                ? mention
+                : String.format("@%s", mention);
+
         return kweetDao.findByMention(mention);
     }
 
@@ -55,16 +63,16 @@ public class KweetService {
         return kweetDao.findByText(text);
     }
 
-    public Kweet postKweet(Kweet _kweet) {
-        String text = _kweet.getText();
+    public Kweet postKweet(Kweet kweet) {
+        String text = kweet.getText();
         if (text.length() > 0 && text.length() <= 140) {
-            User user = userDao.findById(_kweet.getUser().getId());
+            User user = userDao.findById(kweet.getUser().getId());
 
             if (user != null) {
-                Kweet kweet = kweetDao.create(_kweet);
-                user.addKweet(kweet);
+                Kweet createdKweet = kweetDao.create(kweet);
+                user.addKweet(createdKweet);
                 userDao.update(user);
-                return kweet;
+                return createdKweet;
             }
         }
         return null;
@@ -72,13 +80,13 @@ public class KweetService {
 
     public boolean likeKweet(Kweet kweet, long userId) {
         User user = userDao.findById(userId);
-        boolean result = user.addLike(kweet);
+        boolean likeResult = user.addLike(kweet);
 
-        if (result) {
+        if (likeResult) {
             userDao.update(user);
         }
 
-        return result;
+        return likeResult;
     }
 
     public void removeKweet(long id) {

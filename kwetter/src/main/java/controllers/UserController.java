@@ -30,9 +30,9 @@ public class UserController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addUser(User _user) {
-        User user = service.addUser(new User(_user.getUsername(), _user.getPassword(), User.Role.USER));
-        return Response.ok(user).build();
+    public Response addUser(User user) {
+        User createdUser = service.addUser(new User(user.getUsername(), user.getPassword(), User.Role.USER));
+        return Response.ok(createdUser).build();
     }
 
     @PUT
@@ -45,12 +45,6 @@ public class UserController {
         } else {
             return Response.status(400).build();
         }
-    }
-
-    @GET
-    @Path("/list")
-    public Response getUsers() {
-        return Response.ok(service.getAll()).build();
     }
 
     @POST

@@ -22,11 +22,9 @@ public class UserDaoJPA extends DaoFacade<User> implements IUserDao {
     }
 
     public User findByUsername(String username) {
-        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username")
+        return (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")
                 .setParameter("username", username)
-                .getResultList();
-
-        return users.isEmpty() ? null : users.get(0);
+                .getSingleResult();
     }
 
     public List<User> findFollowing(long id) {
