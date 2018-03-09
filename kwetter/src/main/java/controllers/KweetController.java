@@ -1,6 +1,7 @@
 package controllers;
 
 import domain.Kweet;
+import models.ResponseBody;
 import services.KweetService;
 
 import javax.enterprise.context.RequestScoped;
@@ -24,17 +25,17 @@ public class KweetController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response post(Kweet _kweet) {
-        if (_kweet == null) {
+    public Response post(Kweet kweet) {
+        if (kweet == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        Kweet posted = service.postKweet(new Kweet(_kweet.getText(), _kweet.getUser()));
-        if (posted == null) {
+        Kweet postedKweet = service.postKweet(new Kweet(kweet.getText(), kweet.getUser()));
+        if (postedKweet == null) {
             return Response.status(400).build();
         }
 
-        return Response.ok(posted).build();
+        return Response.ok(postedKweet).build();
     }
 
     @GET
@@ -78,15 +79,13 @@ public class KweetController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response likeKweet(Kweet kweet, @PathParam("userId") long userId) {
         boolean result = service.likeKweet(kweet, userId);
-        String json = String.format("{ \"response\": \"%s\" }", result);
-        return Response.ok(json).build();
+        return Response.ok(new ResponseBody(result, null)).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteKweet(@PathParam("id") long id) {
         service.removeKweet(id);
-        String json = "{ \"response\": \"true\" }";
-        return Response.ok(json).build();
+        return Response.ok(new ResponseBody(true, null)).build();
     }
 }

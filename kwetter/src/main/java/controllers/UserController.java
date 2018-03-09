@@ -1,6 +1,7 @@
 package controllers;
 
 import domain.User;
+import models.ResponseBody;
 import services.UserService;
 
 import javax.enterprise.context.RequestScoped;
@@ -41,7 +42,7 @@ public class UserController {
         User editedUser = service.editUser(user);
 
         if (editedUser != null) {
-            return Response.ok("{ \"response\": \"true\" }").build();
+            return Response.ok(new ResponseBody(true, null)).build();
         } else {
             return Response.status(400).build();
         }
@@ -51,24 +52,16 @@ public class UserController {
     @Path("/follow/{id}/{followingId}")
     public Response followUser(@PathParam("id") long id, @PathParam("followingId") long followingId) {
         boolean result = service.followUser(id, followingId);
-
-        String json = result
-                ? "{ \"response\": \"true\" }"
-                : "{ \"response\": \"false\", \"message\": \"User does not exist or the connection between these users already exists\" }";
-
-        return Response.ok(json).build();
+        String errorMessage = "User does not exist or the connection between these users already exists";
+        return Response.ok(new ResponseBody(result, errorMessage)).build();
     }
 
     @POST
     @Path("/unfollow/{id}/{unfollowingId}")
     public Response unfollowUser(@PathParam("id") long id, @PathParam("unfollowingId") long unfollowingId) {
         boolean result = service.unfollowUser(id, unfollowingId);
-
-        String json = result
-                ? "{ \"response\": \"true\" }"
-                : "{ \"response\": \"false\", \"message\": \"User or the connection between these users does not exist\" }";
-
-        return Response.ok(json).build();
+        String errorMessage = "User or the connection between these users does not exist";
+        return Response.ok(new ResponseBody(result, errorMessage)).build();
     }
 
     @GET
@@ -87,6 +80,6 @@ public class UserController {
     @Path("/{id}")
     public Response removeUser(@PathParam("id") long id) {
         service.deleteUser(id);
-        return Response.ok("{ \"response\": \"true\" }").build();
+        return Response.ok(new ResponseBody(true, null)).build();
     }
 }
