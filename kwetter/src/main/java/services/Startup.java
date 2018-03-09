@@ -33,7 +33,7 @@ public class Startup {
             userService.followUser(1, 2);
             userService.followUser(1, 3);
 
-            kweetService.getTrends();
+            // kweetService.getTrends();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

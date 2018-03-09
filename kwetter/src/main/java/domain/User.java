@@ -1,7 +1,7 @@
 package domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -37,7 +37,7 @@ public class User implements Serializable {
 
     // http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    @JsonBackReference
+    @JsonManagedReference
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> kweets = new ArrayList<>();
 
