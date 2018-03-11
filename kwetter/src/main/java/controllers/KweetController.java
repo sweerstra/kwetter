@@ -25,7 +25,7 @@ public class KweetController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response post(Kweet kweet) {
+    public Response postKweet(Kweet kweet) {
         if (kweet == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -36,6 +36,18 @@ public class KweetController {
         }
 
         return Response.ok(postedKweet).build();
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editKweet(Kweet kweet) {
+        Kweet editedKweet = service.editKweet(kweet);
+
+        if (editedKweet == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(editedKweet).build();
     }
 
     @GET

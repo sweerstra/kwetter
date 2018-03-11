@@ -29,6 +29,33 @@ public class KweetService {
         return kweetDao.findById(id);
     }
 
+    public Kweet postKweet(Kweet kweet) {
+        String text = kweet.getText();
+        if (text.length() > 0 && text.length() <= 140) {
+            User user = userDao.findById(kweet.getUser().getId());
+
+            if (user != null) {
+                Kweet createdKweet = kweetDao.create(kweet);
+                user.addKweet(createdKweet);
+                userDao.update(user);
+                return createdKweet;
+            }
+        }
+        return null;
+    }
+
+    public Kweet editKweet(Kweet kweet) {
+        if (kweet.getText().isEmpty()) return null;
+
+        Kweet originalKweet = kweetDao.findById(kweet.getId());
+
+        originalKweet.setText(kweet.getText());
+        originalKweet.setHashtags();
+        originalKweet.setMentions();
+
+        return kweetDao.update(originalKweet);
+    }
+
     public List<Kweet> getKweetsOfUser(long id) {
         return kweetDao.findByUser(id);
     }
@@ -61,21 +88,6 @@ public class KweetService {
 
     public List<Kweet> searchKweets(String text) {
         return kweetDao.findByText(text);
-    }
-
-    public Kweet postKweet(Kweet kweet) {
-        String text = kweet.getText();
-        if (text.length() > 0 && text.length() <= 140) {
-            User user = userDao.findById(kweet.getUser().getId());
-
-            if (user != null) {
-                Kweet createdKweet = kweetDao.create(kweet);
-                user.addKweet(createdKweet);
-                userDao.update(user);
-                return createdKweet;
-            }
-        }
-        return null;
     }
 
     public boolean likeKweet(Kweet kweet, long userId) {

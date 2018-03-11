@@ -26,6 +26,7 @@ hs_err_pid*
 
 # IntelliJ files
 .idea
+*.iml
 
 # Operating System
 .DS_Store

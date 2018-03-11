@@ -41,15 +41,26 @@ public class UserController {
     public Response editUser(User user) {
         User editedUser = service.editUser(user);
 
-        if (editedUser != null) {
-            return Response.ok(new ResponseBody(true, null)).build();
-        } else {
-            return Response.status(400).build();
+        if (editedUser == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        return Response.ok(editedUser).build();
     }
 
     @POST
-    @Path("/follow/{id}/{followingId}")
+    @Path("/auth")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response authenticate(User user) {
+        if (service.authenticateUser(user)) {
+            return Response.ok(new ResponseBody(true, "authenticated")).build();
+        }
+
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
+    @Path("{id}/follow/{followingId}")
     public Response followUser(@PathParam("id") long id, @PathParam("followingId") long followingId) {
         boolean result = service.followUser(id, followingId);
         String errorMessage = "User does not exist or the connection between these users already exists";
@@ -57,7 +68,7 @@ public class UserController {
     }
 
     @POST
-    @Path("/unfollow/{id}/{unfollowingId}")
+    @Path("{id}/unfollow/{unfollowingId}")
     public Response unfollowUser(@PathParam("id") long id, @PathParam("unfollowingId") long unfollowingId) {
         boolean result = service.unfollowUser(id, unfollowingId);
         String errorMessage = "User or the connection between these users does not exist";
@@ -65,15 +76,28 @@ public class UserController {
     }
 
     @GET
-    @Path("/following/{id}")
+    @Path("{id}/following")
     public Response getFollowing(@PathParam("id") long id) {
         return Response.ok(service.getFollowing(id)).build();
     }
 
     @GET
-    @Path("/followers/{id}")
+    @Path("{id}/followers")
     public Response getFollowers(@PathParam("id") long id) {
         return Response.ok(service.getFollowers(id)).build();
+    }
+
+    @PUT
+    @Path("{id}/role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editRole(@PathParam("id") long id, User user) {
+        User userWithNewRole = service.editRole(id, user.getRole());
+
+        if (userWithNewRole == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.ok(userWithNewRole).build();
     }
 
     @DELETE

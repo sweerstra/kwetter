@@ -42,14 +42,14 @@ public class Kweet implements Serializable {
         this.text = text;
         this.user = user;
         this.date = new Timestamp(System.currentTimeMillis());
-        this.setHashtags(getMatchedList("(#\\w+)"));
-        this.setMentions(getMatchedList("(@\\w+)"));
+        this.setHashtags();
+        this.setMentions();
     }
 
     public Kweet() {}
 
-    private List<String> getMatchedList(String regex) {
-        Matcher hashtagMatcher = Pattern.compile(regex).matcher(text);
+    private List<String> getListOfMatchedText(String regex) {
+        Matcher hashtagMatcher = Pattern.compile(regex).matcher(this.text);
         List<String> list = new ArrayList<>();
         while (hashtagMatcher.find()) {
             list.add(hashtagMatcher.group(1));
@@ -93,15 +93,15 @@ public class Kweet implements Serializable {
         return hashtags;
     }
 
-    public void setHashtags(List<String> hashtags) {
-        this.hashtags = hashtags;
+    public void setHashtags() {
+        this.hashtags = getListOfMatchedText("(#\\w+)");
     }
 
     public List<String> getMentions() {
         return mentions;
     }
 
-    public void setMentions(List<String> mentions) {
-        this.mentions = mentions;
+    public void setMentions() {
+        this.mentions = getListOfMatchedText("(@\\w+)");
     }
 }

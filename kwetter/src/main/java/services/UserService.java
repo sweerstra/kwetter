@@ -30,6 +30,36 @@ public class UserService {
         return dao.findByUsername(username);
     }
 
+    public User editUser(User user) {
+        User originalUser = dao.findByUsername(user.getUsername());
+        if (originalUser == null) return null;
+
+        String email = user.getEmail();
+        String profilePicture = user.getProfilePicture();
+        String bio = user.getBio();
+        String location = user.getLocation();
+        String website = user.getWebsite();
+
+        if (email != null) originalUser.setEmail(email);
+        if (profilePicture != null) originalUser.setProfilePicture(profilePicture);
+        if (bio != null) originalUser.setBio(bio);
+        if (location != null) originalUser.setLocation(location);
+        if (website != null) originalUser.setWebsite(website);
+
+        return dao.update(originalUser);
+    }
+
+    public boolean authenticateUser(User user) {
+        User originalUser = dao.findByUsername(user.getUsername());
+
+        if (originalUser != null) {
+            if (originalUser.getPassword().equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<User> getUsers() {
         return dao.findAll();
     }
@@ -72,22 +102,12 @@ public class UserService {
         return dao.findFollowers(id);
     }
 
-    public User editUser(User user) {
-        User original = dao.findByUsername(user.getUsername());
+    public User editRole(long id, User.Role role) {
+        User user = dao.findById(id);
+        if (user == null || role == null) return null;
 
-        String email = user.getEmail();
-        String profilePicture = user.getProfilePicture();
-        String bio = user.getBio();
-        String location = user.getLocation();
-        String website = user.getWebsite();
-
-        if (email != null) original.setEmail(email);
-        if (profilePicture != null) original.setProfilePicture(profilePicture);
-        if (bio != null) original.setBio(bio);
-        if (location != null) original.setLocation(location);
-        if (website != null) original.setWebsite(website);
-
-        return dao.update(original);
+        user.setRole(role);
+        return dao.update(user);
     }
 
     public void deleteUser(long id) {
