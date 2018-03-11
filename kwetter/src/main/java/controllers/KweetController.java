@@ -1,11 +1,13 @@
 package controllers;
 
 import domain.Kweet;
+import interceptors.KweetLoggingInterceptor;
 import models.ResponseBody;
 import services.KweetService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,6 +27,7 @@ public class KweetController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Interceptors(KweetLoggingInterceptor.class)
     public Response postKweet(Kweet kweet) {
         if (kweet == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
