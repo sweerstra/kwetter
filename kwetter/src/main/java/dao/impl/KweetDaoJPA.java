@@ -22,6 +22,11 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
         super(Kweet.class);
     }
 
+    public KweetDaoJPA(EntityManager em) {
+        super(Kweet.class);
+        this.em = em;
+    }
+
     public List<Kweet> findByText(String text) {
         return em.createQuery("SELECT k FROM Kweet k WHERE k.text LIKE :text")
                 .setParameter("text", "%" + text + "%")

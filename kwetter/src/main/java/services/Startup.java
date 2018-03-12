@@ -1,6 +1,5 @@
 package services;
 
-import domain.Kweet;
 import domain.User;
 
 import javax.annotation.PostConstruct;
@@ -18,24 +17,18 @@ public class Startup {
 
     @PostConstruct
     public void initData() {
-        try {
-            User user = new User("user", "password", User.Role.USER);
-            User admin = new User("admin", "password", User.Role.ADMINISTRATOR);
-            User moderator = new User("moderator", "password", User.Role.MODERATOR);
-            userService.addUser(user);
-            userService.addUser(admin);
-            userService.addUser(moderator);
+        User user = new User("user", "password", User.Role.USER);
+        User admin = new User("admin", "password", User.Role.ADMINISTRATOR);
+        User moderator = new User("moderator", "password", User.Role.MODERATOR);
+        userService.addUser(user);
+        userService.addUser(admin);
+        userService.addUser(moderator);
 
-            kweetService.postKweet(new Kweet("#heftig ongeluk hier", user));
-            kweetService.postKweet(new Kweet("#fissa in de stad #heftig", user));
-            kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", admin));
+        /*kweetService.postKweet(new Kweet("#heftig ongeluk hier", user));
+        kweetService.postKweet(new Kweet("#fissa in de stad #heftig", user));
+        kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", admin));
 
-            userService.followUser(1, 2);
-            userService.followUser(1, 3);
-
-            // kweetService.getTrends();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        userService.followUser(1, 2);
+        userService.followUser(1, 3);*/
     }
 }

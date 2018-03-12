@@ -23,10 +23,6 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        if (username.length() == 0) {
-            return null;
-        }
-
         return dao.findByUsername(username);
     }
 

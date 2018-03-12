@@ -35,7 +35,7 @@ public class KweetController {
 
         Kweet postedKweet = service.postKweet(new Kweet(kweet.getText(), kweet.getUser()));
         if (postedKweet == null) {
-            return Response.status(400).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.ok(postedKweet).build();
