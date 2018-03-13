@@ -63,7 +63,7 @@ public class UserController {
     @Path("{id}/follow/{followingId}")
     public Response followUser(@PathParam("id") long id, @PathParam("followingId") long followingId) {
         boolean result = service.followUser(id, followingId);
-        String errorMessage = "User does not exist or the connection between these users already exists";
+        String errorMessage = !result ? "User does not exist or the connection between these users already exists" : null;
         return Response.ok(new ResponseBody(result, errorMessage)).build();
     }
 
@@ -71,7 +71,7 @@ public class UserController {
     @Path("{id}/unfollow/{unfollowingId}")
     public Response unfollowUser(@PathParam("id") long id, @PathParam("unfollowingId") long unfollowingId) {
         boolean result = service.unfollowUser(id, unfollowingId);
-        String errorMessage = "User or the connection between these users does not exist";
+        String errorMessage = !result ? "User or the connection between these users does not exist" : null;
         return Response.ok(new ResponseBody(result, errorMessage)).build();
     }
 

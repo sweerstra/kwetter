@@ -1,5 +1,6 @@
 package services;
 
+import domain.Kweet;
 import domain.User;
 
 import javax.annotation.PostConstruct;
@@ -24,11 +25,11 @@ public class Startup {
         userService.addUser(admin);
         userService.addUser(moderator);
 
-        /*kweetService.postKweet(new Kweet("#heftig ongeluk hier", user));
+        kweetService.postKweet(new Kweet("#heftig ongeluk hier", user));
         kweetService.postKweet(new Kweet("#fissa in de stad #heftig", user));
         kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", admin));
 
         userService.followUser(1, 2);
-        userService.followUser(1, 3);*/
+        userService.followUser(1, 3);
     }
 }

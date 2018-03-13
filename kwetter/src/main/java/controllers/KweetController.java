@@ -22,7 +22,8 @@ public class KweetController {
     @GET
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long id) {
-        return Response.ok(service.getKweet(id)).build();
+        Kweet kweet = service.getKweet(id);
+        return Response.ok(kweet).build();
     }
 
     @POST

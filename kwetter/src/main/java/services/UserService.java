@@ -18,14 +18,28 @@ public class UserService {
         super();
     }
 
+    /**
+     * @param entity, to persist
+     * @return User, created
+     */
     public User addUser(User entity) {
         return dao.create(entity);
     }
 
+    /**
+     * @param username, of the user to find
+     * @return User, object that was found or null
+     */
     public User getUserByUsername(String username) {
         return dao.findByUsername(username);
     }
 
+    /**
+     * Find the field of User object that are filled, and updates these fields
+     *
+     * @param user, to edit
+     * @return User, edited
+     */
     public User editUser(User user) {
         User originalUser = dao.findByUsername(user.getUsername());
         if (originalUser == null) return null;
@@ -45,6 +59,12 @@ public class UserService {
         return dao.update(originalUser);
     }
 
+    /**
+     * Finds the User object based on username and compares the password
+     *
+     * @param user, to authenticate
+     * @return boolean, user authenticated
+     */
     public boolean authenticateUser(User user) {
         User originalUser = dao.findByUsername(user.getUsername());
 
@@ -56,10 +76,20 @@ public class UserService {
         return false;
     }
 
+    /**
+     * @return List<User>, list of all users
+     */
     public List<User> getUsers() {
         return dao.findAll();
     }
 
+    /**
+     * Adds a following user to the following list and a follower to the followers list of the other user
+     *
+     * @param id,          of user that follows
+     * @param followingId, of user that is being followed
+     * @return boolean, if follow connection was successful
+     */
     public boolean followUser(long id, long followingId) {
         if (id == followingId) return false;
 
@@ -75,6 +105,11 @@ public class UserService {
         return true;
     }
 
+    /**
+     * @param id,            of user with follower to unfollow
+     * @param unfollowingId, of follower to remove following user
+     * @return boolean, if unfollowing was successful
+     */
     public boolean unfollowUser(long id, long unfollowingId) {
         if (id == unfollowingId) return false;
 
@@ -90,14 +125,27 @@ public class UserService {
         return true;
     }
 
+    /**
+     * @param id, of user to get following
+     * @return List<User>, of following users
+     */
     public List<User> getFollowing(long id) {
         return dao.findFollowing(id);
     }
 
+    /**
+     * @param id, of user to get following
+     * @return List<User>, of followers
+     */
     public List<User> getFollowers(long id) {
         return dao.findFollowers(id);
     }
 
+    /**
+     * @param id,   of user to edit role
+     * @param role, new role
+     * @return User, updated
+     */
     public User editRole(long id, User.Role role) {
         User user = dao.findById(id);
         if (user == null || role == null) return null;
@@ -106,6 +154,9 @@ public class UserService {
         return dao.update(user);
     }
 
+    /**
+     * @param id, of user to delete
+     */
     public void deleteUser(long id) {
         User user = dao.findById(id);
         dao.delete(user);

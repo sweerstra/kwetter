@@ -29,6 +29,13 @@ public class KweetService {
         return kweetDao.findById(id);
     }
 
+    /**
+     * Checks if kweet is between 0 and 140 characters
+     * Adds kweet to designated list of user's kweets
+     *
+     * @param kweet, to create with text and user id
+     * @return Kweet, that gets posted)
+     */
     public Kweet postKweet(Kweet kweet) {
         String text = kweet.getText();
         if (text.length() > 0 && text.length() <= 140) {
@@ -44,6 +51,13 @@ public class KweetService {
         return null;
     }
 
+    /**
+     * Check if new text is empty, initiate a new Kweet instance
+     * and set the hashtags and mentions.
+     *
+     * @param kweet, with kweet id to update and new text
+     * @return Kweet, newly created kweet
+     */
     public Kweet editKweet(Kweet kweet) {
         if (kweet.getText().isEmpty()) return null;
 
@@ -56,10 +70,21 @@ public class KweetService {
         return kweetDao.update(originalKweet);
     }
 
+    /**
+     * @param id, id of user to get kweets from
+     * @return List<Kweet>, list of kweets found
+     */
     public List<Kweet> getKweetsOfUser(long id) {
         return kweetDao.findByUser(id);
     }
 
+    /**
+     * This method gets the kweets of the user and the
+     * kweets of the users following
+     *
+     * @param id, of the user to get kweets and following from
+     * @return List<Kweet>, list of kweets found
+     */
     public List<Kweet> getTimeline(long id) {
         User user = userDao.findById(id);
 
@@ -70,10 +95,18 @@ public class KweetService {
         return kweetDao.findForUser(user);
     }
 
+    /**
+     * @param trend, trend to find
+     * @return List<Kweet>, in where the trend is used
+     */
     public List<Kweet> getKweetsByTrend(String trend) {
         return kweetDao.findByTrend(String.format("#%s", trend));
     }
 
+    /**
+     * @param mention, mention to find
+     * @return List<Kweet>, in where the user is mentioned
+     */
     public List<Kweet> getKweetsByMention(String mention) {
         mention = mention.startsWith("@")
                 ? mention
@@ -82,14 +115,28 @@ public class KweetService {
         return kweetDao.findByMention(mention);
     }
 
+    /**
+     * @return List<String>, of current trends, sorted ascending by occurence
+     */
     public List<String> getTrends() {
         return kweetDao.findTrends();
     }
 
+    /**
+     * @param text, keyword to match
+     * @return List<Kweet>, where keyword was found in text
+     */
     public List<Kweet> searchKweets(String text) {
         return kweetDao.findByText(text);
     }
 
+    /**
+     * Add a like to the user's liked list
+     *
+     * @param kweet,  to like
+     * @param userId, to add to the user's like list
+     * @return boolean, if like was persisted
+     */
     public boolean likeKweet(Kweet kweet, long userId) {
         User user = userDao.findById(userId);
         boolean likeResult = user.addLike(kweet);
@@ -101,6 +148,9 @@ public class KweetService {
         return likeResult;
     }
 
+    /**
+     * @param id, of kweet to remove
+     */
     public void removeKweet(long id) {
         Kweet kweet = kweetDao.findById(id);
         kweetDao.delete(kweet);
