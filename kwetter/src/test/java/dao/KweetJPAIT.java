@@ -1,19 +1,7 @@
 package dao;
 
-import dao.impl.KweetDaoJPA;
-import domain.Kweet;
-import domain.User;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
 public class KweetJPAIT {
-    private static EntityManagerFactory entityManagerFactory;
+    /*private static EntityManagerFactory entityManagerFactory;
     private static EntityManager entityManager;
     private static EntityTransaction transaction;
     private static IKweetDao dao;
@@ -40,5 +28,5 @@ public class KweetJPAIT {
         dao.create(kweet);
 
         transaction.commit();
-    }
+    }*/
 }

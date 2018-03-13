@@ -40,6 +40,7 @@
     <properties>
         <jersey.version>2.26</jersey.version>
         <jackson.version>2.6.4</jackson.version>
+        <rest-assured.version>3.0.7</rest-assured.version>
         <hibernate.version>5.2.14.Final</hibernate.version>
     </properties>
 
@@ -66,7 +67,7 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>3.0.7</version>
+            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
 

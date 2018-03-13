@@ -45,6 +45,7 @@ public class User implements Serializable {
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    // TODO: Omzetten naar set?
     private List<Kweet> liked = new ArrayList<>();
 
     public User(String username, String password, Role role) {

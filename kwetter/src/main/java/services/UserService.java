@@ -1,5 +1,6 @@
 package services;
 
+import com.mysql.cj.core.util.StringUtils;
 import dao.IUserDao;
 import dao.JPA;
 import domain.User;
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @ApplicationScoped
+// TODO: UserService omzetten naar @Stateless?
 public class UserService {
     @Inject
     @JPA
@@ -19,11 +21,16 @@ public class UserService {
     }
 
     /**
-     * @param entity, to persist
+     * @param username, of user to create
+     * @param password, of user to create
      * @return User, created
      */
-    public User addUser(User entity) {
-        return dao.create(entity);
+    public User addUser(String username, String password) {
+        if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
+            return null;
+        }
+
+        return dao.create(new User(username, password, User.Role.USER));
     }
 
     /**
@@ -159,6 +166,8 @@ public class UserService {
      */
     public void deleteUser(long id) {
         User user = dao.findById(id);
+        if (user == null) return;
+
         dao.delete(user);
     }
 }

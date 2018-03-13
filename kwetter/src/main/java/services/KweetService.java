@@ -6,12 +6,13 @@ import dao.JPA;
 import domain.Kweet;
 import domain.User;
 
-import javax.faces.bean.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
+// TODO: KweetService Omzetten naar @Stateless?
 public class KweetService {
     @Inject
     @JPA
@@ -30,7 +31,7 @@ public class KweetService {
     }
 
     /**
-     * Checks if kweet is between 0 and 140 characters
+     * Check if kweet is between 0 and 140 characters
      * Adds kweet to designated list of user's kweets
      *
      * @param kweet, to create with text and user id

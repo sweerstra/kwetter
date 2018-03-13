@@ -32,7 +32,12 @@ public class UserController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
-        User createdUser = service.addUser(new User(user.getUsername(), user.getPassword(), User.Role.USER));
+        User createdUser = service.addUser(user.getUsername(), user.getPassword());
+
+        if (createdUser == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
         return Response.ok(createdUser).build();
     }
 
@@ -42,7 +47,7 @@ public class UserController {
         User editedUser = service.editUser(user);
 
         if (editedUser == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         return Response.ok(editedUser).build();
