@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @POST
-    @Path("{id}/follow/{followingId}")
+    @Path("/{id}/follow/{followingId}")
     public Response followUser(@PathParam("id") long id, @PathParam("followingId") long followingId) {
         boolean result = service.followUser(id, followingId);
         String errorMessage = !result ? "User does not exist or the connection between these users already exists" : null;
@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @POST
-    @Path("{id}/unfollow/{unfollowingId}")
+    @Path("/{id}/unfollow/{unfollowingId}")
     public Response unfollowUser(@PathParam("id") long id, @PathParam("unfollowingId") long unfollowingId) {
         boolean result = service.unfollowUser(id, unfollowingId);
         String errorMessage = !result ? "User or the connection between these users does not exist" : null;
@@ -81,22 +81,22 @@ public class UserController {
     }
 
     @GET
-    @Path("{id}/following")
+    @Path("/{id}/following")
     public Response getFollowing(@PathParam("id") long id) {
         return Response.ok(service.getFollowing(id)).build();
     }
 
     @GET
-    @Path("{id}/followers")
+    @Path("/{id}/followers")
     public Response getFollowers(@PathParam("id") long id) {
         return Response.ok(service.getFollowers(id)).build();
     }
 
     @PUT
-    @Path("{id}/role")
+    @Path("/role")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editRole(@PathParam("id") long id, User user) {
-        User userWithNewRole = service.editRole(id, user.getRole());
+    public Response editRole(User user) {
+        User userWithNewRole = service.editRole(user.getId(), user.getRole());
 
         if (userWithNewRole == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();

@@ -1,7 +1,6 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -9,11 +8,15 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @XmlRootElement
 public class User implements Serializable {
+    // TODO: Lazy collection verwijderen
+
     @Id
     @GeneratedValue
     private long id;
@@ -39,14 +42,15 @@ public class User implements Serializable {
     private List<User> following = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    @JsonManagedReference
+    // @JsonManagedReference
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> kweets = new ArrayList<>();
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     // TODO: Omzetten naar set?
-    private List<Kweet> liked = new ArrayList<>();
+    private Set<Kweet> liked = new HashSet<>();
 
     public User(String username, String password, Role role) {
         this.username = username;
@@ -67,18 +71,7 @@ public class User implements Serializable {
     }
 
     public boolean addLike(Kweet kweet) {
-        // if already liked kweet
-        for (Kweet like : this.liked) {
-            if (like.getId() == kweet.getId()) return false;
-        }
-
-        // if it is the user's kweet
-        for (Kweet _kweet : this.kweets) {
-            if (_kweet.getId() == kweet.getId()) return false;
-        }
-
-        liked.add(kweet);
-        return true;
+        return liked.add(kweet);
     }
 
     public boolean addFollowing(User user) {
@@ -219,11 +212,16 @@ public class User implements Serializable {
         this.kweets = kweets;
     }
 
-    public List<Kweet> getLiked() {
+    public Set<Kweet> getLiked() {
         return liked;
     }
 
-    public void setLiked(List<Kweet> liked) {
+    public void setLiked(Set<Kweet> liked) {
         this.liked = liked;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof User) && ((User) obj).getId() == this.getId();
     }
 }

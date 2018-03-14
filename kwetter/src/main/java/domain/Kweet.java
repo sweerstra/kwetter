@@ -1,7 +1,7 @@
 package domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -18,13 +18,16 @@ import java.util.regex.Pattern;
 @Entity
 @XmlRootElement
 public class Kweet implements Serializable {
+    // TODO: Lazy collection verwijderen
+
     @Id
     @GeneratedValue
     private long id;
     private String text;
 
     @ManyToOne
-    @JsonBackReference
+    // @JsonBackReference
+    @JsonIgnore
     private User user;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
@@ -32,10 +35,12 @@ public class Kweet implements Serializable {
 
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
+    // TODO: User object als referentie gebruiken?
     private List<String> hashtags = new ArrayList<>();
 
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
+    // TODO: User object als referentie gebruiken?
     private List<String> mentions = new ArrayList<>();
 
     public Kweet(String text, User user) {

@@ -28,7 +28,7 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public List<Kweet> findByText(String text) {
-        return em.createQuery("SELECT k FROM Kweet k WHERE k.text LIKE :text")
+        return em.createQuery("SELECT k FROM Kweet k WHERE LOWER(k.text) LIKE LOWER(:text)")
                 .setParameter("text", "%" + text + "%")
                 .getResultList();
     }
@@ -52,6 +52,7 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public List<String> findTrends() {
+        // TODO: Collect only last 24 hours?
         String query = "SELECT h.hashtags FROM kweet_hashtags as h GROUP BY h.hashtags ORDER BY COUNT(*) DESC LIMIT 10";
         return em.createNativeQuery(query)
                 .getResultList();

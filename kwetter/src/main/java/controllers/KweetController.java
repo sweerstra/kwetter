@@ -11,6 +11,7 @@ import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @RequestScoped
 @Path("/kweet")
@@ -30,10 +31,6 @@ public class KweetController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Interceptors(KweetLoggingInterceptor.class)
     public Response postKweet(Kweet kweet) {
-        if (kweet == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
         Kweet postedKweet = service.postKweet(new Kweet(kweet.getText(), kweet.getUser()));
         if (postedKweet == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -62,8 +59,14 @@ public class KweetController {
 
     @GET
     @Path("/user/{id}")
-    public Response getKweets(@PathParam("id") long id) {
-        return Response.ok(service.getKweetsOfUser(id)).build();
+    public Response getKweetsOfUser(@PathParam("id") long id) {
+        List<Kweet> kweets = service.getKweetsOfUser(id);
+
+        if (kweets == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(kweets).build();
     }
 
     @GET

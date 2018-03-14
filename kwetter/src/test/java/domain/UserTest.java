@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class UserTest {
     @Test
-    public void likeShouldOnlyBeAddedIfNewAndNotByUser() {
+    public void likeShouldOnlyBeAddedIfNew() {
         User user1 = new User("username1", "password", User.Role.USER);
         User user2 = new User("username2", "password", User.Role.USER);
         Kweet kweet1 = new Kweet("@otherUsername", user2);
@@ -18,13 +18,6 @@ public class UserTest {
         boolean likeResult2 = user1.addLike(kweet1);
         assertFalse(likeResult2);
         assertEquals(1, user1.getLiked().size());
-
-        Kweet kweet2 = new Kweet("#hello everyone", user1);
-        user1.addKweet(kweet2);
-
-        boolean likeYourOwnKweetResult = user1.addLike(kweet2);
-        assertFalse(likeYourOwnKweetResult);
-        assertEquals(1, user1.getLiked().size());
     }
 
     @Test
@@ -34,29 +27,33 @@ public class UserTest {
 
         boolean followingResult1 = user1.addFollowing(user2);
         boolean followerResult1 = user2.addFollower(user1);
-        // check count - 0
         assertTrue(followingResult1);
         assertTrue(followerResult1);
+        assertEquals(1, user1.getFollowing().size());
+        assertEquals(1, user2.getFollowers().size());
 
         boolean followingResult2 = user1.addFollowing(user2);
         boolean followerResult2 = user2.addFollower(user1);
-        // check count - 0
-
         assertFalse(followingResult2);
         assertFalse(followerResult2);
+        assertEquals(1, user1.getFollowing().size());
+        assertEquals(1, user2.getFollowers().size());
     }
 
     @Test
-    public void followingOrFollowerShouldOnlyBeRemovedIfExisting() {
+    public void followingOrFollowerShouldOnlyBeRemovedIfTheyExist() {
         User user1 = new User("username1", "password", User.Role.USER);
         User user2 = new User("username2", "password", User.Role.USER);
 
         user1.addFollowing(user2);
         user2.addFollower(user1);
-
         assertEquals(1, user1.getFollowing().size());
-        user1.removeFollower(user2);
-        user1.removeFollower(user1);
 
+        boolean unfollowResult1 = user1.removeFollowing(user2);
+        boolean unfollowResult2 = user1.removeFollower(user1);
+        assertTrue(unfollowResult1);
+        assertFalse(unfollowResult2);
+        assertEquals(0, user1.getFollowing().size());
+        assertEquals(1, user2.getFollowers().size());
     }
 }

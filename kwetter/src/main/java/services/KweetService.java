@@ -1,5 +1,6 @@
 package services;
 
+import com.mysql.cj.core.util.StringUtils;
 import dao.IKweetDao;
 import dao.IUserDao;
 import dao.JPA;
@@ -39,7 +40,7 @@ public class KweetService {
      */
     public Kweet postKweet(Kweet kweet) {
         String text = kweet.getText();
-        if (text.length() > 0 && text.length() <= 140) {
+        if (!StringUtils.isNullOrEmpty(text) && text.length() <= 140) {
             User user = userDao.findById(kweet.getUser().getId());
 
             if (user != null) {
@@ -60,9 +61,11 @@ public class KweetService {
      * @return Kweet, newly created kweet
      */
     public Kweet editKweet(Kweet kweet) {
-        if (kweet.getText().isEmpty()) return null;
+        String text = kweet.getText();
+        if (StringUtils.isNullOrEmpty(text) || text.length() > 140) return null;
 
         Kweet originalKweet = kweetDao.findById(kweet.getId());
+        if (originalKweet == null) return null;
 
         originalKweet.setText(kweet.getText());
         originalKweet.setHashtags();
@@ -76,6 +79,9 @@ public class KweetService {
      * @return List<Kweet>, list of kweets found
      */
     public List<Kweet> getKweetsOfUser(long id) {
+        User user = userDao.findById(id);
+        if (user == null) return null;
+
         return kweetDao.findByUser(id);
     }
 
@@ -88,10 +94,7 @@ public class KweetService {
      */
     public List<Kweet> getTimeline(long id) {
         User user = userDao.findById(id);
-
-        if (user == null) {
-            return new ArrayList<>();
-        }
+        if (user == null) return null;
 
         return kweetDao.findForUser(user);
     }
@@ -128,6 +131,10 @@ public class KweetService {
      * @return List<Kweet>, where keyword was found in text
      */
     public List<Kweet> searchKweets(String text) {
+        if (StringUtils.isNullOrEmpty(text)) {
+            return new ArrayList<>();
+        }
+
         return kweetDao.findByText(text);
     }
 
@@ -140,6 +147,8 @@ public class KweetService {
      */
     public boolean likeKweet(Kweet kweet, long userId) {
         User user = userDao.findById(userId);
+        if (user == null) return false;
+
         boolean likeResult = user.addLike(kweet);
 
         if (likeResult) {
