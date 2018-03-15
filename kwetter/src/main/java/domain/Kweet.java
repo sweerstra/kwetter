@@ -1,7 +1,7 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -26,8 +26,7 @@ public class Kweet implements Serializable {
     private String text;
 
     @ManyToOne
-    // @JsonBackReference
-    @JsonIgnore
+    @JsonBackReference
     private User user;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")

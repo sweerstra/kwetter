@@ -14,6 +14,11 @@ public abstract class DaoFacade<T> {
         this.entityClass = entityClass;
     }
 
+    public DaoFacade(Class<T> entityClass, EntityManager entityManager) {
+        this.entityClass = entityClass;
+        this.entityManager = entityManager;
+    }
+
     public T create(T entity) {
         entityManager.persist(entity);
         return entity;

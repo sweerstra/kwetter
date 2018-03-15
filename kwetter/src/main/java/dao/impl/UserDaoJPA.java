@@ -21,6 +21,11 @@ public class UserDaoJPA extends DaoFacade<User> implements IUserDao {
         super(User.class);
     }
 
+    public UserDaoJPA(EntityManager em) {
+        super(User.class, em);
+        this.em = em;
+    }
+
     public User findByUsername(String username) {
         try {
             return (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")

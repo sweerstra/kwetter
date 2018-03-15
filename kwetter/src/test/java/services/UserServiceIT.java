@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class UserServiceTest {
+public class UserServiceIT {
     @InjectMocks
     private UserService userService;
 

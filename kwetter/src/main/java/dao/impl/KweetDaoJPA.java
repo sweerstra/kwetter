@@ -23,7 +23,7 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public KweetDaoJPA(EntityManager em) {
-        super(Kweet.class);
+        super(Kweet.class, em);
         this.em = em;
     }
 

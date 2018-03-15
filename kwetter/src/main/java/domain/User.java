@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -42,8 +43,7 @@ public class User implements Serializable {
     private List<User> following = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    // @JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Kweet> kweets = new ArrayList<>();
 
@@ -223,5 +223,12 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof User) && ((User) obj).getId() == this.getId();
+    }
+
+    public User serialized() {
+        this.setKweets(new ArrayList<>());
+        this.setFollowers(new ArrayList<>());
+        this.setFollowing(new ArrayList<>());
+        return this;
     }
 }

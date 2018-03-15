@@ -37,7 +37,7 @@ public class UserRestIT {
 
     @Test
     public void editUserWithValidRequestBodyShouldReturnOk() {
-        String json = "{ \"username\": \"testusername\", \"bio\": \"My new bio\" }";
+        String json = "{ \"username\": \"user1\", \"bio\": \"My new bio\" }";
         given().contentType("application/json").body(json)
                 .when().put("/kwetter/api/user")
                 .then().statusCode(OK)

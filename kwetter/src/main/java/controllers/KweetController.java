@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.gson.Gson;
 import domain.Kweet;
 import interceptors.KweetLoggingInterceptor;
 import models.ResponseBody;
@@ -19,12 +20,20 @@ import java.util.List;
 public class KweetController {
     @Inject
     private KweetService service;
+    private Gson gson = new Gson();
 
     @GET
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long id) {
         Kweet kweet = service.getKweet(id);
-        return Response.ok(kweet).build();
+
+        if (kweet == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        kweet.setUser(null);
+
+        return Response.ok(gson.toJson(kweet)).build();
     }
 
     @POST
@@ -48,7 +57,9 @@ public class KweetController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(editedKweet).build();
+        editedKweet.setUser(null);
+
+        return Response.ok(gson.toJson(kweet)).build();
     }
 
     @GET

@@ -29,7 +29,7 @@ public class KweetRestIT {
                 .then().statusCode(BAD_REQUEST);
     }
 
-    // @Test
+    @Test
     public void getKweetShouldReturnOk() {
         given().contentType("application/json")
                 .when().get("/kwetter/api/kweet/4")
@@ -37,7 +37,14 @@ public class KweetRestIT {
                 .body("$", hasKey("text"));
     }
 
-    // @Test
+    @Test
+    public void getUnknownKweetShouldReturnNotFound() {
+        given().contentType("application/json")
+                .when().get("/kwetter/api/kweet/100")
+                .then().statusCode(NOT_FOUND);
+    }
+
+    @Test
     public void editKweetWithValidRequestBodyShouldReturnOk() {
         String json = "{ \"id\": \"4\", \"text\": \"Excuses #respect\" }";
         given().contentType("application/json").body(json)

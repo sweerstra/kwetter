@@ -26,7 +26,7 @@ public class UserController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(user).build();
+        return Response.ok(user.serialized()).build();
     }
 
     @POST
@@ -50,7 +50,7 @@ public class UserController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(editedUser).build();
+        return Response.ok(editedUser.serialized()).build();
     }
 
     @POST
@@ -102,7 +102,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.ok(userWithNewRole).build();
+        return Response.ok(userWithNewRole.serialized()).build();
     }
 
     @DELETE
