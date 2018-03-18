@@ -1,0 +1,28 @@
+body {
+    margin: 10px 40px;
+}
+
+.administration {
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.administration__users__header,
+.administration__kweets__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.administration__users__form,
+.administration__kweets__form {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .administration {
+        grid-template-columns: 1fr;
+    }
+}

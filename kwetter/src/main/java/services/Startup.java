@@ -26,7 +26,7 @@ public class Startup {
         kweetService.postKweet(new Kweet("@niffo #fissa in de stad #heftig", user));
         kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", admin));
 
-        userService.followUser(1, 2);
-        userService.followUser(1, 3);
+        /*userService.followUser(1, 2);
+        userService.followUser(1, 3);*/
     }
 }

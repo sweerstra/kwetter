@@ -1,0 +1,57 @@
+:root {
+    --color-primary: #3F51B5;
+    --color-success: #4CAF50;
+    --color-warning: #FFC107;
+    --color-danger: #F44336;
+    --color-default: transparent;
+    --color-tint: white;
+    --color-disabled: #c3c3c3;
+    --border-radius: 4px;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.btn {
+    padding: 8px 30px;
+    color: var(--color-tint);
+    background-color: var(--color-default);
+    border: 2px solid var(--color-tint);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover { box-shadow: 0 2px 4px rgba(0, 0, 0, .25); }
+
+input {
+    padding: 8px;
+    font-size: 16px;
+    color: var(--color-tint);
+    font-weight: bold;
+    background-color: var(--color-default);
+    border: 2px solid var(--color-tint);
+    display: block;
+}
+
+input::placeholder {
+    color: var(--color-disabled);
+    font-weight: normal;
+}
+
+button:focus, .input:focus { outline: none; }
+
+.light { --color-tint: white; }
+
+.dark { --color-tint: black; }

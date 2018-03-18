@@ -57,7 +57,7 @@ public class UserController {
     @Path("/auth")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticate(User user) {
-        if (service.authenticateUser(user)) {
+        if (service.authenticateUser(user.getUsername(), user.getPassword())) {
             return Response.ok(new ResponseBody(true, "authenticated")).build();
         }
 

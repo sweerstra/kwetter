@@ -16,8 +16,6 @@ import java.util.Set;
 @Entity
 @XmlRootElement
 public class User implements Serializable {
-    // TODO: Lazy collection verwijderen
-
     @Id
     @GeneratedValue
     private long id;
@@ -49,7 +47,6 @@ public class User implements Serializable {
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    // TODO: Omzetten naar set?
     private Set<Kweet> liked = new HashSet<>();
 
     public User(String username, String password, Role role) {

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>User Overview</title>
+    <h:outputStylesheet name="css/style.css"/>
+    <h:outputStylesheet name="css/administration.css"/>
+</h:head>
+
+<h:body>
+    <div class="administration">
+        <div class="users__list">
+            <div class="administration__users__header">
+                <h1>Users</h1>
+
+                <h:form id="users-form" styleClass="administration__users__form">
+                    <p:growl id="role-update"/>
+
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="selected-role" value="Role"/>
+                        <p:selectOneMenu id="selected-role" value="#{usersBean.selectedRole}"
+                                         style="width:125px">
+                            <f:selectItem itemLabel="User" itemValue="USER"/>
+                            <f:selectItem itemLabel="Moderator" itemValue="MODERATOR"/>
+                            <f:selectItem itemLabel="Administrator" itemValue="ADMINISTRATOR"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Save" id="save-user" update=":users-form:role-update" execute="@all"
+                                     actionListener="#{usersBean.saveUser}" ajax="false"/>
+                </h:form>
+            </div>
+
+            <h:form>
+                <p:dataTable var="user" selectionMode="single" rowKey="#{user.id}"
+                             selection="#{usersBean.selectedUser}"
+                             value="#{usersBean.users}">
+
+                    <p:ajax event="rowSelect" listener="#{usersBean.onUserSelect}"/>
+
+                    <p:column headerText="Id">
+                        <h:outputText value="#{user.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Username">
+                        <h:outputText value="#{user.username}"/>
+                    </p:column>
+
+                    <p:column headerText="Role">
+                        <h:outputText value="#{user.role}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+
+        <div class="kweets__list">
+            <div class="administration__kweets__header">
+                <h1>Kweets</h1>
+
+                <h:form id="kweets-form" styleClass="administration__kweets__form">
+                    <p:growl id="text-update" showDetail="true"/>
+
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="edited-text" value="Text"/>
+                        <p:inputText type="text" id="edited-text" value="#{kweetsBean.selectedText}"
+                                     placeholder="Edit kweet text"/>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Save" id="save-kweet" update=":kweets-form:text-update" execute="@all"
+                                     actionListener="#{kweetsBean.saveKweet}" ajax="false"/>
+                </h:form>
+            </div>
+
+            <h:form>
+                <p:dataTable var="kweet" selectionMode="single" rowKey="#{kweet.id}"
+                             selection="#{kweetsBean.selectedKweet}"
+                             value="#{kweetsBean.kweets}">
+
+                    <p:ajax event="rowSelect" update=":kweets-form:text-update"
+                            listener="#{kweetsBean.onKweetSelect(kweet.text)}"/>
+
+                    <p:column headerText="Id">
+                        <h:outputText value="#{kweet.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Text">
+                        <h:outputText value="#{kweet.text}"/>
+                    </p:column>
+
+                    <p:column headerText="User">
+                        <h:outputText value="#{kweet.user.username}"/>
+                    </p:column>
+
+                    <p:column headerText="Date">
+                        <h:outputText value="#{kweet.date.toLocaleString()}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton value="Remove" actionListener="#{kweetsBean.removeKweet(kweet)}"
+                                         style="width: 100%;" ajax="false"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+
+</html>

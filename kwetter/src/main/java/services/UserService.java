@@ -5,13 +5,13 @@ import dao.IUserDao;
 import dao.JPA;
 import domain.User;
 
-import javax.faces.bean.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
-@ApplicationScoped
-// TODO: UserService omzetten naar @Stateless?
-public class UserService {
+@Stateless
+public class UserService implements Serializable {
     @Inject
     @JPA
     IUserDao dao;
@@ -69,14 +69,15 @@ public class UserService {
     /**
      * Finds the User object based on username and compares the password
      *
-     * @param user, to authenticate
+     * @param username, to authenticate
+     * @param password, to authenticate
      * @return boolean, user authenticated
      */
-    public boolean authenticateUser(User user) {
-        User originalUser = dao.findByUsername(user.getUsername());
+    public boolean authenticateUser(String username, String password) {
+        User originalUser = dao.findByUsername(username);
 
         if (originalUser != null) {
-            if (originalUser.getPassword().equals(user.getPassword())) {
+            if (originalUser.getPassword().equals(password)) {
                 return true;
             }
         }

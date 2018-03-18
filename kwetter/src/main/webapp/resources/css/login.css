@@ -1,0 +1,30 @@
+body {
+    margin: 100px;
+    color: var(--color-tint);
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+}
+
+.panel {
+    width: 600px;
+    padding: 10px;
+    border: 1px solid var(--color-tint);
+    border-radius: 8px;
+    text-align: center;
+}
+
+h1 {
+    color: var(--color-tint);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    margin-bottom: 10px !important;
+}

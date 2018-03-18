@@ -18,8 +18,6 @@ import java.util.regex.Pattern;
 @Entity
 @XmlRootElement
 public class Kweet implements Serializable {
-    // TODO: Lazy collection verwijderen
-
     @Id
     @GeneratedValue
     private long id;
@@ -34,12 +32,10 @@ public class Kweet implements Serializable {
 
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    // TODO: User object als referentie gebruiken?
     private List<String> hashtags = new ArrayList<>();
 
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    // TODO: User object als referentie gebruiken?
     private List<String> mentions = new ArrayList<>();
 
     public Kweet(String text, User user) {

@@ -7,14 +7,14 @@ import dao.JPA;
 import domain.Kweet;
 import domain.User;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApplicationScoped
-// TODO: KweetService Omzetten naar @Stateless?
-public class KweetService {
+@Stateless
+public class KweetService implements Serializable {
     @Inject
     @JPA
     private IKweetDao kweetDao;
