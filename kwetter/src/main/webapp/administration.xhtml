@@ -20,30 +20,30 @@
             <div class="administration__users__header">
                 <h1>Users</h1>
 
-                <h:form id="users-form" styleClass="administration__users__form">
-                    <p:growl id="role-update"/>
+                <h:form id="user-form">
+                    <p:growl id="add-user" showDetail="true"/>
 
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <p:outputLabel for="selected-role" value="Role"/>
-                        <p:selectOneMenu id="selected-role" value="#{usersBean.selectedRole}"
-                                         style="width:125px">
-                            <f:selectItem itemLabel="User" itemValue="USER"/>
-                            <f:selectItem itemLabel="Moderator" itemValue="MODERATOR"/>
-                            <f:selectItem itemLabel="Administrator" itemValue="ADMINISTRATOR"/>
-                        </p:selectOneMenu>
-                    </h:panelGrid>
+                    <p:inputText type="text" value="#{userBean.username}" placeholder="Username"/>
+                    <p:inputText type="password" value="#{userBean.password}" placeholder="Password"/>
+                    <p:selectOneMenu value="#{userBean.role}" style="width:125px">
+                        <f:selectItem itemLabel="User" itemValue="USER"/>
+                        <f:selectItem itemLabel="Moderator" itemValue="MODERATOR"/>
+                        <f:selectItem itemLabel="Administrator" itemValue="ADMINISTRATOR"/>
+                    </p:selectOneMenu>
 
-                    <p:commandButton value="Save" id="save-user" update=":users-form:role-update" execute="@all"
-                                     actionListener="#{usersBean.saveUser}" ajax="false"/>
+                    <p:commandButton value="Add" update="@all"
+                                     actionListener="#{usersBean.addUser(userBean.username, userBean.password, userBean.role)}"/>
                 </h:form>
             </div>
 
-            <h:form>
-                <p:dataTable var="user" selectionMode="single" rowKey="#{user.id}"
-                             selection="#{usersBean.selectedUser}"
-                             value="#{usersBean.users}">
+            <h:form id="users-form">
+                <p:growl id="role-update" showDetail="true"/>
 
-                    <p:ajax event="rowSelect" listener="#{usersBean.onUserSelect}"/>
+                <p:dataTable var="user" editable="true" editMode="cell" selectionMode="single" rowKey="#{user.id}"
+                             value="#{usersBean.users}">
+                    <p:ajax event="cellEdit" listener="#{usersBean.onCellEdit}" update=":users-form:role-update"/>
+                    <p:ajax event="rowSelect" listener="#{kweetsBean.onUserRowSelect}"
+                            update="@all"/>
 
                     <p:column headerText="Id">
                         <h:outputText value="#{user.id}"/>
@@ -54,7 +54,16 @@
                     </p:column>
 
                     <p:column headerText="Role">
-                        <h:outputText value="#{user.role}"/>
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{user.role}"/></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu style="width:100%" value="#{user.role}">
+                                    <f:selectItem itemLabel="User" itemValue="USER"/>
+                                    <f:selectItem itemLabel="Moderator" itemValue="MODERATOR"/>
+                                    <f:selectItem itemLabel="Administrator" itemValue="ADMINISTRATOR"/>
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -63,35 +72,25 @@
         <div class="kweets__list">
             <div class="administration__kweets__header">
                 <h1>Kweets</h1>
-
-                <h:form id="kweets-form" styleClass="administration__kweets__form">
-                    <p:growl id="text-update" showDetail="true"/>
-
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <p:outputLabel for="edited-text" value="Text"/>
-                        <p:inputText type="text" id="edited-text" value="#{kweetsBean.selectedText}"
-                                     placeholder="Edit kweet text"/>
-                    </h:panelGrid>
-
-                    <p:commandButton value="Save" id="save-kweet" update=":kweets-form:text-update" execute="@all"
-                                     actionListener="#{kweetsBean.saveKweet}" ajax="false"/>
-                </h:form>
             </div>
 
-            <h:form>
-                <p:dataTable var="kweet" selectionMode="single" rowKey="#{kweet.id}"
-                             selection="#{kweetsBean.selectedKweet}"
-                             value="#{kweetsBean.kweets}">
+            <h:form id="kweets-form">
+                <p:growl id="username-update" showDetail="true"/>
 
-                    <p:ajax event="rowSelect" update=":kweets-form:text-update"
-                            listener="#{kweetsBean.onKweetSelect(kweet.text)}"/>
+                <p:dataTable id="kweets-datatable" var="kweet" editable="true" editMode="cell"
+                             value="#{kweetsBean.kweets}">
+                    <p:ajax event="cellEdit" listener="#{kweetsBean.onTextCellEdit}"
+                            update=":kweets-form:username-update"/>
 
                     <p:column headerText="Id">
                         <h:outputText value="#{kweet.id}"/>
                     </p:column>
 
                     <p:column headerText="Text">
-                        <h:outputText value="#{kweet.text}"/>
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{kweet.text}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{kweet.text}"/></f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="User">

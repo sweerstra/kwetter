@@ -4,20 +4,25 @@
     --color-warning: #FFC107;
     --color-danger: #F44336;
     --color-default: transparent;
-    --color-tint: white;
+    --color-tint: black;
     --color-disabled: #c3c3c3;
     --border-radius: 4px;
 }
 
 html {
-    font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
+}
+
+body {
+    color: var(--color-tint);
 }
 
 *,
 *:before,
 *:after {
+    font-family: 'Roboto', sans-serif !important;
     box-sizing: inherit;
+    color: var(--color-tint) !important;
 }
 
 .btn {
@@ -55,3 +60,25 @@ button:focus, .input:focus { outline: none; }
 .light { --color-tint: white; }
 
 .dark { --color-tint: black; }
+
+/* overriding */
+.ui-state-default {
+    background: white;
+}
+
+input, button {
+    background-color: white !important;
+    /* border-color: var(--color-tint) !important; */
+}
+
+/*
+
+th {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+th, td {
+    border-color: var(--color-tint) !important;
+    background-color: var(--color-primary) !important;
+}*/

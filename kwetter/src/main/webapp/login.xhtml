@@ -17,10 +17,10 @@
     <div class="panel">
         <h1>Administration Login</h1>
 
-        <h:form>
-            <p:inputText type="text" value="#{userBean.username}" styleClass="input" placeholder="username"/>
-            <p:inputText type="password" value="#{userBean.password}" styleClass="input" placeholder="password"/>
-            <p:commandButton value="Login" id="login" action="#{userBean.login}" styleClass="ui-priority-primary"/>
+        <h:form id="login-form">
+            <p:inputText type="text" value="#{loginBean.username}" styleClass="input" placeholder="username"/>
+            <p:inputText type="password" value="#{loginBean.password}" styleClass="input" placeholder="password"/>
+            <p:commandButton value="Login" id="login" action="#{loginBean.login}" styleClass="ui-priority-primary"/>
         </h:form>
     </div>
 </h:body>

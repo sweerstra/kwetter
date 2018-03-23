@@ -1,31 +1,21 @@
 package beans;
 
-import services.UserService;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class UserBean implements Serializable {
-    @Inject
-    private UserService userService;
-
-    @NotNull(message = "Please enter a username")
+    @NotNull(message = "Please enter an username")
     private String username;
 
     @NotNull(message = "Please enter a password")
     private String password;
 
-    public String login() {
-        if (userService.authenticateUser(this.username, this.password)) {
-            return "administration.xhtml";
-        }
-        return null;
-    }
+    @NotNull(message = "Please enter a role")
+    private String role;
 
     public String getUsername() {
         return username;
@@ -41,5 +31,13 @@ public class UserBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

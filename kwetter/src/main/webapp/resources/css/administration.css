@@ -8,11 +8,24 @@ body {
     grid-template-columns: 1fr 1fr;
 }
 
-.administration__users__header,
 .administration__kweets__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.administration__users__header {
+    display: flex;
+    flex-direction: column;
+}
+
+#user-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+#users-form {
+    margin-top: 10px;
 }
 
 .administration__users__form,

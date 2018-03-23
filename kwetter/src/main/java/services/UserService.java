@@ -25,12 +25,12 @@ public class UserService implements Serializable {
      * @param password, of user to create
      * @return User, created
      */
-    public User addUser(String username, String password) {
-        if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
-            return null;
-        }
+    public User addUser(String username, String password, User.Role role) {
+        if (StringUtils.isNullOrEmpty(username)
+                || StringUtils.isNullOrEmpty(password)
+                || getUserByUsername(username) != null) return null;
 
-        return dao.create(new User(username, password, User.Role.USER));
+        return dao.create(new User(username, password, role));
     }
 
     /**

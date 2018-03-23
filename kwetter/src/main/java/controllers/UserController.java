@@ -32,7 +32,7 @@ public class UserController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
-        User createdUser = service.addUser(user.getUsername(), user.getPassword());
+        User createdUser = service.addUser(user.getUsername(), user.getPassword(), user.getRole());
 
         if (createdUser == null) {
             return Response.status(Response.Status.NOT_FOUND).build();

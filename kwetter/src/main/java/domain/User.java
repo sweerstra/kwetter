@@ -1,17 +1,13 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @XmlRootElement
@@ -30,6 +26,12 @@ public class User implements Serializable {
     private String website;
     private Role role;
 
+    @JoinTable(name = "user_groups",
+            joinColumns = @JoinColumn(name = "USERNAME", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "GROUPNAME", referencedColumnName = "groupName"))
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Collection<Group> groups = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
@@ -41,8 +43,8 @@ public class User implements Serializable {
     private List<User> following = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    @JsonManagedReference
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private List<Kweet> kweets = new ArrayList<>();
 
     @OneToMany
@@ -183,6 +185,14 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Collection<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Collection<Group> groups) {
+        this.groups = groups;
     }
 
     public List<User> getFollowers() {
