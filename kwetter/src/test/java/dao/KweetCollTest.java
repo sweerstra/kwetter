@@ -15,7 +15,7 @@ public class KweetCollTest {
 
     @Test
     public void createKweet() {
-        Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
+        Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1"));
         Kweet insertedKweet = dao.create(kweet);
 
         assertEquals(kweet.getText(), insertedKweet.getText());
@@ -23,7 +23,7 @@ public class KweetCollTest {
 
     @Test
     public void findKweetById() {
-        dao.create(new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER)));
+        dao.create(new Kweet("@fantastic yo", new User("Testuser1", "Password1")));
 
         Kweet foundKweet = dao.findById(1);
         assertEquals("@fantastic yo", foundKweet.getText());
@@ -34,7 +34,7 @@ public class KweetCollTest {
 
     @Test
     public void findByKweetByText() {
-        Kweet inserted = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
+        Kweet inserted = new Kweet("@fantastic yo", new User("Testuser1", "Password1"));
         dao.create(inserted);
 
         List<Kweet> foundKweets = dao.findByText("yo");
@@ -46,7 +46,7 @@ public class KweetCollTest {
 
     @Test
     public void findKweetsByUser() {
-        User user1 = new User("Testuser1", "Password1", User.Role.USER);
+        User user1 = new User("Testuser1", "Password1");
         user1.setId(1);
         Kweet kweet = new Kweet("@fantastic yo", user1);
 
@@ -57,10 +57,10 @@ public class KweetCollTest {
 
     @Test
     public void findKweetsForUser() {
-        Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
-        User user1 = new User("Testuser1", "Password1", User.Role.USER);
+        Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1"));
+        User user1 = new User("Testuser1", "Password1");
         List<User> following = new ArrayList<>();
-        User followingUser = new User("Testuser2", "Password2", User.Role.USER);
+        User followingUser = new User("Testuser2", "Password2");
         following.add(followingUser);
         user1.setId(1);
         user1.setFollowing(following);
@@ -73,7 +73,7 @@ public class KweetCollTest {
 
     @Test
     public void findByTrend() {
-        User user = new User("Testuser1", "Password1", User.Role.USER);
+        User user = new User("Testuser1", "Password1");
         Kweet kweet = new Kweet("kweet #trend1 #trend2", user);
         dao.create(kweet);
 
@@ -85,7 +85,7 @@ public class KweetCollTest {
 
     @Test
     public void findTrends() {
-        User user = new User("Testuser1", "Password1", User.Role.USER);
+        User user = new User("Testuser1", "Password1");
         Kweet kweet1 = new Kweet("kweet #trend1 #trend2", user);
         Kweet kweet2 = new Kweet("#trend2 kweetje", user);
         dao.create(kweet1);
@@ -104,7 +104,7 @@ public class KweetCollTest {
     public void findAllKweets() {
         assertEquals(0, dao.findAll().size());
 
-        User user1 = new User("Testuser1", "Password1", User.Role.USER);
+        User user1 = new User("Testuser1", "Password1");
 
         dao.create(new Kweet("@fantastic yo #dope", user1));
         dao.create(new Kweet("echt he #heftig", user1));
@@ -114,10 +114,10 @@ public class KweetCollTest {
 
     @Test
     public void updateKweet() {
-        dao.create(new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER)));
+        dao.create(new Kweet("@fantastic yo", new User("Testuser1", "Password1")));
 
         long ID = 1;
-        Kweet updatedKweet = new Kweet("niet mee eens", new User("Testuser1", "Password1", User.Role.USER));
+        Kweet updatedKweet = new Kweet("niet mee eens", new User("Testuser1", "Password1"));
         updatedKweet.setId(ID);
         dao.update(updatedKweet);
 
@@ -127,7 +127,7 @@ public class KweetCollTest {
 
     @Test
     public void deleteKweet() {
-        Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
+        Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1"));
         dao.create(kweet);
 
         dao.delete(kweet);

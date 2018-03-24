@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 public class UserTest {
     @Test
     public void likeShouldOnlyBeAddedIfNew() {
-        User user1 = new User("username1", "password", User.Role.USER);
-        User user2 = new User("username2", "password", User.Role.USER);
+        User user1 = new User("username1", "password");
+        User user2 = new User("username2", "password");
         Kweet kweet1 = new Kweet("@otherUsername", user2);
 
         boolean likeResult1 = user1.addLike(kweet1);
@@ -22,8 +22,8 @@ public class UserTest {
 
     @Test
     public void followingOrFollowerShouldOnlyBeAddedIfNew() {
-        User user1 = new User("username1", "password", User.Role.USER);
-        User user2 = new User("username2", "password", User.Role.USER);
+        User user1 = new User("username1", "password");
+        User user2 = new User("username2", "password");
 
         boolean followingResult1 = user1.addFollowing(user2);
         boolean followerResult1 = user2.addFollower(user1);
@@ -42,8 +42,8 @@ public class UserTest {
 
     @Test
     public void followingOrFollowerShouldOnlyBeRemovedIfTheyExist() {
-        User user1 = new User("username1", "password", User.Role.USER);
-        User user2 = new User("username2", "password", User.Role.USER);
+        User user1 = new User("username1", "password");
+        User user2 = new User("username2", "password");
 
         user1.addFollowing(user2);
         user2.addFollower(user1);

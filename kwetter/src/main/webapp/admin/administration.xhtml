@@ -9,7 +9,7 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>User Overview</title>
+    <title>Administration Panel</title>
     <h:outputStylesheet name="css/style.css"/>
     <h:outputStylesheet name="css/administration.css"/>
 </h:head>
@@ -25,24 +25,41 @@
 
                     <p:inputText type="text" value="#{userBean.username}" placeholder="Username"/>
                     <p:inputText type="password" value="#{userBean.password}" placeholder="Password"/>
-                    <p:selectOneMenu value="#{userBean.role}" style="width:125px">
-                        <f:selectItem itemLabel="User" itemValue="USER"/>
-                        <f:selectItem itemLabel="Moderator" itemValue="MODERATOR"/>
-                        <f:selectItem itemLabel="Administrator" itemValue="ADMINISTRATOR"/>
-                    </p:selectOneMenu>
 
                     <p:commandButton value="Add" update="@all"
                                      actionListener="#{usersBean.addUser(userBean.username, userBean.password, userBean.role)}"/>
+                </h:form>
+
+                <h:form id="user-groups-form">
+                    <p:growl id="choose-role" showDetail="true"/>
+
+                    <h:outputText value="User: "/>
+                    <p:selectBooleanCheckbox value="#{userBean.userRole}">
+                        <f:attribute name="group" value="user"/>
+                        <p:ajax update="choose-role" listener="#{usersBean.onUserGroupEdit}"/>
+                    </p:selectBooleanCheckbox>
+
+                    <h:outputText value="Moderator: "/>
+                    <p:selectBooleanCheckbox value="#{userBean.moderatorRole}">
+                        <f:attribute name="group" value="moderator"/>
+                        <p:ajax update="choose-role" listener="#{usersBean.onUserGroupEdit}"/>
+                    </p:selectBooleanCheckbox>
+
+                    <h:outputText value="Admin: "/>
+                    <p:selectBooleanCheckbox value="#{userBean.adminRole}">
+                        <f:attribute name="group" value="admin"/>
+                        <p:ajax update="choose-role" listener="#{usersBean.onUserGroupEdit}"/>
+                    </p:selectBooleanCheckbox>
+
+                    <p:commandButton value="Update" update="@all" actionListener="#{usersBean.onSaveUser}"/>
                 </h:form>
             </div>
 
             <h:form id="users-form">
                 <p:growl id="role-update" showDetail="true"/>
 
-                <p:dataTable var="user" editable="true" editMode="cell" selectionMode="single" rowKey="#{user.id}"
-                             value="#{usersBean.users}">
-                    <p:ajax event="cellEdit" listener="#{usersBean.onCellEdit}" update=":users-form:role-update"/>
-                    <p:ajax event="rowSelect" listener="#{kweetsBean.onUserRowSelect}"
+                <p:dataTable var="user" selectionMode="single" rowKey="#{user.id}" value="#{usersBean.users}">
+                    <p:ajax event="rowSelect" listener="#{usersBean.selectUser}"
                             update="@all"/>
 
                     <p:column headerText="Id">
@@ -51,19 +68,6 @@
 
                     <p:column headerText="Username">
                         <h:outputText value="#{user.username}"/>
-                    </p:column>
-
-                    <p:column headerText="Role">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{user.role}"/></f:facet>
-                            <f:facet name="input">
-                                <h:selectOneMenu style="width:100%" value="#{user.role}">
-                                    <f:selectItem itemLabel="User" itemValue="USER"/>
-                                    <f:selectItem itemLabel="Moderator" itemValue="MODERATOR"/>
-                                    <f:selectItem itemLabel="Administrator" itemValue="ADMINISTRATOR"/>
-                                </h:selectOneMenu>
-                            </f:facet>
-                        </p:cellEditor>
                     </p:column>
                 </p:dataTable>
             </h:form>

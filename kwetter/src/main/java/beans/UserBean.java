@@ -14,8 +14,9 @@ public class UserBean implements Serializable {
     @NotNull(message = "Please enter a password")
     private String password;
 
-    @NotNull(message = "Please enter a role")
-    private String role;
+    private boolean userRole = false;
+    private boolean moderatorRole = false;
+    private boolean adminRole = false;
 
     public String getUsername() {
         return username;
@@ -33,11 +34,27 @@ public class UserBean implements Serializable {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public boolean isUserRole() {
+        return userRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserRole(boolean userRole) {
+        this.userRole = userRole;
+    }
+
+    public boolean isModeratorRole() {
+        return moderatorRole;
+    }
+
+    public void setModeratorRole(boolean moderatorRole) {
+        this.moderatorRole = moderatorRole;
+    }
+
+    public boolean isAdminRole() {
+        return adminRole;
+    }
+
+    public void setAdminRole(boolean adminRole) {
+        this.adminRole = adminRole;
     }
 }

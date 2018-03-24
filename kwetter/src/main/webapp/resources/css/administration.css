@@ -21,7 +21,6 @@ body {
 
 #user-form {
     display: flex;
-    justify-content: space-between;
 }
 
 #users-form {

@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Created by IntelliJ IDEA.
-  User: Sjoerd
-  Date: 23-3-2018
-  Time: 12:26
--->
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -13,11 +7,14 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-    <title>Title</title>
+    <title>403 Unauthorized</title>
 </h:head>
 
 <h:body>
-    <h:outputText>Super error</h:outputText>
+    <div class="error">
+        <h1>Oops, you were not authorized to view this page.</h1>
+        <h2>Please continue to the login page: <a href="/kwetter/login.xhtml">Login</a></h2>
+    </div>
 </h:body>
 
 </html>

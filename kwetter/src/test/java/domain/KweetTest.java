@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class KweetTest {
     @Test
     public void mentionsShouldBeReturnedAsStrings() {
-        User user = new User("username", "password", User.Role.USER);
+        User user = new User("username", "password");
         Kweet kweetWithMentions = new Kweet("@otherUsername @anotherUsername goedendag", user);
 
         List<String> mentions1 = kweetWithMentions.getMentions();
@@ -28,7 +28,7 @@ public class KweetTest {
 
     @Test
     public void hashtagsShouldBeReturnedAsStrings() {
-        User user = new User("username", "password", User.Role.USER);
+        User user = new User("username", "password");
         Kweet kweetWithHashtags = new Kweet("#heftig #intens dit", user);
 
         List<String> hashtags1 = kweetWithHashtags.getHashtags();

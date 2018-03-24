@@ -36,7 +36,7 @@ public class UserJPAIT {
     public void createUserShouldReturnCreatedUser() {
         transaction.begin();
 
-        User user = new User("username", "password", User.Role.USER);
+        User user = new User("username", "password");
         User created = dao.create(user);
         assertNotNull(created);
 
@@ -47,7 +47,7 @@ public class UserJPAIT {
     public void findUserByIdShouldReturnUserIfFound() {
         transaction.begin();
 
-        dao.create(new User("username", "password", User.Role.USER));
+        dao.create(new User("username", "password"));
 
         User found = dao.findById(1);
         assertNotNull(found);
@@ -62,7 +62,7 @@ public class UserJPAIT {
     public void findUserByUsernameShouldReturnUserIfFound() {
         transaction.begin();
 
-        dao.create(new User("username", "password", User.Role.USER));
+        dao.create(new User("username", "password"));
 
         User found = dao.findByUsername("username");
         assertNotNull(found);
@@ -77,7 +77,7 @@ public class UserJPAIT {
     public void updateUserShouldReturnUpdatedUser() {
         transaction.begin();
 
-        dao.create(new User("username", "password", User.Role.USER));
+        dao.create(new User("username", "password"));
 
         User user = dao.findById(1);
         String bio = "Updated bio";
@@ -93,8 +93,8 @@ public class UserJPAIT {
     public void findAllUsersShouldReturnUsersIfTheyExist() {
         transaction.begin();
 
-        dao.create(new User("username1", "password", User.Role.USER));
-        dao.create(new User("username2", "password", User.Role.USER));
+        dao.create(new User("username1", "password"));
+        dao.create(new User("username2", "password"));
 
         List<User> foundUsers = dao.findAll();
         assertEquals(2, foundUsers.size());
@@ -106,7 +106,7 @@ public class UserJPAIT {
     public void deleteUserShouldChangeUsersLength() {
         transaction.begin();
 
-        dao.create(new User("username", "password", User.Role.USER));
+        dao.create(new User("username", "password"));
 
         int initialLength = dao.findAll().size();
         User user = dao.findByUsername("username");

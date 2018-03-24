@@ -1,5 +1,6 @@
 package beans;
 
+import domain.User;
 import services.UserService;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,7 +21,7 @@ public class LoginBean implements Serializable {
     private UserService userService;
 
     @NotNull(message = "Please enter a username")
-    private String username = "administrator1";
+    private String username = "2";
 
     @NotNull(message = "Please enter a password")
     private String password = "password";
@@ -51,13 +52,16 @@ public class LoginBean implements Serializable {
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
         try {
-            request.login(this.username, this.password);
+            User user = userService.getUserByUsername(this.username);
+            String id = String.valueOf(user.getId());
+            request.login(id, this.password);
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage("Login failed."));
-            return "error.xhtml";
+            return "error/403.xhtml";
         }
-        return "administration.xhtml";
+        return "admin/administration.xhtml";
     }
 
     public void logout() {

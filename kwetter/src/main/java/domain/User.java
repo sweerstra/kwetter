@@ -7,7 +7,10 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @XmlRootElement
@@ -24,13 +27,10 @@ public class User implements Serializable {
     private String bio;
     private String location;
     private String website;
-    private Role role;
 
-    @JoinTable(name = "user_groups",
-            joinColumns = @JoinColumn(name = "USERNAME", referencedColumnName = "username"),
-            inverseJoinColumns = @JoinColumn(name = "GROUPNAME", referencedColumnName = "groupName"))
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Collection<Group> groups = new ArrayList<>();
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<UserGroup> groups = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -51,19 +51,16 @@ public class User implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Kweet> liked = new HashSet<>();
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.role = role;
-    }
-
-    public enum Role {
-        USER,
-        MODERATOR,
-        ADMINISTRATOR
     }
 
     public User() {}
+
+    public void addUserGroup(UserGroup group) {
+        this.groups.add(group);
+    }
 
     public void addKweet(Kweet kweet) {
         kweets.add(kweet);
@@ -179,19 +176,11 @@ public class User implements Serializable {
         this.website = website;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Collection<Group> getGroups() {
+    public List<UserGroup> getGroups() {
         return groups;
     }
 
-    public void setGroups(Collection<Group> groups) {
+    public void setGroups(List<UserGroup> groups) {
         this.groups = groups;
     }
 
@@ -236,6 +225,7 @@ public class User implements Serializable {
         this.setKweets(new ArrayList<>());
         this.setFollowers(new ArrayList<>());
         this.setFollowing(new ArrayList<>());
+        this.setGroups(new ArrayList<>());
         return this;
     }
 }

@@ -15,17 +15,16 @@ public class UserCollTest {
 
     @Test
     public void createUser() {
-        User user = new User("Testuser", "Password123", User.Role.USER);
+        User user = new User("Testuser", "Password123");
         User insertedUser = dao.create(user);
 
         assertEquals(user.getUsername(), insertedUser.getUsername());
         assertEquals(user.getPassword(), insertedUser.getPassword());
-        assertEquals(user.getRole(), insertedUser.getRole());
     }
 
     @Test
     public void findUserById() {
-        dao.create(new User("Testuser", "Password123", User.Role.USER));
+        dao.create(new User("Testuser", "Password123"));
 
         User foundUser = dao.findById(1);
         assertEquals("Testuser", foundUser.getUsername());
@@ -37,7 +36,7 @@ public class UserCollTest {
 
     @Test
     public void findByUsername() {
-        User inserted = new User("Testuser", "Password123", User.Role.USER);
+        User inserted = new User("Testuser", "Password123");
         dao.create(inserted);
 
         User foundUser = dao.findByUsername("Testuser");
@@ -50,9 +49,9 @@ public class UserCollTest {
 
     @Test
     public void findUserFollowing() {
-        User user1 = new User("Testuser1", "Password1", User.Role.USER);
+        User user1 = new User("Testuser1", "Password1");
         List<User> following = new ArrayList<>();
-        following.add(new User("Testuser2", "Password2", User.Role.USER));
+        following.add(new User("Testuser2", "Password2"));
         user1.setFollowing(following);
 
         dao.create(user1);
@@ -67,9 +66,9 @@ public class UserCollTest {
 
     @Test
     public void findUserFollowers() {
-        User user1 = new User("Testuser1", "Password1", User.Role.USER);
+        User user1 = new User("Testuser1", "Password1");
         List<User> followers = new ArrayList<>();
-        followers.add(new User("Testuser2", "Password2", User.Role.USER));
+        followers.add(new User("Testuser2", "Password2"));
         user1.setFollowers(followers);
 
         dao.create(user1);
@@ -86,19 +85,19 @@ public class UserCollTest {
     public void findAllUsers() {
         assertEquals(0, dao.findAll().size());
 
-        dao.create(new User("Testuser1", "Password1", User.Role.USER));
-        dao.create(new User("Testuser2", "Password2", User.Role.USER));
+        dao.create(new User("Testuser1", "Password1"));
+        dao.create(new User("Testuser2", "Password2"));
 
         assertEquals(2, dao.findAll().size());
     }
 
     @Test
     public void updateUser() {
-        dao.create(new User("Testuser1", "Password1", User.Role.USER));
-        dao.create(new User("Testuser2", "Password2", User.Role.USER));
+        dao.create(new User("Testuser1", "Password1"));
+        dao.create(new User("Testuser2", "Password2"));
 
         long ID = 2;
-        User updatedUser = new User("Testuser3", "Password3", User.Role.USER);
+        User updatedUser = new User("Testuser3", "Password3");
         updatedUser.setId(ID);
         dao.update(updatedUser);
 
@@ -109,7 +108,7 @@ public class UserCollTest {
 
     @Test
     public void deleteUser() {
-        User user = new User("Testuser1", "Password1", User.Role.USER);
+        User user = new User("Testuser1", "Password1");
         dao.create(user);
 
         dao.delete(user);

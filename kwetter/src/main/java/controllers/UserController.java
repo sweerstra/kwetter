@@ -32,7 +32,7 @@ public class UserController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
-        User createdUser = service.addUser(user.getUsername(), user.getPassword(), user.getRole());
+        User createdUser = service.addUser(user.getUsername(), user.getPassword());
 
         if (createdUser == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -92,7 +92,7 @@ public class UserController {
         return Response.ok(service.getFollowers(id)).build();
     }
 
-    @PUT
+    /*@PUT
     @Path("/role")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editRole(User user) {
@@ -103,7 +103,7 @@ public class UserController {
         }
 
         return Response.ok(userWithNewRole.serialized()).build();
-    }
+    }*/
 
     @DELETE
     @Path("/{id}")

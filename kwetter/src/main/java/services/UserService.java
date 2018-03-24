@@ -3,7 +3,9 @@ package services;
 import com.mysql.cj.core.util.StringUtils;
 import dao.IUserDao;
 import dao.JPA;
+import dao.impl.UserGroupJPA;
 import domain.User;
+import domain.UserGroup;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +16,11 @@ import java.util.List;
 public class UserService implements Serializable {
     @Inject
     @JPA
-    IUserDao dao;
+    IUserDao userDao;
+
+    @Inject
+    @JPA
+    private UserGroupJPA userGroupDao;
 
     public UserService() {
         super();
@@ -25,12 +31,12 @@ public class UserService implements Serializable {
      * @param password, of user to create
      * @return User, created
      */
-    public User addUser(String username, String password, User.Role role) {
+    public User addUser(String username, String password) {
         if (StringUtils.isNullOrEmpty(username)
                 || StringUtils.isNullOrEmpty(password)
                 || getUserByUsername(username) != null) return null;
 
-        return dao.create(new User(username, password, role));
+        return userDao.create(new User(username, password));
     }
 
     /**
@@ -38,7 +44,7 @@ public class UserService implements Serializable {
      * @return User, object that was found or null
      */
     public User getUserByUsername(String username) {
-        return dao.findByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     /**
@@ -48,7 +54,7 @@ public class UserService implements Serializable {
      * @return User, edited
      */
     public User editUser(User user) {
-        User originalUser = dao.findByUsername(user.getUsername());
+        User originalUser = userDao.findByUsername(user.getUsername());
         if (originalUser == null) return null;
 
         String email = user.getEmail();
@@ -63,7 +69,7 @@ public class UserService implements Serializable {
         if (location != null) originalUser.setLocation(location);
         if (website != null) originalUser.setWebsite(website);
 
-        return dao.update(originalUser);
+        return userDao.update(originalUser);
     }
 
     /**
@@ -74,7 +80,7 @@ public class UserService implements Serializable {
      * @return boolean, user authenticated
      */
     public boolean authenticateUser(String username, String password) {
-        User originalUser = dao.findByUsername(username);
+        User originalUser = userDao.findByUsername(username);
 
         if (originalUser != null) {
             if (originalUser.getPassword().equals(password)) {
@@ -88,7 +94,7 @@ public class UserService implements Serializable {
      * @return List<User>, list of all users
      */
     public List<User> getUsers() {
-        return dao.findAll();
+        return userDao.findAll();
     }
 
     /**
@@ -101,15 +107,15 @@ public class UserService implements Serializable {
     public boolean followUser(long id, long followingId) {
         if (id == followingId) return false;
 
-        User user = dao.findById(id);
-        User toFollow = dao.findById(followingId);
+        User user = userDao.findById(id);
+        User toFollow = userDao.findById(followingId);
 
         if (user == null || toFollow == null
                 || !user.addFollowing(toFollow)
                 || !toFollow.addFollower(user)) return false;
 
-        dao.update(user);
-        dao.update(toFollow);
+        userDao.update(user);
+        userDao.update(toFollow);
         return true;
     }
 
@@ -121,15 +127,15 @@ public class UserService implements Serializable {
     public boolean unfollowUser(long id, long unfollowingId) {
         if (id == unfollowingId) return false;
 
-        User user = dao.findById(id);
-        User toUnfollow = dao.findById(unfollowingId);
+        User user = userDao.findById(id);
+        User toUnfollow = userDao.findById(unfollowingId);
 
         if (user == null || toUnfollow == null
                 || !user.removeFollowing(toUnfollow)
                 || !toUnfollow.removeFollower(user)) return false;
 
-        dao.update(user);
-        dao.update(toUnfollow);
+        userDao.update(user);
+        userDao.update(toUnfollow);
         return true;
     }
 
@@ -138,7 +144,7 @@ public class UserService implements Serializable {
      * @return List<User>, of following users
      */
     public List<User> getFollowing(long id) {
-        return dao.findFollowing(id);
+        return userDao.findFollowing(id);
     }
 
     /**
@@ -146,29 +152,32 @@ public class UserService implements Serializable {
      * @return List<User>, of followers
      */
     public List<User> getFollowers(long id) {
-        return dao.findFollowers(id);
+        return userDao.findFollowers(id);
     }
 
     /**
-     * @param id,   of user to edit role
-     * @param role, new role
+     * @param id,        of user to edit role
+     * @param groupName, name of new user group
      * @return User, updated
      */
-    public User editRole(long id, User.Role role) {
-        User user = dao.findById(id);
-        if (user == null || role == null) return null;
+    public UserGroup editUserGroup(long id, String groupName) {
+        User user = userDao.findById(id);
+        if (user == null || StringUtils.isNullOrEmpty(groupName)) return null;
 
-        user.setRole(role);
-        return dao.update(user);
+        UserGroup group = userGroupDao.findByName(groupName);
+        if (group == null) return null;
+
+        group.addUser(user);
+        return userGroupDao.update(group);
     }
 
     /**
      * @param id, of user to delete
      */
     public void deleteUser(long id) {
-        User user = dao.findById(id);
+        User user = userDao.findById(id);
         if (user == null) return;
 
-        dao.delete(user);
+        userDao.delete(user);
     }
 }

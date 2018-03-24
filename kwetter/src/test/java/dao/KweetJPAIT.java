@@ -37,7 +37,7 @@ public class KweetJPAIT {
     }
 
     private Kweet addKweet() {
-        User user = new User("username", "password", User.Role.USER);
+        User user = new User("username", "password");
         userDao.create(user);
 
         Kweet kweet = new Kweet("@username hello there #hoeisie", user);

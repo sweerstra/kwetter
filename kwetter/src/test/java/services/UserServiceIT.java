@@ -28,7 +28,7 @@ public class UserServiceIT {
 
     @Test
     public void getUserTest() {
-        User user = new User("username", "password", User.Role.USER);
+        User user = new User("username", "password");
         long id = 1;
         when(userDao.findById(id)).thenReturn(user);
     }

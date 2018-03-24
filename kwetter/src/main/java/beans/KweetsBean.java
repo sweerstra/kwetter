@@ -48,9 +48,8 @@ public class KweetsBean implements Serializable {
         }
     }
 
-    public void onUserRowSelect(SelectEvent event) {
-        User selected = ((User) event.getObject());
-        this.kweets = kweetService.getKweetsOfUser(selected.getId());
+    public void onUserRowSelect(User user) {
+        this.kweets = kweetService.getKweetsOfUser(user.getId());
     }
 
     public void editKweetText(long id, String username) {
