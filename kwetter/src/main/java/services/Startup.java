@@ -24,9 +24,9 @@ public class Startup {
     public void initData() {
         String password = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 
-        User user = new User("1", password);
-        User moderator = new User("2", password);
-        User admin = new User("3", password);
+        User user = new User("user1", password);
+        User moderator = new User("moderator1", password);
+        User admin = new User("admin1", password);
 
         User createdUser = userService.addUser(user);
         User createdModerator = userService.addUser(moderator);

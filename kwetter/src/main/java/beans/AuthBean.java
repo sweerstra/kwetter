@@ -1,11 +1,7 @@
 package beans;
 
-import domain.User;
-import services.UserService;
-
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +13,8 @@ import java.security.Principal;
 @Named
 @SessionScoped
 public class AuthBean implements Serializable {
-    @Inject
-    private UserService userService;
-
     @NotNull(message = "Please enter a username")
-    private String username = "2";
+    private String username = "admin1";
 
     @NotNull(message = "Please enter a password")
     private String password = "password";
@@ -31,9 +24,7 @@ public class AuthBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         try {
-            User user = userService.getUserByUsername(this.username);
-            String id = String.valueOf(user.getId());
-            request.login(id, this.password);
+            request.login(this.username, this.password);
 
             boolean isModerator = request.isUserInRole("ModeratorRole");
             boolean isAdmin = request.isUserInRole("AdminRole");
@@ -45,9 +36,7 @@ public class AuthBean implements Serializable {
                         .getExternalContext().getSession(false))
                         .invalidate();
             }
-        } catch (ServletException e) {
-            return null;
-        }
+        } catch (ServletException e) {}
         return "error/403.xhtml";
     }
 

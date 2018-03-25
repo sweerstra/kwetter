@@ -19,6 +19,12 @@
         <div class="logout">
             <h1>Kwetter Administration Panel</h1>
 
+            <span>
+                Logged in as
+                <h:outputText value="#{authBean.userPrincipalName}" style="font-weight: bold;"/>
+            </span>
+
+
             <h:form id="logout-form">
                 <p:commandButton value="Logout" action="#{authBean.logout}"/>
             </h:form>

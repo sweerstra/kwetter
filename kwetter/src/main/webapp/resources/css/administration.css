@@ -13,7 +13,10 @@ body {
     grid-column: 1 / -1;
     height: 100%;
     border-bottom: 1px solid #a8a8a8;
-    display: flex;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr;
+    grid-auto-flow: column;
     align-items: center;
 }
 

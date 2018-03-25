@@ -18,6 +18,8 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(unique = true)
     private String username;
     private String email;
 
@@ -29,6 +31,8 @@ public class User implements Serializable {
     private String website;
 
     @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "groupName", referencedColumnName = "name"))
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private List<UserGroup> groups = new ArrayList<>();
