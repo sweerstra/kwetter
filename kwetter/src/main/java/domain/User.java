@@ -29,6 +29,7 @@ public class User implements Serializable {
     private String website;
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private List<UserGroup> groups = new ArrayList<>();
 
@@ -42,7 +43,7 @@ public class User implements Serializable {
     @JsonIgnore
     private List<User> following = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private List<Kweet> kweets = new ArrayList<>();
@@ -64,6 +65,10 @@ public class User implements Serializable {
 
     public void addKweet(Kweet kweet) {
         kweets.add(kweet);
+    }
+
+    public void removeKweet(Kweet kweet) {
+        kweets.remove(kweet);
     }
 
     public boolean addLike(Kweet kweet) {

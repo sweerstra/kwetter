@@ -26,8 +26,8 @@
                     <p:inputText type="text" value="#{userBean.username}" placeholder="Username"/>
                     <p:inputText type="password" value="#{userBean.password}" placeholder="Password"/>
 
-                    <p:commandButton value="Add" update="@all"
-                                     actionListener="#{usersBean.addUser(userBean.username, userBean.password, userBean.role)}"/>
+                    <p:commandButton value="Add" update="@all" style="margin-left: auto;"
+                                     actionListener="#{usersBean.onAddUser(userBean.username, userBean.password)}"/>
                 </h:form>
 
                 <h:form id="user-groups-form">
@@ -51,7 +51,8 @@
                         <p:ajax update="choose-role" listener="#{usersBean.onUserGroupEdit}"/>
                     </p:selectBooleanCheckbox>
 
-                    <p:commandButton value="Update" update="@all" actionListener="#{usersBean.onSaveUser}"/>
+                    <p:commandButton style="margin-left: auto;" value="Update" update="@all"
+                                     actionListener="#{usersBean.onSaveUser}"/>
                 </h:form>
             </div>
 
@@ -68,6 +69,17 @@
 
                     <p:column headerText="Username">
                         <h:outputText value="#{user.username}"/>
+                    </p:column>
+
+                    <p:column headerText="Groups">
+                        <p:repeat value="#{user.groups}" var="group">
+                            <h:outputText value="#{group.name}, "/>
+                        </p:repeat>
+                    </p:column>
+
+                    <p:column headerText="Action">
+                        <p:commandButton value="Remove" actionListener="#{usersBean.onRemoveUser(user)}"
+                                         update="@all" style="width: 100%;"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -105,9 +117,9 @@
                         <h:outputText value="#{kweet.date.toLocaleString()}"/>
                     </p:column>
 
-                    <p:column>
-                        <p:commandButton value="Remove" actionListener="#{kweetsBean.removeKweet(kweet)}"
-                                         style="width: 100%;" ajax="false"/>
+                    <p:column headerText="Action">
+                        <p:commandButton value="Remove" actionListener="#{kweetsBean.onRemoveKweet(kweet)}"
+                                         update="@all" style="width: 100%;"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

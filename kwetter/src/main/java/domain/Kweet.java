@@ -102,4 +102,9 @@ public class Kweet implements Serializable {
     public void setMentions() {
         this.mentions = getListOfMatchedText("(@\\w+)");
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Kweet) && ((Kweet) obj).getId() == this.getId();
+    }
 }

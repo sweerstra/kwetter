@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @RequestScoped
 @Path("/user")
@@ -96,7 +97,20 @@ public class UserController {
     @PUT
     @Path("/{id}/group/{group}")
     public Response editUserGroup(@PathParam("id") long id, @PathParam("group") String group) {
-        User userWithGroup = service.editUserGroups(id, new UserGroup(group));
+        User userWithGroup = service.editUserGroup(id, new UserGroup(group));
+
+        if (userWithGroup == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.ok(userWithGroup.serialized()).build();
+    }
+
+    @PUT
+    @Path("/{id}/groups")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editUserGroups(@PathParam("id") long id, List<UserGroup> groups) {
+        User userWithGroup = service.editUserGroups(id, groups);
 
         if (userWithGroup == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -108,7 +122,9 @@ public class UserController {
     @DELETE
     @Path("/{id}")
     public Response removeUser(@PathParam("id") long id) {
-        service.deleteUser(id);
-        return Response.ok(new ResponseBody(true, null)).build();
+        boolean deleteResult = service.deleteUser(id);
+        String message = deleteResult ? String.format("Deleted user with id: %d", id) : "User does not exist";
+
+        return Response.ok(new ResponseBody(deleteResult, message)).build();
     }
 }

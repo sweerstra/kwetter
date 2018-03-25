@@ -159,10 +159,13 @@ public class KweetService implements Serializable {
     }
 
     /**
-     * @param id, of kweet to remove
+     * @param kweetId, of kweet to remove
      */
-    public void removeKweet(long id) {
-        Kweet kweet = kweetDao.findById(id);
-        kweetDao.delete(kweet);
+    public void removeKweet(long kweetId) {
+        Kweet kweet = kweetDao.findById(kweetId);
+        User user = userDao.findById(kweet.getUser().getId());
+
+        user.removeKweet(kweet);
+        userDao.update(user);
     }
 }

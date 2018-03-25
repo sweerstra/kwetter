@@ -23,8 +23,18 @@ body {
     display: flex;
 }
 
+#user-groups-form {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
 #users-form {
     margin-top: 10px;
+}
+
+.ui-selectbooleancheckbox {
+    margin: 0 20px 0 10px;
 }
 
 .administration__users__form,

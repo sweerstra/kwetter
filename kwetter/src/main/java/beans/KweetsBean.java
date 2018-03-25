@@ -5,7 +5,6 @@ import domain.Kweet;
 import domain.User;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.SelectEvent;
 import services.KweetService;
 
 import javax.annotation.PostConstruct;
@@ -33,11 +32,6 @@ public class KweetsBean implements Serializable {
         this.kweets = new ArrayList<>();
     }
 
-    public void onKweetSelect(SelectEvent event) {
-        Kweet kweet = (Kweet) event.getObject();
-        this.setSelectedKweet(kweet);
-    }
-
     public void onTextCellEdit(CellEditEvent event) {
         String oldUsername = event.getOldValue().toString();
         String newUsername = event.getNewValue().toString();
@@ -63,8 +57,9 @@ public class KweetsBean implements Serializable {
         }
     }
 
-    public void removeKweet(Kweet kweet) {
+    public void onRemoveKweet(Kweet kweet) {
         this.kweetService.removeKweet(kweet.getId());
+        this.kweets.remove(kweet);
     }
 
     public List<Kweet> getKweets() {

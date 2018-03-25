@@ -156,7 +156,7 @@ public class UserService implements Serializable {
      * @param group, new user group
      * @return User, updated
      */
-    public User editUserGroups(long id, UserGroup group) {
+    public User editUserGroup(long id, UserGroup group) {
         User user = userDao.findById(id);
         if (user == null) return null;
 
@@ -165,13 +165,23 @@ public class UserService implements Serializable {
         return userDao.update(user);
     }
 
+    public User editUserGroups(long id, List<UserGroup> groups) {
+        User user = userDao.findById(id);
+        if (user == null) return null;
+
+        user.setGroups(groups);
+
+        return userDao.update(user);
+    }
+
     /**
      * @param id, of user to delete
      */
-    public void deleteUser(long id) {
+    public boolean deleteUser(long id) {
         User user = userDao.findById(id);
-        if (user == null) return;
+        if (user == null) return false;
 
         userDao.delete(user);
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package services;
 
+import domain.Kweet;
 import domain.User;
 import domain.UserGroup;
 
@@ -35,13 +36,13 @@ public class Startup {
         UserGroup moderatorGroup = userGroupService.addUserGroup(new UserGroup("moderator"));
         UserGroup adminGroup = userGroupService.addUserGroup(new UserGroup("admin"));
 
-        userService.editUserGroups(1, userGroup);
-        userService.editUserGroups(2, moderatorGroup);
-        userService.editUserGroups(3, adminGroup);
+        userService.editUserGroup(1, userGroup);
+        userService.editUserGroup(2, moderatorGroup);
+        userService.editUserGroup(3, adminGroup);
 
-        /*kweetService.postKweet(new Kweet("#heftig ongeluk hier", user));
-        kweetService.postKweet(new Kweet("@niffo #fissa in de stad #heftig", user));
-        kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", admin));*/
+        kweetService.postKweet(new Kweet("heftig ongeluk hier", createdUser));
+        kweetService.postKweet(new Kweet("@niffo #fissa in de stad #heftig", createdModerator));
+        kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", createdAdmin));
 
         /*userService.followUser(1, 2);
         userService.followUser(1, 3);*/

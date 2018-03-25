@@ -48,22 +48,22 @@ public class UsersBean implements Serializable {
         } else if (selectedUserGroups.isEmpty()) {
             message = new FacesMessage("Please select any user group before updating", username);
         } else {
-            for (UserGroup group : selectedUserGroups) {
-                userService.editUserGroups(user.getId(), group);
-            }
+            userService.editUserGroups(user.getId(), selectedUserGroups);
             message = new FacesMessage("Updated user roles", username);
+            this.users = userService.getUsers();
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void addUser(String username, String password, String role) {
-        User user = userService.addUser(new User(username, password));
+    public void onAddUser(String username, String password) {
+        User user = new User(username, password);
+        User createdUser = userService.addUser(user);
 
-        if (user != null) {
-            this.users.add(user);
+        if (createdUser != null) {
+            this.users.add(createdUser);
         }
 
-        FacesMessage message = new FacesMessage(user == null ? "Username already in use" : "Added user", username);
+        FacesMessage message = new FacesMessage(createdUser == null ? "Username already in use" : "Added user", username);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
@@ -84,18 +84,11 @@ public class UsersBean implements Serializable {
         }
     }
 
-    /*public void editUser(String username, String role) {
-        User user = userService.getUserByUsername(username);
-        FacesMessage message;
-
-        if (user == null) {
-            message = new FacesMessage("Please select an user to update", "");
-        } else {
-            userService.editRole(user.getId(), role);
-            message = new FacesMessage(user.getUsername() + "'s role updated to", role);
-        }
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }*/
+    public void onRemoveUser(User user) {
+        users.remove(user);
+        kweetsBean.setKweets(new ArrayList<>());
+        userService.deleteUser(user.getId());
+    }
 
     public List<User> getUsers() {
         return users;
