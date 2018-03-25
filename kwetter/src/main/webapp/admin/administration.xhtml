@@ -23,10 +23,12 @@
                 <h:form id="user-form">
                     <p:growl id="add-user" showDetail="true"/>
 
-                    <p:inputText type="text" value="#{userBean.username}" placeholder="Username"/>
-                    <p:inputText type="password" value="#{userBean.password}" placeholder="Password"/>
+                    <p:inputText type="text" value="#{userBean.username}" placeholder="Username"
+                                 style="margin-right: 10px;"/>
+                    <p:inputText type="password" value="#{userBean.password}" placeholder="Password"
+                                 style="margin-right: 10px;"/>
 
-                    <p:commandButton value="Add" update="@all" style="margin-left: auto;"
+                    <p:commandButton value="Add" update=":users-form:users-datatable" style="margin-left: auto;"
                                      actionListener="#{usersBean.onAddUser(userBean.username, userBean.password)}"/>
                 </h:form>
 
@@ -51,7 +53,8 @@
                         <p:ajax update="choose-role" listener="#{usersBean.onUserGroupEdit}"/>
                     </p:selectBooleanCheckbox>
 
-                    <p:commandButton style="margin-left: auto;" value="Update" update="@all"
+                    <p:commandButton style="margin-left: auto;" value="Update"
+                                     update=":user-groups-form:choose-role :users-form:users-datatable"
                                      actionListener="#{usersBean.onSaveUser}"/>
                 </h:form>
             </div>
@@ -59,9 +62,10 @@
             <h:form id="users-form">
                 <p:growl id="role-update" showDetail="true"/>
 
-                <p:dataTable var="user" selectionMode="single" rowKey="#{user.id}" value="#{usersBean.users}">
+                <p:dataTable id="users-datatable" var="user" selectionMode="single" rowKey="#{user.id}"
+                             value="#{usersBean.users}">
                     <p:ajax event="rowSelect" listener="#{usersBean.selectUser}"
-                            update="@all"/>
+                            update=":kweets-form:kweets-datatable"/>
 
                     <p:column headerText="Id">
                         <h:outputText value="#{user.id}"/>
@@ -73,13 +77,14 @@
 
                     <p:column headerText="Groups">
                         <p:repeat value="#{user.groups}" var="group">
-                            <h:outputText value="#{group.name}, "/>
+                            <h:outputText value="#{group.name} "/>
                         </p:repeat>
                     </p:column>
 
                     <p:column headerText="Action">
                         <p:commandButton value="Remove" actionListener="#{usersBean.onRemoveUser(user)}"
-                                         update="@all" style="width: 100%;"/>
+                                         update=":users-form:users-datatable :kweets-form:kweets-datatable"
+                                         style="width: 100%;"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -88,6 +93,10 @@
         <div class="kweets__list">
             <div class="administration__kweets__header">
                 <h1>Kweets</h1>
+
+                <h:form>
+                    <p:commandButton value="Logout" action="#{authBean.logout}"/>
+                </h:form>
             </div>
 
             <h:form id="kweets-form">
@@ -119,7 +128,7 @@
 
                     <p:column headerText="Action">
                         <p:commandButton value="Remove" actionListener="#{kweetsBean.onRemoveKweet(kweet)}"
-                                         update="@all" style="width: 100%;"/>
+                                         update=":kweets-form:kweets-datatable" style="width: 100%;"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

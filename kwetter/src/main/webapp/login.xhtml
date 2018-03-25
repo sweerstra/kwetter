@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -17,10 +18,14 @@
     <div class="panel">
         <h1>Administration Login</h1>
 
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{authBean.onLoad}"/>
+        </f:metadata>
+
         <h:form id="login-form">
-            <p:inputText type="text" value="#{loginBean.username}" styleClass="input" placeholder="username"/>
-            <p:inputText type="password" value="#{loginBean.password}" styleClass="input" placeholder="password"/>
-            <p:commandButton value="Login" id="login" action="#{loginBean.login}" styleClass="ui-priority-primary"/>
+            <p:inputText type="text" value="#{authBean.username}" styleClass="input" placeholder="username"/>
+            <p:inputText type="password" value="#{authBean.password}" styleClass="input" placeholder="password"/>
+            <p:commandButton value="Login" id="login" action="#{authBean.login}" styleClass="ui-priority-primary"/>
         </h:form>
     </div>
 </h:body>

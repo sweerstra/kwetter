@@ -43,6 +43,10 @@ body {
     align-items: center;
 }
 
+.ui-growl-message > * {
+    color: white !important;
+}
+
 @media (max-width: 900px) {
     .administration {
         grid-template-columns: 1fr;

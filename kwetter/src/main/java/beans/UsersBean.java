@@ -39,19 +39,18 @@ public class UsersBean implements Serializable {
     }
 
     public void onSaveUser() {
-        String username = selectedUser.getUsername();
-        User user = userService.getUserByUsername(username);
         FacesMessage message;
 
-        if (user == null) {
+        if (selectedUser == null) {
             message = new FacesMessage("Please select an user to update", "");
         } else if (selectedUserGroups.isEmpty()) {
-            message = new FacesMessage("Please select any user group before updating", username);
+            message = new FacesMessage("Please select any user group before updating", selectedUser.getUsername());
         } else {
-            userService.editUserGroups(user.getId(), selectedUserGroups);
-            message = new FacesMessage("Updated user roles", username);
+            userService.editUserGroups(selectedUser.getId(), selectedUserGroups);
             this.users = userService.getUsers();
+            return;
         }
+
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 

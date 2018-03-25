@@ -16,7 +16,7 @@ import java.security.Principal;
 
 @Named
 @RequestScoped
-public class LoginBean implements Serializable {
+public class AuthBean implements Serializable {
     @Inject
     private UserService userService;
 
@@ -26,27 +26,14 @@ public class LoginBean implements Serializable {
     @NotNull(message = "Please enter a password")
     private String password = "password";
 
-    /*public String login() {
-        User loggedUser = userService.getUserByUsername(this.username);
+    public void onLoad() {
+        Principal user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
 
-        if (userService.authenticateUser(this.username, this.password)
-                && loggedUser.getRole() == User.Role.MODERATOR || loggedUser.getRole() == User.Role.ADMINISTRATOR) {
-            return "administration.xhtml";
+        if (user == null) {
+            // logged out
         } else {
-            FacesMessage message = new FacesMessage("Unauthenticated", this.username);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            // logged in
         }
-
-        return null;
-    }*/
-
-    public String getUserPrincipalName() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Principal principal = (fc.getExternalContext()).getUserPrincipal();
-        if (principal == null) {
-            return null;
-        }
-        return principal.getName();
     }
 
     public String login() {
@@ -64,15 +51,24 @@ public class LoginBean implements Serializable {
         return "admin/administration.xhtml";
     }
 
-    public void logout() {
+    public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest)
-                context.getExternalContext().getRequest();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.logout();
+            return "/login.xhtml";
         } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage("Logout failed."));
+            return null;
         }
+    }
+
+    public String getUserPrincipalName() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Principal principal = (fc.getExternalContext()).getUserPrincipal();
+        if (principal == null) {
+            return null;
+        }
+        return principal.getName();
     }
 
     public String getUsername() {
