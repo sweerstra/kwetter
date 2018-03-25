@@ -2,16 +2,12 @@ package beans;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
-    @NotNull(message = "Please enter an username")
     private String username;
-
-    @NotNull(message = "Please enter a password")
     private String password;
 
     private boolean userRole = false;

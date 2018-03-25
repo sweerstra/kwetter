@@ -3,19 +3,19 @@ package beans;
 import domain.User;
 import services.UserService;
 
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.security.Principal;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class AuthBean implements Serializable {
     @Inject
     private UserService userService;
@@ -26,16 +26,6 @@ public class AuthBean implements Serializable {
     @NotNull(message = "Please enter a password")
     private String password = "password";
 
-    public void onLoad() {
-        Principal user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
-
-        if (user == null) {
-            // logged out
-        } else {
-            // logged in
-        }
-    }
-
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -44,11 +34,21 @@ public class AuthBean implements Serializable {
             User user = userService.getUserByUsername(this.username);
             String id = String.valueOf(user.getId());
             request.login(id, this.password);
+
+            boolean isModerator = request.isUserInRole("ModeratorRole");
+            boolean isAdmin = request.isUserInRole("AdminRole");
+
+            if (isModerator || isAdmin) {
+                return "admin/administration.xhtml";
+            } else {
+                ((HttpSession) FacesContext.getCurrentInstance()
+                        .getExternalContext().getSession(false))
+                        .invalidate();
+            }
         } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage("Login failed."));
-            return "error/403.xhtml";
+            return null;
         }
-        return "admin/administration.xhtml";
+        return "error/403.xhtml";
     }
 
     public String logout() {

@@ -16,17 +16,25 @@
 
 <h:body>
     <div class="administration">
+        <div class="logout">
+            <h1>Kwetter Administration Panel</h1>
+
+            <h:form id="logout-form">
+                <p:commandButton value="Logout" action="#{authBean.logout}"/>
+            </h:form>
+        </div>
+
         <div class="users__list">
             <div class="administration__users__header">
-                <h1>Users</h1>
+                <h2>Users</h2>
 
                 <h:form id="user-form">
                     <p:growl id="add-user" showDetail="true"/>
 
                     <p:inputText type="text" value="#{userBean.username}" placeholder="Username"
-                                 style="margin-right: 10px;"/>
+                                 required="true" style="margin-right: 10px;"/>
                     <p:inputText type="password" value="#{userBean.password}" placeholder="Password"
-                                 style="margin-right: 10px;"/>
+                                 required="true" style="margin-right: 10px;"/>
 
                     <p:commandButton value="Add" update=":users-form:users-datatable" style="margin-left: auto;"
                                      actionListener="#{usersBean.onAddUser(userBean.username, userBean.password)}"/>
@@ -92,11 +100,7 @@
 
         <div class="kweets__list">
             <div class="administration__kweets__header">
-                <h1>Kweets</h1>
-
-                <h:form>
-                    <p:commandButton value="Logout" action="#{authBean.logout}"/>
-                </h:form>
+                <h2>Kweets</h2>
             </div>
 
             <h:form id="kweets-form">
