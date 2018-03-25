@@ -3,7 +3,6 @@ package services;
 import com.mysql.cj.core.util.StringUtils;
 import dao.IUserDao;
 import dao.JPA;
-import dao.impl.UserGroupJPA;
 import domain.User;
 import domain.UserGroup;
 
@@ -18,20 +17,18 @@ public class UserService implements Serializable {
     @JPA
     IUserDao userDao;
 
-    @Inject
-    @JPA
-    private UserGroupJPA userGroupDao;
-
     public UserService() {
         super();
     }
 
     /**
-     * @param username, of user to create
-     * @param password, of user to create
+     * @param user, to create
      * @return User, created
      */
-    public User addUser(String username, String password) {
+    public User addUser(User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+
         if (StringUtils.isNullOrEmpty(username)
                 || StringUtils.isNullOrEmpty(password)
                 || getUserByUsername(username) != null) return null;
@@ -156,19 +153,16 @@ public class UserService implements Serializable {
     }
 
     /**
-     * @param id,        of user to edit role
-     * @param groupName, name of new user group
+     * @param group, new user group
      * @return User, updated
      */
-    public UserGroup editUserGroup(long id, String groupName) {
+    public User editUserGroups(long id, UserGroup group) {
         User user = userDao.findById(id);
-        if (user == null || StringUtils.isNullOrEmpty(groupName)) return null;
+        if (user == null) return null;
 
-        UserGroup group = userGroupDao.findByName(groupName);
-        if (group == null) return null;
+        user.addUserGroup(group);
 
-        group.addUser(user);
-        return userGroupDao.update(group);
+        return userDao.update(user);
     }
 
     /**

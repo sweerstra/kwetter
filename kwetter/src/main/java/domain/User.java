@@ -28,8 +28,8 @@ public class User implements Serializable {
     private String location;
     private String website;
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
+    @JsonIgnore
     private List<UserGroup> groups = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")

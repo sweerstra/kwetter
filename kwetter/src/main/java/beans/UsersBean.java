@@ -49,7 +49,7 @@ public class UsersBean implements Serializable {
             message = new FacesMessage("Please select any user group before updating", username);
         } else {
             for (UserGroup group : selectedUserGroups) {
-                userService.editUserGroup(user.getId(), group.getName());
+                userService.editUserGroups(user.getId(), group);
             }
             message = new FacesMessage("Updated user roles", username);
         }
@@ -57,7 +57,7 @@ public class UsersBean implements Serializable {
     }
 
     public void addUser(String username, String password, String role) {
-        User user = userService.addUser(username, password);
+        User user = userService.addUser(new User(username, password));
 
         if (user != null) {
             this.users.add(user);
