@@ -1,0 +1,18 @@
+.login {
+    --color-tint: var(--color-primary);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__content {
+    padding: 40px 200px;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.login__content h1 { margin-top: 0; color: var(--color-primary); }

@@ -1,0 +1,37 @@
+.kweet {
+    display: flex;
+    border-top: 1px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+}
+
+.kweet__profile-picture {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.kweet__profile-picture img {
+    border-radius: 50%;
+}
+
+.kweet__content {
+    padding: 20px;
+}
+
+.kweet__content__details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.kweet__content__text {
+    margin: 10px 0;
+}
+
+.kweets a {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.kweet__content__like { font-weight: bold; }
+
+.heart { cursor: pointer; }

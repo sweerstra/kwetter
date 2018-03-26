@@ -1,0 +1,27 @@
+nav {
+    height: 100%;
+    padding: 0 20px;
+    background-color: var(--color-primary);
+    font-weight: bold;
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: 1fr;
+    grid-auto-flow: column;
+    align-items: center;
+    color: var(--color-tint);
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .50);
+}
+
+.nav__brand { }
+
+nav input {
+    margin: 0;
+}
+
+nav a:hover {
+    color: var(--color-tint);
+}
+
+a:hover {
+    text-decoration: underline;
+}

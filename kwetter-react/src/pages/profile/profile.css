@@ -1,0 +1,25 @@
+.profile {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 2fr 4fr 2fr;
+    grid-template-rows: 80px 1fr;
+    grid-template-areas: "nav nav nav" "details kweets activity";
+}
+
+.profile__nav {
+    grid-area: nav;
+}
+
+.profile__profile-details {
+    grid-area: details;
+    border-right: 1px solid var(--color-primary);
+}
+
+.profile__kweets {
+    grid-area: kweets;
+}
+
+.profile__profile-activity {
+    grid-area: activity;
+    border-left: 1px solid var(--color-primary);
+}

@@ -1,0 +1,32 @@
+.profile-details {
+    width: 100%;
+    padding: 20px;
+}
+
+.profile-details__picture {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-details__picture img {
+    border-radius: 50%;
+}
+
+.profile__details__info__username {
+    font-weight: bold;
+}
+
+.profile__details__info__username,
+.profile__details__info__bio,
+.profile__details__info__location,
+.profile__details__info__website {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+svg.feather {
+    margin-right: 4px;
+}
