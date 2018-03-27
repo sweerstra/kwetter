@@ -4,7 +4,9 @@ import Kweet from '../Kweet/Kweet';
 
 const Kweets = ({ className, kweets }) => (
     <div className={`${className} kweets`}>
-        <h2 className="kweets__heading">Kweets</h2>
+        <div className="kweets__heading">
+            <h2>Kweets</h2>
+        </div>
         {kweets.map((kweet, index) =>
             <Kweet {...kweet} key={index}/>
         )}

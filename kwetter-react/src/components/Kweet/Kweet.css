@@ -1,7 +1,10 @@
 .kweet {
     display: flex;
-    border-top: 1px solid var(--color-primary);
     border-bottom: 1px solid var(--color-primary);
+}
+
+.kweet:hover {
+    background-color: #D8EAFF;
 }
 
 .kweet__profile-picture {

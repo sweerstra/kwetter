@@ -16,7 +16,7 @@ const Kweet = ({ profilePicture, username, text, date, likes }) => (
             </div>
             <div className="kweet__content__like">
                 <span className="heart">💗</span>
-                <span className="like-count">{likes}</span>
+                <span className="like-count">{likes.toLocaleString()}</span>
             </div>
         </div>
     </div>
