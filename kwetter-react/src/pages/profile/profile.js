@@ -6,6 +6,27 @@ import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 
 class Profile extends Component {
+    onSearchChange = ({ target }) => {
+        console.log(target.value);
+    };
+    onShowPostKweet = () => {
+        this.setState({ showPostKweet: true });
+    };
+    onKweetPost = (value) => {
+        console.log(value);
+    };
+    onKweetCancel = () => {
+        this.setState({ showPostKweet: false });
+    };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showPostKweet: false
+        };
+    }
+
     render() {
         const kweets = [
             {
@@ -73,17 +94,21 @@ class Profile extends Component {
             '#vue'
         ];
 
+        const { showPostKweet } = this.state;
+
         return (
             <div className="profile">
-                <Navigation className="profile__nav" onSearch={this.search.bind(this)}/>
+                <Navigation className="profile__nav" onSearch={this.onSearchChange}/>
                 <ProfileDetails className="profile__profile-details"/>
-                <Kweets className="profile__kweets" kweets={kweets}/>
+                <Kweets className="profile__kweets"
+                        kweets={kweets}
+                        showPostKweet={showPostKweet}
+                        onShowPostKweet={this.onShowPostKweet}
+                        onKweetPost={this.onKweetPost}
+                        onKweetCancel={this.onKweetCancel}/>
                 <ProfileActivity className="profile__profile-activity" users={users} trends={trends}/>
             </div>
         );
-    }
-
-    search(query) {
     }
 }
 

@@ -1,19 +1,15 @@
 .kweets__heading {
+    height: 80px;
     padding: 20px;
     border-bottom: 1px solid var(--color-primary);
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
-.kweets__heading .btn {
-    margin: 0;
+.kweets__heading__post-kweet {
+    margin: 0 0 0 auto;
 }
 
-.kweets__heading h2 {
-    margin: 0;
-}
-
-.kweets__heading h2 a {
+.kweets__heading a {
     margin-right: 40px;
 }

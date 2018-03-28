@@ -3,14 +3,17 @@ import './Kweets.css';
 import PostKweet from '../PostKweet/PostKweet';
 import Kweet from '../Kweet/Kweet';
 
-const Kweets = ({ className, kweets, onKweetPost }) => (
+const Kweets = ({ className, kweets, showPostKweet, onShowPostKweet, onKweetPost, onKweetCancel }) => (
     <div className={`${className} kweets`}>
         <div className="kweets__heading">
             <a href="#" className="h2">Kweets</a>
             <a href="#" className="h2">Timeline</a>
-            <button className="btn">Post Kweet</button>
+            {!showPostKweet && <button className="kweets__heading__post-kweet btn"
+                                       onClick={onShowPostKweet}>Post Kweet</button>}
         </div>
-        <PostKweet onPost={onKweetPost}/>
+        {showPostKweet && <PostKweet onKweetPost={onKweetPost}
+                                     onKweetCancel={onKweetCancel}/>
+        }
         {kweets.map((kweet, index) =>
             <Kweet {...kweet} key={index}/>
         )}
