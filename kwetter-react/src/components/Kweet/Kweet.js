@@ -9,7 +9,7 @@ const Kweet = ({ profilePicture, username, text, date, likes }) => (
         <div className="kweet__content">
             <div className="kweet__content__details">
                 <a href="#">@{username}</a>
-                <span className="date">{date.toLocaleDateString('nl-NL')}</span>
+                <span className="date">{date.toLocaleDateString()}</span>
             </div>
             <div className="kweet__content__text">
                 {text}

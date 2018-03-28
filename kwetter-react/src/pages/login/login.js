@@ -9,15 +9,15 @@ class Login extends Component {
         const username = target.username.value;
         const password = target.password.value;
 
-        console.log(username, password);
-    }
+        this.props.history.push('/profile/1');
+    };
 
     render() {
         return (
             <div className="login">
                 <div className="login__content">
                     <h1>Kwetter Login</h1>
-                    <form onSubmit={this.onLogin}>
+                    <form name="formpje" onSubmit={this.onLogin}>
                         <input type="text"
                                name="username"
                                placeholder="Username"

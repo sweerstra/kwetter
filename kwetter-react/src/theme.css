@@ -32,16 +32,20 @@ body {
 
 .btn {
     padding: 8px 30px;
-    color: var(--color-tint);
+    color: var(--color-primary);
     background-color: var(--color-main);
-    border: 2px solid var(--color-tint);
+    border: 2px solid var(--color-primary);
     border-radius: var(--border-radius);
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.btn:hover { box-shadow: 0 2px 4px rgba(0, 0, 0, .25); }
+.btn:hover {
+    color: white;
+    background-color: var(--color-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+}
 
 .btn.no-border { border: none; }
 

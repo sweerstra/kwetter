@@ -1,0 +1,17 @@
+ul.trends {
+    margin: 0;
+    padding: 0 0 40px 40px;
+    list-style-type: none;
+}
+
+.trend {
+    padding: 4px;
+}
+
+.trend a {
+    color: var(--color-primary);
+}
+
+/* .trend a:hover {
+    text-decoration: underline;
+} */
