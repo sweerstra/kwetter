@@ -85,7 +85,11 @@ public class UsersBean implements Serializable {
 
     public void onRemoveUser(User user) {
         users.remove(user);
-        kweetsBean.setKweets(new ArrayList<>());
+
+        if (user.getUsername().equals(selectedUser.getUsername())) {
+            kweetsBean.setKweets(new ArrayList<>());
+        }
+
         userService.deleteUser(user.getId());
     }
 

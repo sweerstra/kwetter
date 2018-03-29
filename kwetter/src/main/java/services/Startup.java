@@ -22,7 +22,7 @@ public class Startup {
 
     @PostConstruct
     public void initData() {
-        String password = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
+        String password = "password";
 
         User user = new User("user1", password);
         User moderator = new User("moderator1", password);
