@@ -23,9 +23,21 @@ class Profile extends Component {
         super(props);
 
         this.state = {
-            showPostKweet: false
+            showPostKweet: false,
+            profile: {
+                username: 'reactjs',
+                profilePicture: 'https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png',
+                bio: 'React is a declarative, efficient, and flexible JavaScript library for building user interfaces.',
+                location: 'Toronto',
+                website: 'facebook.github.io/react'
+            }
         };
     }
+
+    onEdit = (obj) => {
+        this.setState(state => ({ profile: { ...state.profile, ...obj } }));
+        console.log('from on profile.edit', obj);
+    };
 
     render() {
         const kweets = [
@@ -94,19 +106,23 @@ class Profile extends Component {
             '#vue'
         ];
 
-        const { showPostKweet } = this.state;
+        const { profile, showPostKweet } = this.state;
 
         return (
             <div className="profile">
                 <Navigation className="profile__nav" onSearch={this.onSearchChange}/>
-                <ProfileDetails className="profile__profile-details"/>
+                <ProfileDetails className="profile__profile-details"
+                                profile={profile}
+                                onEdit={this.onEdit}/>
                 <Kweets className="profile__kweets"
                         kweets={kweets}
                         showPostKweet={showPostKweet}
                         onShowPostKweet={this.onShowPostKweet}
                         onKweetPost={this.onKweetPost}
                         onKweetCancel={this.onKweetCancel}/>
-                <ProfileActivity className="profile__profile-activity" users={users} trends={trends}/>
+                <ProfileActivity className="profile__profile-activity"
+                                 users={users}
+                                 trends={trends}/>
             </div>
         );
     }

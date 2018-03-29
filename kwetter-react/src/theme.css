@@ -43,11 +43,23 @@ body {
 
 .btn:hover {
     color: white;
+    transition: background ease-in 100ms;
     background-color: var(--color-primary);
     box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
 }
 
 .btn.no-border { border: none; }
+
+.btn:disabled {
+    color: var(--color-disabled);
+    border-color: var(--color-disabled);
+}
+
+.btn:disabled:hover {
+    box-shadow: none;
+    background: none;
+    cursor: auto;
+}
 
 .blue { background-color: var(--color-primary); }
 

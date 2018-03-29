@@ -8,6 +8,7 @@ const Kweets = ({ className, kweets, showPostKweet, onShowPostKweet, onKweetPost
         <div className="kweets__heading">
             <a href="#" className="h2">Kweets</a>
             <a href="#" className="h2">Timeline</a>
+            <a href="#" className="h2">Mentions</a>
             {!showPostKweet && <button className="kweets__heading__post-kweet btn"
                                        onClick={onShowPostKweet}>Post Kweet</button>}
         </div>

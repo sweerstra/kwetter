@@ -1,29 +1,37 @@
 import React from 'react';
 import './ProfileDetails.css';
 import icons from '../../icons';
+import EditDetail from '../../components/EditDetail/EditDetail';
 
-const ProfileDetails = ({ className }) => (
+const ProfileDetails = ({ className, profile: { username, profilePicture, bio, location, website }, onEdit }) => (
     <div className={`${className} profile-details`}>
         <div className="profile-details__picture">
-            <img src="https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png" alt="Profile"/>
+            <img src={profilePicture} alt="Profile"/>
         </div>
         <div className="profile__details__info">
             <div className="profile__details__info__username">
                 <a href="#" className="h2">
-                    @reactjs
+                    @{username}
                 </a>
             </div>
             <div className="profile__details__info__bio">
-                React is a declarative, efficient, and flexible JavaScript library for building user interfaces.
+                {bio}
             </div>
             <div className="profile__details__info__location">
                 <icons.map/>
-                Toronto
+                {location}
             </div>
             <div className="profile__details__info__website">
                 <icons.link/>
-                <a href="#">acebook.github.io/react/</a>
+                <a href="#">{website}</a>
             </div>
+            <EditDetail className="profile__details__info__website"
+                        name="website"
+                        placeholder="Website"
+                        onEdit={onEdit}>
+                <icons.link/>
+                <a href="#">{website}</a>
+            </EditDetail>
         </div>
     </div>
 );
