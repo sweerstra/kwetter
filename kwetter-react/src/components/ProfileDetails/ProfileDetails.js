@@ -1,9 +1,8 @@
 import React from 'react';
 import './ProfileDetails.css';
 import icons from '../../icons';
-import EditDetail from '../../components/EditDetail/EditDetail';
 
-const ProfileDetails = ({ className, profile: { username, profilePicture, bio, location, website }, onEdit }) => (
+const ProfileDetails = ({ className, profile: { username, profilePicture, bio, location, website } }) => (
     <div className={`${className} profile-details`}>
         <div className="profile-details__picture">
             <img src={profilePicture} alt="Profile"/>
@@ -25,13 +24,6 @@ const ProfileDetails = ({ className, profile: { username, profilePicture, bio, l
                 <icons.link/>
                 <a href="#">{website}</a>
             </div>
-            <EditDetail className="profile__details__info__website"
-                        name="website"
-                        placeholder="Website"
-                        onEdit={onEdit}>
-                <icons.link/>
-                <a href="#">{website}</a>
-            </EditDetail>
         </div>
     </div>
 );

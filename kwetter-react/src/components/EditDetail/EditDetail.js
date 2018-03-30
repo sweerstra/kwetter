@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './EditDetail.css';
-import icons from '../../icons';
 
 class EditDetail extends Component {
     constructor(props) {
@@ -24,25 +23,30 @@ class EditDetail extends Component {
             : children;
 
         return (
-            <div className={`${className} edit-detail`}>
+            <div className={`${className} edit-detail`}
+                 onClick={this.startEditing}>
                 {element}
-                {!isEditing && <icons.edit onClick={this.startEditing}/>}
             </div>
         );
     }
 
     startEditing = () => {
-        console.log('start editing');
+        if (this.state.isEditing) return;
+
         this.setState({ isEditing: true });
     };
 
-    onKeyPress = (e) => {
+    onKeyPress = ({ keyCode }) => {
         const { value } = this.state;
         const { name } = this.props;
 
-        if (e.keyCode === 13) {
-            this.props.onEdit({ [name]: value });
+        if (keyCode === 13) {
+            if (value) {
+                this.props.onEdit({ [name]: value });
+            }
             this.setState({ value, isEditing: false });
+        } else if (keyCode === 27) {
+            this.setState({ isEditing: false });
         }
     };
 

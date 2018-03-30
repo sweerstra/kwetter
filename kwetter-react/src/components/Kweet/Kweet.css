@@ -35,6 +35,20 @@
     font-weight: bold;
 }
 
-.kweet__content__like { font-weight: bold; }
+.kweet__content__like {
+    display: flex;
+    align-items: center;
+}
 
-.heart { cursor: pointer; }
+.feather-heart {
+    stroke: var(--color-primary);
+    cursor: pointer;
+}
+
+.feather-heart:hover {
+    fill: var(--color-primary);
+}
+
+.kweet__content__like-count {
+    font-weight: bold;
+}

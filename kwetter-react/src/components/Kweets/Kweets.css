@@ -1,4 +1,4 @@
-.kweets__heading {
+.kweets__header {
     height: 80px;
     padding: 20px;
     border-bottom: 1px solid var(--color-primary);
@@ -6,10 +6,10 @@
     align-items: center;
 }
 
-.kweets__heading__post-kweet {
+.kweets__header__post-kweet {
     margin: 0 0 0 auto;
 }
 
-.kweets__heading a {
+.kweets__header a {
     margin-right: 40px;
 }

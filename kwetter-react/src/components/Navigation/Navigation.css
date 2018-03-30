@@ -10,11 +10,13 @@ nav {
     align-items: center;
     color: var(--color-tint);
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .50);
+    z-index: 2;
 }
 
 .nav__brand { }
 
-nav input {
+.nav__search input {
+    width: 300px;
     margin: 0;
 }
 

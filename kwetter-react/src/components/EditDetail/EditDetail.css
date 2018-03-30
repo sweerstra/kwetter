@@ -1,14 +1,18 @@
 .edit-detail {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .edit-detail input {
     margin: 0;
 }
 
-.edit-detail .feather:hover {
+.edit-detail .feather-edit {
+    margin-left: 4px;
     stroke: var(--color-primary);
+}
+
+.edit-detail .feather-edit:hover {
+    fill: var(--color-primary);
     cursor: pointer;
 }

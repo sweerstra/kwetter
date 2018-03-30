@@ -1,7 +1,8 @@
 import React from 'react';
 import './Kweet.css';
+import icons from '../../icons';
 
-const Kweet = ({ profilePicture, username, text, date, likes }) => (
+const Kweet = ({ profilePicture, username, text, date, likes, onLike }) => (
     <div className="kweet">
         <div className="kweet__profile-picture">
             <img src={profilePicture}/>
@@ -15,8 +16,8 @@ const Kweet = ({ profilePicture, username, text, date, likes }) => (
                 {text}
             </div>
             <div className="kweet__content__like">
-                <span className="heart">💗</span>
-                <span className="like-count">{likes.toLocaleString()}</span>
+                <icons.heart onClick={onLike}/>
+                <span className="kweet__content__like-count">{likes.toLocaleString()}</span>
             </div>
         </div>
     </div>

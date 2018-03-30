@@ -13,7 +13,7 @@ class PostKweet extends Component {
 
     render() {
         const { text, charactersLeft } = this.state;
-        const { onKweetCancel } = this.props;
+        const { onKweetPostCancel } = this.props;
 
         return (
             <div className="post-kweet">
@@ -30,7 +30,7 @@ class PostKweet extends Component {
                             disabled={charactersLeft === 140}>Confirm
                     </button>
                     <button className="post-kweet__controls--cancel"
-                            onClick={onKweetCancel}>Cancel
+                            onClick={onKweetPostCancel}>Cancel
                     </button>
                     {charactersLeft === 0 && <span className="post-kweet__controls__warning">
                         Maximum reached, only 140 characters will be posted.

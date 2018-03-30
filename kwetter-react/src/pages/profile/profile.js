@@ -2,42 +2,25 @@ import React, { Component } from 'react';
 import './profile.css';
 import Navigation from '../../components/Navigation/Navigation';
 import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
+import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
 import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 
 class Profile extends Component {
-    onSearchChange = ({ target }) => {
-        console.log(target.value);
-    };
-    onShowPostKweet = () => {
-        this.setState({ showPostKweet: true });
-    };
-    onKweetPost = (value) => {
-        console.log(value);
-    };
-    onKweetCancel = () => {
-        this.setState({ showPostKweet: false });
-    };
-
     constructor(props) {
         super(props);
 
         this.state = {
-            showPostKweet: false,
             profile: {
                 username: 'reactjs',
                 profilePicture: 'https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png',
                 bio: 'React is a declarative, efficient, and flexible JavaScript library for building user interfaces.',
                 location: 'Toronto',
                 website: 'facebook.github.io/react'
-            }
+            },
+            authenticated: true
         };
     }
-
-    onEdit = (obj) => {
-        this.setState(state => ({ profile: { ...state.profile, ...obj } }));
-        console.log('from on profile.edit', obj);
-    };
 
     render() {
         const kweets = [
@@ -106,25 +89,47 @@ class Profile extends Component {
             '#vue'
         ];
 
-        const { profile, showPostKweet } = this.state;
+        const { profile, authenticated } = this.state;
+
+        const profileDetails = authenticated
+            ? <ProfileDetailsEditable className="profile__profile-details"
+                                      profile={profile}
+                                      onEdit={this.onEdit}/>
+            : <ProfileDetails className="profile__profile-details"
+                              profile={profile}/>;
 
         return (
             <div className="profile">
                 <Navigation className="profile__nav" onSearch={this.onSearchChange}/>
-                <ProfileDetails className="profile__profile-details"
-                                profile={profile}
-                                onEdit={this.onEdit}/>
+                {profileDetails}
                 <Kweets className="profile__kweets"
                         kweets={kweets}
-                        showPostKweet={showPostKweet}
-                        onShowPostKweet={this.onShowPostKweet}
                         onKweetPost={this.onKweetPost}
-                        onKweetCancel={this.onKweetCancel}/>
+                        onKweetLike={this.onKweetLike}
+                        authenticated={authenticated}/>
                 <ProfileActivity className="profile__profile-activity"
-                                 users={users}
+                                 following={users.concat(users.concat(users))}
+                                 followers={users.reverse()}
                                  trends={trends}/>
             </div>
         );
+    }
+
+    onEdit = (obj) => {
+        this.setState(state => ({ profile: { ...state.profile, ...obj } }));
+        console.log('from on profile.edit', obj);
+    };
+
+    onSearchChange = ({ target }) => {
+        console.log(target.value);
+    };
+
+    onKweetPost = (value) => {
+        console.log(value);
+    };
+
+    onKweetLike = (kweet) => {
+        console.log('like', kweet);
     }
 }
 
