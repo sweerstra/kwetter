@@ -1,5 +1,4 @@
-.search-bar {
-}
+.search-bar { }
 
 .search-bar__list {
     width: 300px;
@@ -15,6 +14,9 @@
 .search-bar__list__item {
     color: black;
     padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .search-bar__list__item:hover {

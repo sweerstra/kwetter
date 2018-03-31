@@ -17,7 +17,7 @@ class Kweets extends Component {
         return (
             <div className={`${className} kweets`}>
                 {authenticated && <div className="kweets__header">
-                    <a href="#" className="h2">My Kweets</a>
+                    <a href="#" className="h2">Kweets</a>
                     <a href="#" className="h2">Timeline</a>
                     <a href="#" className="h2">Mentions</a>
                     {!showPostKweet && <button className="kweets__header__post-kweet btn"

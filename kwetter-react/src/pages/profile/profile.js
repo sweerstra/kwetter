@@ -67,6 +67,13 @@ class Profile extends Component {
         };
     }
 
+    componentDidMount() {
+        // const { username, kweetsType } = this.props.params;
+
+        // TODO: make api call to get kweets
+        // this.setState({ kweets });
+    }
+
     render() {
         const users = [
             {
@@ -111,7 +118,10 @@ class Profile extends Component {
                         kweets={kweets}
                         onKweetPost={this.onKweetPost}
                         onKweetLike={this.onKweetLike}
-                        authenticated={authenticated}/>
+                        authenticated={authenticated}
+                        render={page => {
+                            console.log(page);
+                        }}/>
                 <ProfileActivity className="profile__profile-activity"
                                  following={users.concat(users.concat(users))}
                                  followers={users.reverse()}

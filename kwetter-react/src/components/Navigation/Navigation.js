@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navigation.css';
 import logo from '../../images/kwetter-logo.png';
-import SearchBar from './SearchBar';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel }) => (
     <nav className={`${className} light`}>
