@@ -12,7 +12,7 @@ class Kweets extends Component {
 
     render() {
         const { showPostKweet } = this.state;
-        const { className, kweets, onKweetPost, onKweetLike, authenticated } = this.props;
+        const { className, kweets, onKweetLike, authenticated } = this.props;
 
         return (
             <div className={`${className} kweets`}>
@@ -23,8 +23,8 @@ class Kweets extends Component {
                     {!showPostKweet && <button className="kweets__header__post-kweet btn"
                                                onClick={this.showPostKweet}>Post Kweet</button>}
                 </div>}
-                {showPostKweet && <PostKweet onKweetPost={onKweetPost}
-                                             onKweetPostCancel={this.cancelPostKweet}/>
+                {showPostKweet && <PostKweet onKweetPost={this.onPostKweet}
+                                             onKweetPostCancel={this.hidePostKweet}/>
                 }
                 {kweets.map((kweet, index) =>
                     <Kweet {...kweet} onLike={() => onKweetLike(kweet)} key={index}/>
@@ -33,9 +33,14 @@ class Kweets extends Component {
         );
     }
 
+    onPostKweet = (value) => {
+        this.hidePostKweet();
+        this.props.onKweetPost(value);
+    };
+
     showPostKweet = () => this.setState({ showPostKweet: true });
 
-    cancelPostKweet = () => this.setState({ showPostKweet: false });
+    hidePostKweet = () => this.setState({ showPostKweet: false });
 }
 
 export default Kweets;

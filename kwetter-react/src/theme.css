@@ -1,5 +1,6 @@
 :root {
     --color-primary: #3F51B5;
+    --color-primary-light: #D8EAFF;
     --color-success: #4CAF50;
     --color-warning: #FFC107;
     --color-danger: #F44336;
@@ -48,8 +49,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
 }
 
-.btn.no-border { border: none; }
-
 .btn:disabled {
     color: var(--color-disabled);
     border-color: var(--color-disabled);
@@ -61,13 +60,17 @@ body {
     cursor: auto;
 }
 
-.blue { background-color: var(--color-primary); }
+.green { color: var(--color-success); border-color: var(--color-success); }
 
-.green { background-color: var(--color-success); }
+.green:hover { background-color: var(--color-success); }
 
-.yellow { background-color: var(--color-warning); }
+.yellow { color: var(--color-warning); border-color: var(--color-warning); }
 
-.red { background-color: var(--color-danger); }
+.yellow:hover { background-color: var(--color-warning); }
+
+.red { color: var(--color-danger); border-color: var(--color-danger); }
+
+.red:hover { background-color: var(--color-danger); }
 
 .light { --color-tint: white; }
 

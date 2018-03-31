@@ -33,7 +33,7 @@ class PostKweet extends Component {
                             onClick={onKweetPostCancel}>Cancel
                     </button>
                     {charactersLeft === 0 && <span className="post-kweet__controls__warning">
-                        Maximum reached, only 140 characters will be posted.
+                        Maximum reached, first 140 characters will be posted.
                     </span>}
                     <span className="post-kweet__controls__characters-left">{charactersLeft}</span>
                 </div>

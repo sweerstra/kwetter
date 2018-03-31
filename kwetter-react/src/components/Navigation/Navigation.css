@@ -13,11 +13,32 @@ nav {
     z-index: 2;
 }
 
-.nav__brand { }
+.nav__brand {
+    display: flex;
+    align-items: center;
+}
+
+.nav__brand img {
+    width: 50px;
+    margin-right: 20px;
+}
+
+.nav__search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .nav__search input {
     width: 300px;
     margin: 0;
+    padding-right: 50px;
+}
+
+.nav__search .feather {
+    position: relative;
+    stroke: white;
+    left: -40px;
 }
 
 nav a:hover {

@@ -1,0 +1,23 @@
+.search-bar {
+}
+
+.search-bar__list {
+    width: 300px;
+    margin: 4px 0;
+    padding: 10px 0;
+    position: absolute;
+    list-style-type: none;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 4px var(--color-disabled);
+}
+
+.search-bar__list__item {
+    color: black;
+    padding: 10px;
+}
+
+.search-bar__list__item:hover {
+    background-color: var(--color-primary-light);
+    cursor: pointer;
+}

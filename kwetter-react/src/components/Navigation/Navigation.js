@@ -1,15 +1,16 @@
 import React from 'react';
 import './Navigation.css';
+import logo from '../../images/kwetter-logo.png';
+import SearchBar from './SearchBar';
 
-const Navigation = ({ className, onSearch }) => (
+const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel }) => (
     <nav className={`${className} light`}>
         <div className="nav__brand h1">
+            <img src={logo}/>
             Kwetter
         </div>
         <div className="nav__search">
-            <input type="text"
-                   onChange={onSearch}
-                   placeholder="Search kweets..."/>
+            <SearchBar onSearch={onSearch} suggestions={kweetSuggestions} onCancel={onSearchCancel}/>
         </div>
         <div className="nav__context-menu">
             <a href="#">Registreer</a>
