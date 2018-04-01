@@ -25,7 +25,7 @@ class EditDetail extends Component {
 
         return (
             <div className={`${className} edit-detail`}
-                 onClick={this.startEditing}>
+                 onDoubleClick={this.startEditing}>
                 {element}
             </div>
         );

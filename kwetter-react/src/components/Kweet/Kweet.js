@@ -13,7 +13,7 @@ const Kweet = ({ profilePicture, username, text, date, likes, onLike }) => (
                 <span className="date">{date.toLocaleDateString()}</span>
             </div>
             <div className="kweet__content__text">
-                {text}
+                {transformText(text)}
             </div>
             <div className="kweet__content__like">
                 <icons.heart onClick={onLike}/>
@@ -22,5 +22,15 @@ const Kweet = ({ profilePicture, username, text, date, likes, onLike }) => (
         </div>
     </div>
 );
+
+const transformText = (text) => {
+    return text.split(' ').map(word => {
+        if (word.startsWith('#') || word.startsWith('@')) {
+            return <a href={`/search/${word.slice(1)}`}>{word}</a>;
+        } else {
+            return ` ${word} `;
+        }
+    });
+};
 
 export default Kweet;

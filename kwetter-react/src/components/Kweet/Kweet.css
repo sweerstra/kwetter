@@ -28,13 +28,17 @@
     justify-content: space-between;
 }
 
+.kweet__content__details a {
+    color: var(--color-tint);
+}
+
 .kweet__content__text {
     margin: 10px 0;
 }
 
-.kweets a {
+.kweet__content__text a {
     color: var(--color-primary);
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .kweet__content__like {
