@@ -5,36 +5,46 @@ import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
 import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
 import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
+import Api from '../../api';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/index';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            profile: {
-                username: 'reactjs',
-                profilePicture: 'https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png',
-                bio: 'React is a declarative, efficient, and flexible JavaScript library for building user interfaces.',
-                location: 'Toronto',
-                website: 'facebook.github.io/react'
-            },
-            kweets: [{
-                username: 'reactjs',
-                profilePicture: 'https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png',
-                text: '@nodejs you suck, The stars #amazingly haven\'t quite aligned, still #devastated about the loss!',
-                date: new Date('2017-02-12'),
-                likes: 3474
-            }],
+            profile: {},
+            kweets: [],
             suggestions: [],
-            authenticated: true
+            isOwnProfile: false
         };
     }
 
-    componentDidMount() {
-        // const { username, kweetsType } = this.props.params;
+    async componentDidMount() {
+        const { username, kweetsType } = this.props.match.params;
 
-        // TODO: make api call to get kweets
-        // this.setState({ kweets });
+        const profile = await Api.user.getUser(username);
+        const kweets = await this.fetchKweetsType(username, kweetsType);
+
+        const isOwnProfile = this.props.userLoggedIn.username === username;
+
+        this.setState({ profile, kweets, isOwnProfile });
+    }
+
+    async componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.kweetsType === nextProps.match.params.kweetsType) return;
+
+        const { username, kweetsType } = nextProps.match.params;
+        this.setState({ kweets: (await this.fetchKweetsType(username, kweetsType)) });
+    }
+
+    async fetchKweetsType(username, kweetsType) {
+        if (kweetsType === 'kweets') {
+            return await Api.kweet.getKweets(username);
+        } else if (kweetsType === 'timeline') {
+            return await Api.kweet.getTimeline(username);
+        }
     }
 
     render() {
@@ -59,9 +69,10 @@ class Profile extends Component {
             '#vue'
         ];
 
-        const { profile, kweets, suggestions, authenticated } = this.state;
+        const { profile, kweets, suggestions, isOwnProfile } = this.state;
+        const { isAuthenticated, userLoggedIn, onLogout } = this.props;
 
-        const profileDetails = authenticated
+        const profileDetails = isAuthenticated && isOwnProfile
             ? <ProfileDetailsEditable className="profile__profile-details"
                                       profile={profile}
                                       onEdit={this.onEdit}/>
@@ -75,16 +86,15 @@ class Profile extends Component {
                 <Navigation className="profile__nav"
                             onSearch={this.onSearchKweets}
                             kweetSuggestions={suggestions}
-                            onSearchCancel={this.onSearchCancel}/>
+                            onSearchCancel={this.onSearchCancel}
+                            userLoggedIn={userLoggedIn}
+                            onLogout={onLogout}/>
                 {profileDetails}
                 <Kweets className="profile__kweets"
                         kweets={kweets}
                         onKweetPost={this.onKweetPost}
                         onKweetLike={this.onKweetLike}
-                        authenticated={authenticated}
-                        render={page => {
-                            console.log(page);
-                        }}/>
+                        authenticated={isAuthenticated}/>
                 <ProfileActivity className="profile__profile-activity"
                                  following={users.concat(users.concat(users))}
                                  followers={users.reverse()}
@@ -95,7 +105,6 @@ class Profile extends Component {
 
     onEdit = (obj) => {
         this.setState(state => ({ profile: { ...state.profile, ...obj } }));
-        console.log('from on profile.edit', obj);
     };
 
     onSearchKweets = (value) => {
@@ -132,4 +141,10 @@ class Profile extends Component {
     };
 }
 
-export default Profile;
+const mapStateToProps = ({ auth }) => ({ ...auth });
+
+const mapDispatchToProps = (dispatch) => ({
+    onLogout: () => dispatch(logout())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

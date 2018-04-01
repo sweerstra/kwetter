@@ -16,7 +16,7 @@ export default {
         postKweet: (text, id) => Request.post(KWEET_API_URL, { text, user: { id } }),
         editKweet: (id, kweet) => Request.put(`${KWEET_API_URL}/${id}`, kweet),
         searchKweets: (text) => Request.get(`${KWEET_API_URL}/search/${text}`),
-        getKweets: (userId) => Request.get(`${KWEET_API_URL}/user/${userId}`),
+        getKweets: (username) => Request.get(`${KWEET_API_URL}/user/${username}`),
         getTimeline: (userId) => Request.get(`${KWEET_API_URL}/timeline/${userId}`),
         getKweetsByTrend: (trend) => Request.get(`${KWEET_API_URL}/trend/${trend}`),
         getKweetsByMention: (mention) => Request.get(`${KWEET_API_URL}/mention/${mention}`),

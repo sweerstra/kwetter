@@ -15,12 +15,13 @@
 }
 
 .kweet__profile-picture img {
+    max-width: 80px;
     border-radius: 50%;
 }
 
 .kweet__content {
     width: 100%;
-    padding: 20px;
+    padding: 20px 20px 20px 0;
 }
 
 .kweet__content__details {

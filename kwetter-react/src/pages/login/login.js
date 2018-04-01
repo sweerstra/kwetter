@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import './login.css';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { authenticate } from '../../actions';
 
 class Login extends Component {
-    onLogin = (e) => {
-        const { target } = e;
-        e.preventDefault();
-
-        const username = target.username.value;
-        const password = target.password.value;
-
-        this.props.history.push('/profile/1');
-    };
-
     render() {
+        const { isAuthenticated, userLoggedIn } = this.props;
+
+        if (isAuthenticated) {
+            return <Redirect to={`profile/${userLoggedIn.username}/kweets`}/>
+        }
+
         return (
             <div className="login">
                 <div className="login__content">
@@ -34,6 +33,22 @@ class Login extends Component {
             </div>
         );
     }
+
+    onLogin = (e) => {
+        const { target } = e;
+        e.preventDefault();
+
+        const username = target.username.value;
+        const password = target.password.value;
+
+        this.props.onAuthenticate(username, password);
+    };
 }
 
-export default Login;
+const mapStateToProps = ({ auth }) => ({ ...auth });
+
+const mapDispatchToProps = (dispatch) => ({
+    onAuthenticate: (username, password) => dispatch(authenticate(username, password))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Kweets.css';
+import { NavLink } from 'react-router-dom';
 import PostKweet from '../PostKweet/PostKweet';
 import Kweet from '../Kweet/Kweet';
 
@@ -17,9 +18,9 @@ class Kweets extends Component {
         return (
             <div className={`${className} kweets`}>
                 {authenticated && <div className="kweets__header">
-                    <a href="#" className="h2">Kweets</a>
-                    <a href="#" className="h2">Timeline</a>
-                    <a href="#" className="h2">Mentions</a>
+                    <NavLink to="kweets" className="h2">Kweets</NavLink>
+                    <NavLink to="timeline" className="h2">Timeline</NavLink>
+                    <NavLink to="mentions" className="h2">Mentions</NavLink>
                     {!showPostKweet && <button className="kweets__header__post-kweet btn"
                                                onClick={this.showPostKweet}>Post Kweet</button>}
                 </div>}
