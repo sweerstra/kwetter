@@ -17,6 +17,7 @@
 }
 
 .profile__details__info__username {
+    padding: 10px 4px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,11 +27,11 @@
     margin: 0;
 }
 
-.profile__details__info__username,
 .profile__details__info__bio,
 .profile__details__info__location,
 .profile__details__info__website {
-    padding: 8px 4px;
-    display: flex;
+    padding: 10px 4px;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
 }

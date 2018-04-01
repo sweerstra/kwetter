@@ -18,6 +18,7 @@ const ProfileDetails = ({ className, profile: { username, profilePicture, bio, l
                 </button>
             </div>
             <div className="profile__details__info__bio">
+                <icons.user/>
                 {bio}
             </div>
             <div className="profile__details__info__location">

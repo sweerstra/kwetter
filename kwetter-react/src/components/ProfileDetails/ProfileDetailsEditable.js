@@ -24,6 +24,7 @@ const ProfileDetailsEditable = ({ className, profile: { username, profilePicture
                         name="bio"
                         placeholder="Bio"
                         onEdit={onEdit}>
+                <icons.user/>
                 {bio}
             </EditDetail>
             <EditDetail className="profile__details__info__location"

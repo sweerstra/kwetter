@@ -9,11 +9,11 @@
 .login__content {
     margin-bottom: 100px;
     padding: 40px 200px;
-    border: 2px solid var(--color-primary);
+    border: 2px solid var(--color-tint);
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     text-align: center;
 }
 
-.login__content h1 { margin-top: 0; color: var(--color-primary); }
+.login__content h1 { margin-top: 0; color: var(--color-tint); }

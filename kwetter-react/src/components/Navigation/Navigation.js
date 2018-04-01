@@ -2,6 +2,7 @@ import React from 'react';
 import './Navigation.css';
 import logo from '../../images/kwetter-logo.png';
 import SearchBar from '../SearchBar/SearchBar';
+import { Link } from 'react-router-dom';
 
 const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel }) => (
     <nav className={`${className} light`}>
@@ -16,7 +17,7 @@ const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel }) =
             <a href="#">Registreer</a>
         </div>
         <div className="nav__context-menu">
-            <a href="#">Inloggen</a>
+            <Link to="/login">Inloggen</Link>
         </div>
     </nav>
 );

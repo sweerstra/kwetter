@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './EditDetail.css';
+import enhanceWithClickOutside from 'react-click-outside';
 
 class EditDetail extends Component {
     constructor(props) {
@@ -53,6 +54,10 @@ class EditDetail extends Component {
     onChange = (e) => {
         this.setState({ value: e.target.value });
     };
+
+    handleClickOutside() {
+        this.setState({ isEditing: false });
+    }
 }
 
-export default EditDetail;
+export default enhanceWithClickOutside(EditDetail);
