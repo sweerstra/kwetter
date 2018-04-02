@@ -43,7 +43,7 @@ public class KweetsBean implements Serializable {
     }
 
     public void onUserRowSelect(User user) {
-        this.kweets = kweetService.getKweetsOfUser(user.getId());
+        this.kweets = kweetService.getKweetsOfUser(user.getUsername());
     }
 
     public void editKweetText(long id, String username) {

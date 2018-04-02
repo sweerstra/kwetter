@@ -83,15 +83,15 @@ public class UserService implements Serializable {
      * @param password, to authenticate
      * @return boolean, user authenticated
      */
-    public boolean authenticateUser(String username, String password) {
+    public User authenticateUser(String username, String password) {
         User originalUser = userDao.findByUsername(username);
 
         if (originalUser != null) {
             if (originalUser.getPassword().equals(password)) {
-                return true;
+                return originalUser;
             }
         }
-        return false;
+        return null;
     }
 
     /**

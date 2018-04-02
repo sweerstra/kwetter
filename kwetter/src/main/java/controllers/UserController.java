@@ -59,8 +59,10 @@ public class UserController {
     @Path("/auth")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticate(User user) {
-        if (service.authenticateUser(user.getUsername(), user.getPassword())) {
-            return Response.ok(new ResponseBody(true, "authenticated")).build();
+        User authenticatedUser = service.authenticateUser(user.getUsername(), user.getPassword());
+
+        if (authenticatedUser != null) {
+            return Response.ok(authenticatedUser.serialized()).build();
         }
 
         return Response.status(Response.Status.UNAUTHORIZED).build();

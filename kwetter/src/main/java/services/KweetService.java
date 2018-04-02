@@ -75,25 +75,25 @@ public class KweetService implements Serializable {
     }
 
     /**
-     * @param id, id of user to get kweets from
+     * @param username, of user to get kweets from
      * @return List<Kweet>, list of kweets found
      */
-    public List<Kweet> getKweetsOfUser(long id) {
-        User user = userDao.findById(id);
+    public List<Kweet> getKweetsOfUser(String username) {
+        User user = userDao.findByUsername(username);
         if (user == null) return null;
 
-        return kweetDao.findByUser(id);
+        return kweetDao.findByUser(user.getId());
     }
 
     /**
      * This method gets the kweets of the user and the
      * kweets of the users following
      *
-     * @param id, of the user to get kweets and following from
+     * @param username, of the user to get kweets and following from
      * @return List<Kweet>, list of kweets found
      */
-    public List<Kweet> getTimeline(long id) {
-        User user = userDao.findById(id);
+    public List<Kweet> getTimeline(String username) {
+        User user = userDao.findByUsername(username);
         if (user == null) return null;
 
         return kweetDao.findForUser(user);

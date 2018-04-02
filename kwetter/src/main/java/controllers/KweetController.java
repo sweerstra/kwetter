@@ -69,9 +69,9 @@ public class KweetController {
     }
 
     @GET
-    @Path("/user/{id}")
-    public Response getKweetsOfUser(@PathParam("id") long id) {
-        List<Kweet> kweets = service.getKweetsOfUser(id);
+    @Path("/user/{username}")
+    public Response getKweetsOfUser(@PathParam("username") String username) {
+        List<Kweet> kweets = service.getKweetsOfUser(username);
 
         if (kweets == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -99,9 +99,9 @@ public class KweetController {
     }
 
     @GET
-    @Path("/timeline/{id}")
-    public Response getTimeline(@PathParam("id") long id) {
-        return Response.ok(service.getTimeline(id)).build();
+    @Path("/timeline/{username}")
+    public Response getTimeline(@PathParam("username") String username) {
+        return Response.ok(service.getTimeline(username)).build();
     }
 
     @POST
