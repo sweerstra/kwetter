@@ -11,6 +11,9 @@ class App extends Component {
                 <Switch>
                     <Route path="/login" component={Login}/>
                     <Route path="/profile/:username/:kweetsType" component={Profile}/>
+                    <Route path="/404" render={() =>
+                        <div>Not Found</div>
+                    }/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>

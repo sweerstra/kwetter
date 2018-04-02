@@ -5,46 +5,29 @@ import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
 import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
 import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
-import Api from '../../api';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/index';
+import { logout, setCurrentUser, setKweetsOfUser } from '../../actions/index';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            profile: {},
-            kweets: [],
-            suggestions: [],
-            isOwnProfile: false
-        };
+        this.state = { suggestions: [] };
     }
 
     async componentDidMount() {
         const { username, kweetsType } = this.props.match.params;
 
-        const profile = await Api.user.getUser(username);
-        const kweets = await this.fetchKweetsType(username, kweetsType);
-
-        const isOwnProfile = this.props.userLoggedIn.username === username;
-
-        this.setState({ profile, kweets, isOwnProfile });
+        this.props.onSetCurrentUser(username)
+            .then(() => this.props.onSetKweetsOfUser(username, kweetsType));
     }
 
     async componentWillReceiveProps(nextProps) {
         if (this.props.match.params.kweetsType === nextProps.match.params.kweetsType) return;
 
         const { username, kweetsType } = nextProps.match.params;
-        this.setState({ kweets: (await this.fetchKweetsType(username, kweetsType)) });
-    }
-
-    async fetchKweetsType(username, kweetsType) {
-        if (kweetsType === 'kweets') {
-            return await Api.kweet.getKweets(username);
-        } else if (kweetsType === 'timeline') {
-            return await Api.kweet.getTimeline(username);
-        }
+        this.props.onSetKweetsOfUser(username, kweetsType);
     }
 
     render() {
@@ -69,15 +52,19 @@ class Profile extends Component {
             '#vue'
         ];
 
-        const { profile, kweets, suggestions, isOwnProfile } = this.state;
-        const { isAuthenticated, userLoggedIn, onLogout } = this.props;
+        const { suggestions } = this.state;
+        const { currentUser, kweets, isOwnUser, isAuthenticated, userLoggedIn, userNotFound, onLogout } = this.props;
 
-        const profileDetails = isAuthenticated && isOwnProfile
+        if (userNotFound) {
+            return <Redirect to="/404"/>
+        }
+
+        const profileDetails = isAuthenticated && isOwnUser
             ? <ProfileDetailsEditable className="profile__profile-details"
-                                      profile={profile}
+                                      profile={currentUser}
                                       onEdit={this.onEdit}/>
             : <ProfileDetails className="profile__profile-details"
-                              profile={profile}
+                              profile={currentUser}
                               followed={false}
                               onFollowChange={this.onFollowChange}/>;
 
@@ -141,9 +128,22 @@ class Profile extends Component {
     };
 }
 
-const mapStateToProps = ({ auth }) => ({ ...auth });
+const mapStateToProps = ({ auth, user, kweets }) => {
+    const isOwnUser = auth.userLoggedIn
+        && user.currentUser
+        && auth.userLoggedIn.username === user.currentUser.username;
+
+    return ({
+        ...auth,
+        ...user,
+        ...kweets,
+        isOwnUser
+    });
+};
 
 const mapDispatchToProps = (dispatch) => ({
+    onSetCurrentUser: (username) => dispatch(setCurrentUser(username)),
+    onSetKweetsOfUser: (username, kweetsType) => dispatch(setKweetsOfUser(username, kweetsType)),
     onLogout: () => dispatch(logout())
 });
 
