@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './EditDetail.css';
+import './EditProfileDetail.css';
 import enhanceWithClickOutside from 'react-click-outside';
 
-class EditDetail extends Component {
+class EditProfileDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { value: '', isEditing: false };
+        this.state = { value: this.props.value, isEditing: false };
     }
 
     render() {
@@ -60,4 +60,4 @@ class EditDetail extends Component {
     }
 }
 
-export default enhanceWithClickOutside(EditDetail);
+export default enhanceWithClickOutside(EditProfileDetail);

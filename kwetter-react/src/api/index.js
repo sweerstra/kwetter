@@ -5,7 +5,7 @@ export default {
     user: {
         authenticate: (username, password) => Request.post(`${USER_API_URL}/auth`, { username, password }),
         getUser: (username) => Request.get(`${USER_API_URL}/${username}`),
-        editUser: (id, user) => Request.put(`${USER_API_URL}/${id}`, user),
+        editUser: (user) => Request.put(USER_API_URL, user),
         getFollowing: (id) => Request.get(`${USER_API_URL}/following`),
         getFollowers: (id) => Request.get(`${USER_API_URL}/followers`),
         follow: (id, followId) => Request.post(`${USER_API_URL}/${id}/follow/${followId}`),

@@ -7,7 +7,7 @@ import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, setCurrentUser, setKweetsOfUser } from '../../actions/index';
+import { editSelectedUser, logout, postKweet, setKweetsOfUser, setSelectedUser } from '../../actions/index';
 
 class Profile extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class Profile extends Component {
     async componentDidMount() {
         const { username, kweetsType } = this.props.match.params;
 
-        this.props.onSetCurrentUser(username)
+        this.props.onSetSelectedUser(username)
             .then(() => this.props.onSetKweetsOfUser(username, kweetsType));
     }
 
@@ -53,7 +53,7 @@ class Profile extends Component {
         ];
 
         const { suggestions } = this.state;
-        const { currentUser, kweets, isOwnUser, isAuthenticated, userLoggedIn, userNotFound, onLogout } = this.props;
+        const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, userNotFound } = this.props;
 
         if (userNotFound) {
             return <Redirect to="/404"/>
@@ -61,10 +61,10 @@ class Profile extends Component {
 
         const profileDetails = isAuthenticated && isOwnUser
             ? <ProfileDetailsEditable className="profile__profile-details"
-                                      profile={currentUser}
-                                      onEdit={this.onEdit}/>
+                                      profile={selectedUser}
+                                      onEdit={user => this.props.onEditSelectedUser(userLoggedIn.username, user)}/>
             : <ProfileDetails className="profile__profile-details"
-                              profile={currentUser}
+                              profile={selectedUser}
                               followed={false}
                               onFollowChange={this.onFollowChange}/>;
 
@@ -73,13 +73,13 @@ class Profile extends Component {
                 <Navigation className="profile__nav"
                             onSearch={this.onSearchKweets}
                             kweetSuggestions={suggestions}
-                            onSearchCancel={this.onSearchCancel}
+                            onSearchCancel={() => this.setState({ suggestions: [] })}
                             userLoggedIn={userLoggedIn}
-                            onLogout={onLogout}/>
+                            onLogout={this.props.onLogout}/>
                 {profileDetails}
                 <Kweets className="profile__kweets"
-                        kweets={kweets}
-                        onKweetPost={this.onKweetPost}
+                        kweets={this.props.kweets}
+                        onKweetPost={text => this.props.onPostKweet(text, userLoggedIn)}
                         onKweetLike={this.onKweetLike}
                         authenticated={isAuthenticated}/>
                 <ProfileActivity className="profile__profile-activity"
@@ -90,10 +90,6 @@ class Profile extends Component {
         );
     }
 
-    onEdit = (obj) => {
-        this.setState(state => ({ profile: { ...state.profile, ...obj } }));
-    };
-
     onSearchKweets = (value) => {
         if (!value) return;
 
@@ -101,21 +97,6 @@ class Profile extends Component {
         // TODO: make api call to /search
         const suggestions = this.state.kweets.filter(kweet => kweet.text.toLowerCase().includes(query));
         this.setState(state => ({ suggestions }));
-    };
-
-    onSearchCancel = () => {
-        this.setState({ suggestions: [] });
-    };
-
-    onKweetPost = (text) => {
-        const kweet = {
-            username: 'reactjs',
-            profilePicture: 'https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png',
-            text,
-            date: new Date(),
-            likes: 0
-        };
-        this.setState(state => ({ kweets: [kweet, ...state.kweets] }));
     };
 
     onKweetLike = (kweet) => {
@@ -130,8 +111,8 @@ class Profile extends Component {
 
 const mapStateToProps = ({ auth, user, kweets }) => {
     const isOwnUser = auth.userLoggedIn
-        && user.currentUser
-        && auth.userLoggedIn.username === user.currentUser.username;
+        && user.selectedUser
+        && auth.userLoggedIn.username === user.selectedUser.username;
 
     return ({
         ...auth,
@@ -142,8 +123,10 @@ const mapStateToProps = ({ auth, user, kweets }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    onSetCurrentUser: (username) => dispatch(setCurrentUser(username)),
+    onSetSelectedUser: (username) => dispatch(setSelectedUser(username)),
+    onEditSelectedUser: (userame, user) => dispatch(editSelectedUser(userame, user)),
     onSetKweetsOfUser: (username, kweetsType) => dispatch(setKweetsOfUser(username, kweetsType)),
+    onPostKweet: (text, user) => dispatch(postKweet(text, user)),
     onLogout: () => dispatch(logout())
 });
 

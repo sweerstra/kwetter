@@ -1,46 +1,51 @@
 import React from 'react';
 import './ProfileDetails.css';
 import icons from '../../icons';
-import EditDetail from '../../components/EditDetail/EditDetail';
+import EditProfileDetail from '../EditProfileDetail/EditProfileDetail';
 
 const ProfileDetailsEditable = ({ className, profile: { username, profilePicture, bio, location, website }, onEdit }) => (
     <div className={`${className} profile-details`}>
-        <EditDetail className="profile-details__picture"
-                    name="profilePicture"
-                    placeholder="Profile Picture"
-                    onEdit={onEdit}>
+        <EditProfileDetail className="profile-details__picture"
+                           value={profilePicture}
+                           name="profilePicture"
+                           placeholder="Profile Picture"
+                           onEdit={onEdit}>
             <img src={profilePicture} alt="Profile"/>
-        </EditDetail>
+        </EditProfileDetail>
         <div className="profile__details__info">
-            <EditDetail className="profile__details__info__username"
-                        name="username"
-                        placeholder="Username"
-                        onEdit={onEdit}>
+            <EditProfileDetail className="profile__details__info__username"
+                               value={username}
+                               name="username"
+                               placeholder="Username"
+                               onEdit={onEdit}>
                 <a href="#" className="h2">
                     @{username}
                 </a>
-            </EditDetail>
-            <EditDetail className="profile__details__info__bio"
-                        name="bio"
-                        placeholder="Bio"
-                        onEdit={onEdit}>
+            </EditProfileDetail>
+            <EditProfileDetail className="profile__details__info__bio"
+                               value={bio}
+                               name="bio"
+                               placeholder="Bio"
+                               onEdit={onEdit}>
                 <icons.user/>
                 {bio}
-            </EditDetail>
-            <EditDetail className="profile__details__info__location"
-                        name="location"
-                        placeholder="Location"
-                        onEdit={onEdit}>
+            </EditProfileDetail>
+            <EditProfileDetail className="profile__details__info__location"
+                               value={location}
+                               name="location"
+                               placeholder="Location"
+                               onEdit={onEdit}>
                 <icons.map/>
                 {location}
-            </EditDetail>
-            <EditDetail className="profile__details__info__website"
-                        name="website"
-                        placeholder="Website"
-                        onEdit={onEdit}>
+            </EditProfileDetail>
+            <EditProfileDetail className="profile__details__info__website"
+                               value={website}
+                               name="website"
+                               placeholder="Website"
+                               onEdit={onEdit}>
                 <icons.link/>
-                <a href="#">{website}</a>
-            </EditDetail>
+                <a href={website}>{website}</a>
+            </EditProfileDetail>
         </div>
     </div>
 );
