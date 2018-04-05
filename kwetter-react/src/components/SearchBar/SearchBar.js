@@ -11,7 +11,13 @@ class SearchBar extends Component {
 
     componentDidMount() {
         this.searchCallback = debounce(e => {
-            this.props.onSearch(e.target.value);
+            const { value } = e.target;
+
+            if (value.length === 0) {
+                this.props.onCancel();
+            } else {
+                this.props.onSearch(value);
+            }
         }, 600);
     }
 

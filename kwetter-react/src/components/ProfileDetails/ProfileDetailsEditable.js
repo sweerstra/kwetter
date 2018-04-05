@@ -44,7 +44,7 @@ const ProfileDetailsEditable = ({ className, profile: { username, profilePicture
                                placeholder="Website"
                                onEdit={onEdit}>
                 <icons.link/>
-                <a href={website}>{website}</a>
+                <a href={website} target="about_blank">{website}</a>
             </EditProfileDetail>
         </div>
     </div>

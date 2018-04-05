@@ -8,11 +8,11 @@ class Kweets extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { showPostKweet: false };
+        this.state = { postKweetOpen: false };
     }
 
     render() {
-        const { showPostKweet } = this.state;
+        const { postKweetOpen } = this.state;
         const { className, kweets, onKweetLike, authenticated } = this.props;
 
         return (
@@ -21,12 +21,10 @@ class Kweets extends Component {
                     <NavLink to="kweets" className="h2">Kweets</NavLink>
                     <NavLink to="timeline" className="h2">Timeline</NavLink>
                     <NavLink to="mentions" className="h2">Mentions</NavLink>
-                    {!showPostKweet && <button className="kweets__header__post-kweet btn"
-                                               onClick={this.showPostKweet}>Post Kweet</button>}
+                    {!postKweetOpen && <button className="kweets__header__post-kweet btn"
+                                               onClick={() => this.setPostKweet(true)}>Post Kweet</button>}
                 </div>}
-                {showPostKweet && <PostKweet onKweetPost={this.onPostKweet}
-                                             onKweetPostCancel={this.hidePostKweet}/>
-                }
+                {postKweetOpen && <PostKweet onKweetPost={this.onPostKweet} onCancel={() => this.setPostKweet(false)}/>}
                 {kweets.map((kweet, index) =>
                     <Kweet {...kweet} onLike={() => onKweetLike(kweet)} key={index}/>
                 )}
@@ -35,13 +33,11 @@ class Kweets extends Component {
     }
 
     onPostKweet = (value) => {
-        this.hidePostKweet();
+        this.setPostKweet(false);
         this.props.onKweetPost(value);
     };
 
-    showPostKweet = () => this.setState({ showPostKweet: true });
-
-    hidePostKweet = () => this.setState({ showPostKweet: false });
+    setPostKweet = (postKweetOpen) => this.setState({ postKweetOpen });
 }
 
 export default Kweets;

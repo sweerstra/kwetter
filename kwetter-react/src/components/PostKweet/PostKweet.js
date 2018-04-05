@@ -13,14 +13,14 @@ class PostKweet extends Component {
 
     render() {
         const { text, charactersLeft } = this.state;
-        const { onKweetPostCancel } = this.props;
+        const { onCancel } = this.props;
 
         return (
             <div className="post-kweet">
                 <textarea className="post-kweet__value"
                           placeholder="What's happening?"
                           value={text}
-                          onChange={this.onTextChange}
+                          onChange={this.onValueChange}
                           autoFocus="true"
                           spellCheck="false">
                 </textarea>
@@ -30,7 +30,7 @@ class PostKweet extends Component {
                             disabled={charactersLeft === 140}>Confirm
                     </button>
                     <button className="post-kweet__controls--cancel"
-                            onClick={onKweetPostCancel}>Cancel
+                            onClick={onCancel}>Cancel
                     </button>
                     {charactersLeft === 0 && <span className="post-kweet__controls__warning">
                         Maximum reached, first 140 characters will be posted.
@@ -46,7 +46,7 @@ class PostKweet extends Component {
         this.props.onKweetPost(value.slice(0, 140));
     };
 
-    onTextChange = (e) => {
+    onValueChange = (e) => {
         const { value } = e.target;
         const charactersLeft = 140 - parseFloat(value.length);
 

@@ -7,23 +7,30 @@ import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { editSelectedUser, logout, postKweet, setKweetsOfUser, setSelectedUser } from '../../actions/index';
+import {
+    editSelectedUser,
+    emptyFoundKweets,
+    likeKweet,
+    logout,
+    postKweet,
+    searchKweets,
+    setKweetsOfUser,
+    setSelectedUser
+} from '../../actions/index';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-
-        this.state = { suggestions: [] };
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         const { username, kweetsType } = this.props.match.params;
 
         this.props.onSetSelectedUser(username)
             .then(() => this.props.onSetKweetsOfUser(username, kweetsType));
     }
 
-    async componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (this.props.match.params.kweetsType === nextProps.match.params.kweetsType) return;
 
         const { username, kweetsType } = nextProps.match.params;
@@ -52,7 +59,6 @@ class Profile extends Component {
             '#vue'
         ];
 
-        const { suggestions } = this.state;
         const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, userNotFound } = this.props;
 
         if (userNotFound) {
@@ -71,16 +77,16 @@ class Profile extends Component {
         return (
             <div className="profile">
                 <Navigation className="profile__nav"
-                            onSearch={this.onSearchKweets}
-                            kweetSuggestions={suggestions}
-                            onSearchCancel={() => this.setState({ suggestions: [] })}
+                            onSearch={this.props.onSearchKweets}
+                            kweetSuggestions={this.props.kweetsFound}
+                            onSearchCancel={this.props.onEmptyFoundKweets}
                             userLoggedIn={userLoggedIn}
                             onLogout={this.props.onLogout}/>
                 {profileDetails}
                 <Kweets className="profile__kweets"
                         kweets={this.props.kweets}
                         onKweetPost={text => this.props.onPostKweet(text, userLoggedIn)}
-                        onKweetLike={this.onKweetLike}
+                        onKweetLike={kweet => this.props.onLikeKweet(kweet.id, userLoggedIn.id)}
                         authenticated={isAuthenticated}/>
                 <ProfileActivity className="profile__profile-activity"
                                  following={users.concat(users.concat(users))}
@@ -89,19 +95,6 @@ class Profile extends Component {
             </div>
         );
     }
-
-    onSearchKweets = (value) => {
-        if (!value) return;
-
-        const query = value.toLowerCase();
-        // TODO: make api call to /search
-        const suggestions = this.state.kweets.filter(kweet => kweet.text.toLowerCase().includes(query));
-        this.setState(state => ({ suggestions }));
-    };
-
-    onKweetLike = (kweet) => {
-        console.log('like', kweet);
-    };
 
     // TODO: change username to id
     onFollowChange = (type, username) => {
@@ -127,6 +120,9 @@ const mapDispatchToProps = (dispatch) => ({
     onEditSelectedUser: (userame, user) => dispatch(editSelectedUser(userame, user)),
     onSetKweetsOfUser: (username, kweetsType) => dispatch(setKweetsOfUser(username, kweetsType)),
     onPostKweet: (text, user) => dispatch(postKweet(text, user)),
+    onSearchKweets: (text) => dispatch(searchKweets(text)),
+    onEmptyFoundKweets: () => dispatch(emptyFoundKweets()),
+    onLikeKweet: (kweetId, userId) => dispatch(likeKweet(kweetId, userId)),
     onLogout: () => dispatch(logout())
 });
 

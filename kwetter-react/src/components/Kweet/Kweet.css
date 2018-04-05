@@ -16,6 +16,8 @@
 
 .kweet__profile-picture img {
     max-width: 80px;
+    height: 80px;
+    object-fit: cover;
     border-radius: 50%;
 }
 
@@ -52,6 +54,7 @@
     cursor: pointer;
 }
 
+.feather-heart.liked,
 .feather-heart:hover {
     fill: var(--color-primary);
 }

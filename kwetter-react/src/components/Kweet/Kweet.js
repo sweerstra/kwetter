@@ -3,7 +3,7 @@ import './Kweet.css';
 import icons from '../../icons';
 import { Link } from 'react-router-dom';
 
-const Kweet = ({ user: { username, profilePicture }, text, date, likes, onLike }) => (
+const Kweet = ({ user: { username, profilePicture }, text, date, likes = 0, liked, onLike }) => (
     <div className="kweet">
         <div className="kweet__profile-picture">
             <img src={profilePicture}/>
@@ -17,8 +17,8 @@ const Kweet = ({ user: { username, profilePicture }, text, date, likes, onLike }
                 {transformText(text)}
             </div>
             <div className="kweet__content__like">
-                <icons.heart onClick={onLike}/>
-                <span className="kweet__content__like-count">{likes && likes.toLocaleString()}</span>
+                <icons.heart onClick={onLike} liked={liked}/>
+                <span className="kweet__content__like-count">{likes.toLocaleString()}</span>
             </div>
         </div>
     </div>

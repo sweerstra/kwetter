@@ -24,6 +24,25 @@ export const postKweet = (text, { id, ...user }) => dispatch => {
         .then(kweet => dispatch({ type: types.POST_KWEET, kweet, user }));
 };
 
+export const likeKweet = (kweetId, userId) => dispatch => {
+    console.log('action', { kweetId, userId });
+    /*return Api.kweet.likeKweet(userId, kweetId)
+        .then(resp => dispatch({ type: types.LIKE_KWEET, resp }))
+        .catch(err => err);*/
+
+    dispatch({ type: types.LIKE_KWEET, id: kweetId });
+};
+
+export const searchKweets = (text) => dispatch => {
+    return Api.kweet.searchKweets(text)
+        .then(kweetsFound => dispatch({ type: types.SET_KWEETS_FOUND, kweetsFound }));
+};
+
+export const emptyFoundKweets = () => ({
+    type: types.SET_KWEETS_FOUND,
+    kweetsFound: []
+});
+
 export const authenticate = (username, password) => dispatch => {
     return Api.user.authenticate(username, password)
         .then(user => {
