@@ -1,18 +1,14 @@
 import React from 'react';
 import './Trends.css';
 
-const Trends = ({ children }) => (
+const Trends = ({ children, trends }) => (
     <ul className="trends">
         {children}
-        <li className="trend">
-            <a href="#">#react</a>
-        </li>
-        <li className="trend">
-            <a href="#">#node</a>
-        </li>
-        <li className="trend">
-            <a href="#">#vue</a>
-        </li>
+        {trends.map((trend, index) =>
+            <li className="trend" key={index}>
+                <a href="#">{trend}</a>
+            </li>
+        )}
     </ul>
 );
 

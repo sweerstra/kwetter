@@ -12,6 +12,26 @@ export const editSelectedUser = (username, user) => dispatch => {
         .then(() => dispatch({ type: types.EDIT_USER, user }));
 };
 
+export const setFollowing = (id, selectedUserId) => dispatch => {
+    return Api.user.getFollowing(id)
+        .then(following => {
+            dispatch({ type: types.SET_FOLLOWING, following });
+
+            if (selectedUserId) {
+                const isFollowing = following.some(user => user.id === selectedUserId);
+                dispatch({ type: types.SET_FOLLOW_STATE, isFollowing });
+            }
+        });
+};
+
+export const followUser = (followState, userId, followId) => dispatch => {
+    return Api.user[followState](userId, followId)
+        .then(({ response }) => {
+            response = followState === 'follow' ? response : !response;
+            dispatch({ type: types.SET_FOLLOW_STATE, isFollowing: response });
+        });
+};
+
 export const setKweetsOfUser = (username, kweetsType) => dispatch => {
     (kweetsType === 'kweets'
         ? Api.kweet.getKweets(username)
@@ -42,6 +62,11 @@ export const emptyFoundKweets = () => ({
     type: types.SET_KWEETS_FOUND,
     kweetsFound: []
 });
+
+export const setTrends = (trends) => dispatch => {
+    Api.kweet.getCurrentTrends()
+        .then(trends => dispatch({ type: types.SET_TRENDS, trends }));
+};
 
 export const authenticate = (username, password) => dispatch => {
     return Api.user.authenticate(username, password)

@@ -19,7 +19,7 @@
     grid-area: kweets;
 }
 
-.profile__profile-activity {
+.profile__activity {
     grid-area: activity;
     border-left: 1px solid var(--color-primary);
 }

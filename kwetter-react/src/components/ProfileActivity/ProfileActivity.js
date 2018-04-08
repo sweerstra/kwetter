@@ -1,19 +1,15 @@
 import React from 'react';
 import './ProfileActivity.css';
 import Users from '../Users/Users';
-import Trends from '../Trends/Trends';
 
-const ProfileActivity = ({ className, following, followers, trends }) => (
+const ProfileActivity = ({ className, following, followers }) => (
     <div className={`${className} profile-activity`}>
-        <Users users={following} wrap={true}>
+        {following.length > 0 && <Users users={following} wrap={false}>
             <h2 className="profile-activity__heading">Following</h2>
-        </Users>
-        <Users users={followers}>
+        </Users>}
+        {followers.length > 0 && <Users users={followers}>
             <h2 className="profile-activity__heading">Followers</h2>
-        </Users>
-        <Trends trends={trends}>
-            <h2 className="profile-activity__heading">Trending</h2>
-        </Trends>
+        </Users>}
     </div>
 );
 

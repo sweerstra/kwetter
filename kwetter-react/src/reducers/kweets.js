@@ -1,6 +1,6 @@
-import { LIKE_KWEET, POST_KWEET, SET_KWEETS, SET_KWEETS_FOUND } from '../constants/ActionTypes';
+import { LIKE_KWEET, POST_KWEET, SET_KWEETS, SET_KWEETS_FOUND, SET_TRENDS } from '../constants/ActionTypes';
 
-const kweets = (state = { kweets: [], kweetsFound: [] }, action) => {
+const kweets = (state = { kweets: [], kweetsFound: [], trends: [] }, action) => {
     switch (action.type) {
         case SET_KWEETS:
             return { ...state, kweets: action.kweets };
@@ -22,6 +22,9 @@ const kweets = (state = { kweets: [], kweetsFound: [] }, action) => {
 
         case SET_KWEETS_FOUND:
             return { ...state, kweetsFound: action.kweetsFound };
+
+        case SET_TRENDS:
+            return { ...state, trends: action.trends };
 
         default:
             return state;

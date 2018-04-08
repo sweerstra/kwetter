@@ -10,13 +10,17 @@ import { connect } from 'react-redux';
 import {
     editSelectedUser,
     emptyFoundKweets,
+    followUser,
     likeKweet,
     logout,
     postKweet,
     searchKweets,
+    setFollowing,
     setKweetsOfUser,
-    setSelectedUser
+    setSelectedUser,
+    setTrends
 } from '../../actions/index';
+import Trends from "../../components/Trends/Trends";
 
 class Profile extends Component {
     constructor(props) {
@@ -24,10 +28,19 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        const { username, kweetsType } = this.props.match.params;
+        const { isAuthenticated, userLoggedIn, match } = this.props;
+        const { username, kweetsType } = match.params;
 
         this.props.onSetSelectedUser(username)
+            .then(({ user }) => {
+                if (isAuthenticated) {
+                    const selectedUserId = userLoggedIn.username !== user.username ? user.id : undefined;
+                    this.props.onSetFollowing(this.props.userLoggedIn.id, selectedUserId);
+                }
+            })
             .then(() => this.props.onSetKweetsOfUser(username, kweetsType));
+
+        this.props.onSetTrends();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,28 +51,7 @@ class Profile extends Component {
     }
 
     render() {
-        const users = [
-            {
-                profilePicture: 'https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_bigger.png',
-                username: 'react.js'
-            },
-            {
-                profilePicture: 'https://pbs.twimg.com/profile_images/702185727262482432/n1JRsFeB_bigger.png',
-                username: 'node.js'
-            },
-            {
-                profilePicture: 'https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_bigger.jpg',
-                username: 'vue.js'
-            }
-        ];
-
-        const trends = [
-            '#react',
-            '#node',
-            '#vue'
-        ];
-
-        const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, userNotFound } = this.props;
+        const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, isFollowing, userNotFound } = this.props;
 
         if (userNotFound) {
             return <Redirect to="/404"/>
@@ -71,8 +63,8 @@ class Profile extends Component {
                                       onEdit={user => this.props.onEditSelectedUser(userLoggedIn.username, user)}/>
             : <ProfileDetails className="profile__profile-details"
                               profile={selectedUser}
-                              followed={false}
-                              onFollowChange={this.onFollowChange}/>;
+                              isFollowing={isFollowing}
+                              onFollowChange={(type, followId) => this.props.onFollowUser(type, userLoggedIn.id, followId)}/>;
 
         return (
             <div className="profile">
@@ -87,19 +79,21 @@ class Profile extends Component {
                         kweets={this.props.kweets}
                         onKweetPost={text => this.props.onPostKweet(text, userLoggedIn)}
                         onKweetLike={kweet => this.props.onLikeKweet(kweet.id, userLoggedIn.id)}
-                        authenticated={isAuthenticated}/>
-                <ProfileActivity className="profile__profile-activity"
-                                 following={users.concat(users.concat(users))}
-                                 followers={users.reverse()}
-                                 trends={trends}/>
+                        authenticated={isAuthenticated}
+                        kweetsType={this.props.match.params.kweetsType}/>
+
+                <div className="profile__activity">
+                    {isAuthenticated && <ProfileActivity className="profile__profile-activity"
+                                                         following={this.props.following}
+                                                         followers={[]}/>}
+
+                    <Trends trends={this.props.trends}>
+                        <h2 className="profile-activity__heading">Trending</h2>
+                    </Trends>
+                </div>
             </div>
         );
     }
-
-    // TODO: change username to id
-    onFollowChange = (type, username) => {
-        console.log(type, username);
-    };
 }
 
 const mapStateToProps = ({ auth, user, kweets }) => {
@@ -119,10 +113,13 @@ const mapDispatchToProps = (dispatch) => ({
     onSetSelectedUser: (username) => dispatch(setSelectedUser(username)),
     onEditSelectedUser: (userame, user) => dispatch(editSelectedUser(userame, user)),
     onSetKweetsOfUser: (username, kweetsType) => dispatch(setKweetsOfUser(username, kweetsType)),
+    onSetFollowing: (userId, selectedUserId) => dispatch(setFollowing(userId, selectedUserId)),
+    onFollowUser: (followState, userId, followId) => dispatch(followUser(followState, userId, followId)),
     onPostKweet: (text, user) => dispatch(postKweet(text, user)),
     onSearchKweets: (text) => dispatch(searchKweets(text)),
     onEmptyFoundKweets: () => dispatch(emptyFoundKweets()),
     onLikeKweet: (kweetId, userId) => dispatch(likeKweet(kweetId, userId)),
+    onSetTrends: (trends) => dispatch(setTrends(trends)),
     onLogout: () => dispatch(logout())
 });
 

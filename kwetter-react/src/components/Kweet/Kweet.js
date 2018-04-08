@@ -26,7 +26,9 @@ const Kweet = ({ user: { username, profilePicture }, text, date, likes = 0, like
 
 const transformText = (text) => {
     return text.split(' ').map((word, index) => {
-        if (word.startsWith('#') || word.startsWith('@')) {
+        if (word.startsWith('@')) {
+            return <a href={`/profile/${word.slice(1)}/kweets`} key={index}>{word}</a>;
+        } else if (word.startsWith('#')) {
             return <a href={`/search/${word.slice(1)}`} key={index}>{word}</a>;
         } else {
             return ` ${word} `;

@@ -13,3 +13,9 @@
 .kweets__header a {
     margin-right: 40px;
 }
+
+.kweets__heading { color: var(--color-primary); }
+
+.kweets__heading.active { color: black; }
+
+.kweets__heading.active:hover { text-decoration: none; cursor: default; }

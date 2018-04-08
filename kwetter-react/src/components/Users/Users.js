@@ -8,12 +8,12 @@ const Users = ({ children, users, wrap }) => (
             {users.map(({ profilePicture, username }, index) =>
                 <li className="user" key={index}>
                     <div className="user__profile-picture">
-                        <a href="#">
+                        <a href={`/profile/${username}/kweets`}>
                             <img src={profilePicture}/>
                         </a>
                     </div>
                     {!wrap && <div className="user__username">
-                        <a href="#" className="h3">@{username}</a>
+                        <a href={`/profile/${username}/kweets`} className="h3">@{username}</a>
                     </div>}
                 </li>
             )}

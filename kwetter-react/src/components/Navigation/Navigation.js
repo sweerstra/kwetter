@@ -14,11 +14,13 @@ const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel, use
             <SearchBar onSearch={onSearch} suggestions={kweetSuggestions} onCancel={onSearchCancel}/>
         </div>
         {userLoggedIn ?
-            <div className="nav__logged-in">
-                <span>Logged in as <b>{userLoggedIn.username}</b></span>
+            <div>
+                <span className="nav__logged-in">
+                    Logged in as <Link to={`/profile/${userLoggedIn.username}`}>{userLoggedIn.username}</Link>
+                </span>
                 <Link to="/login" className="nav__login" onClick={onLogout}>Log out</Link>
             </div> :
-            <div className="nav__context-menu">
+            <div>
                 <a href="#">Registreer</a>
                 <Link to="/login" className="nav__login">Log in</Link>
             </div>}
