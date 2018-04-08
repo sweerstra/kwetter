@@ -158,6 +158,12 @@ public class KweetService implements Serializable {
         return likeResult;
     }
 
+    public List<Integer> getLikes(long id) {
+        if (userDao.findById(id) == null) return null;
+
+        return kweetDao.findLikeIds(id);
+    }
+
     /**
      * @param kweetId, of kweet to remove
      */

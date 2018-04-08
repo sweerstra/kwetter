@@ -55,8 +55,12 @@ public class Startup {
         user.setWebsite("user1.portfolio.nl");
         userService.editUser(user);
         moderator.setProfilePicture("https://cdn4.iconfinder.com/data/icons/business-and-marketing/500/Account_avatar_big_boss_business_businessman_client_boss_chef_consultant_man_user_support-512.png");
+        moderator.setBio("The Kwetter moderator, call me mod");
+        moderator.setLocation("Moderator House");
         userService.editUser(moderator);
         admin.setProfilePicture("https://cdn4.iconfinder.com/data/icons/people-std-pack/512/boss-512.png");
+        admin.setBio("Kwetter CEO");
+        admin.setLocation("Kwetter House");
         userService.editUser(admin);
 
         userService.followUser(1, 2);

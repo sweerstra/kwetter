@@ -34,13 +34,13 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     }
 
     public List<Kweet> findByUser(long id) {
-        return em.createQuery("SELECT k from Kweet k WHERE k.user.id = :id")
+        return em.createQuery("SELECT k from Kweet k WHERE k.user.id = :id ORDER BY k.date DESC")
                 .setParameter("id", id)
                 .getResultList();
     }
 
     public List<Kweet> findForUser(User entity) {
-        return em.createQuery("SELECT k from Kweet k WHERE k.user.id = :id OR :id in elements(k.user.followers) ORDER BY k.date")
+        return em.createQuery("SELECT k from Kweet k WHERE k.user.id = :id OR :id in elements(k.user.followers) ORDER BY k.date DESC")
                 .setParameter("id", entity.getId())
                 .getResultList();
     }
@@ -60,6 +60,12 @@ public class KweetDaoJPA extends DaoFacade<Kweet> implements IKweetDao {
     public List<Kweet> findByMention(String mention) {
         return em.createQuery("SELECT k from Kweet k WHERE :mention in elements(k.mentions)")
                 .setParameter("mention", mention)
+                .getResultList();
+    }
+
+    public List<Integer> findLikeIds(long id) {
+        return em.createQuery("SELECT k.id from Kweet k, User u WHERE u.id = :id AND k.id in elements(u.liked)")
+                .setParameter("id", id)
                 .getResultList();
     }
 }

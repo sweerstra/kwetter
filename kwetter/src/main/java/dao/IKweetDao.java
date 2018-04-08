@@ -20,6 +20,8 @@ public interface IKweetDao {
 
     List<Kweet> findByMention(String mention);
 
+    List<Integer> findLikeIds(long id);
+
     List<Kweet> findAll();
 
     Kweet create(Kweet entity);

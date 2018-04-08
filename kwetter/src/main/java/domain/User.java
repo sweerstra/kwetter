@@ -54,6 +54,7 @@ public class User implements Serializable {
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private Set<Kweet> liked = new HashSet<>();
 
     public User(String username, String password) {
@@ -76,6 +77,8 @@ public class User implements Serializable {
     }
 
     public boolean addLike(Kweet kweet) {
+
+
         return liked.add(kweet);
     }
 
@@ -234,6 +237,7 @@ public class User implements Serializable {
         this.setKweets(new ArrayList<>());
         this.setFollowers(new ArrayList<>());
         this.setFollowing(new ArrayList<>());
+        this.setLiked(new HashSet<>());
         this.setGroups(new ArrayList<>());
         return this;
     }

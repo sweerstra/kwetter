@@ -63,6 +63,11 @@ public class KweetDaoColl implements IKweetDao {
         return null;
     }
 
+    @Override
+    public List<Integer> findLikeIds(long id) {
+        return null;
+    }
+
     public List<Kweet> findByUser(long id) {
         return kweets.stream()
                 .filter(kweet -> kweet.getUser().getId() == id)

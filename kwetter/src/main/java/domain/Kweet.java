@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,5 +107,10 @@ public class Kweet implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof Kweet) && ((Kweet) obj).getId() == this.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text);
     }
 }

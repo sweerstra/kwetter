@@ -80,7 +80,7 @@ public class KweetRestIT {
     @Test
     public void getKweetsOfValidUserShouldReturnArrayAndOk() {
         given()
-                .when().get("/kwetter/api/kweet/user/1")
+                .when().get("/kwetter/api/kweet/user/user1")
                 .then().statusCode(OK)
                 .body("$", not(hasSize(0)));
     }
@@ -135,7 +135,7 @@ public class KweetRestIT {
     @Test
     public void getTimelineShouldReturnArrayAndOk() {
         given()
-                .when().get("/kwetter/api/kweet/user/1")
+                .when().get("/kwetter/api/kweet/user/user1")
                 .then().statusCode(OK)
                 .body("$", not(hasSize(0)));
     }

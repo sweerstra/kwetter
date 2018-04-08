@@ -12,7 +12,6 @@ import java.io.IOException;
 @Provider
 @Priority(Priorities.HEADER_DECORATOR)
 public class AccessControlResponseFilter implements ContainerResponseFilter {
-
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         final MultivaluedMap<String, Object> headers = responseContext.getHeaders();

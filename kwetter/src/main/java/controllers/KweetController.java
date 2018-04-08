@@ -112,6 +112,18 @@ public class KweetController {
         return Response.ok(new ResponseBody(result, null)).build();
     }
 
+    @GET
+    @Path("/likes/{userId}")
+    public Response getLikes(@PathParam("userId") long userId) {
+        List<Integer> likes = service.getLikes(userId);
+
+        if (likes == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(likes).build();
+    }
+
     @DELETE
     @Path("/{id}")
     public Response deleteKweet(@PathParam("id") long id) {
