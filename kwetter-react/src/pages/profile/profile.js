@@ -15,6 +15,7 @@ import {
     logout,
     postKweet,
     searchKweets,
+    setFollowers,
     setFollowing,
     setKweetsOfUser,
     setSelectedUser,
@@ -35,7 +36,8 @@ class Profile extends Component {
             .then(({ user }) => {
                 if (isAuthenticated) {
                     const selectedUserId = userLoggedIn.username !== user.username ? user.id : undefined;
-                    this.props.onSetFollowing(this.props.userLoggedIn.id, selectedUserId);
+                    this.props.onSetFollowing(userLoggedIn.id, selectedUserId);
+                    this.props.onSetFollowers(userLoggedIn.id);
                 }
             })
             .then(() => this.props.onSetKweetsOfUser(username, kweetsType));
@@ -85,7 +87,7 @@ class Profile extends Component {
                 <div className="profile__activity">
                     {isAuthenticated && <ProfileActivity className="profile__profile-activity"
                                                          following={this.props.following}
-                                                         followers={[]}/>}
+                                                         followers={this.props.followers}/>}
 
                     <Trends trends={this.props.trends}>
                         <h2 className="profile-activity__heading">Trending</h2>
@@ -114,6 +116,7 @@ const mapDispatchToProps = (dispatch) => ({
     onEditSelectedUser: (userame, user) => dispatch(editSelectedUser(userame, user)),
     onSetKweetsOfUser: (username, kweetsType) => dispatch(setKweetsOfUser(username, kweetsType)),
     onSetFollowing: (userId, selectedUserId) => dispatch(setFollowing(userId, selectedUserId)),
+    onSetFollowers: (userId) => dispatch(setFollowers(userId)),
     onFollowUser: (followState, userId, followId) => dispatch(followUser(followState, userId, followId)),
     onPostKweet: (text, user) => dispatch(postKweet(text, user)),
     onSearchKweets: (text) => dispatch(searchKweets(text)),

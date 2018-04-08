@@ -24,6 +24,11 @@ export const setFollowing = (id, selectedUserId) => dispatch => {
         });
 };
 
+export const setFollowers = (id) => dispatch => {
+    return Api.user.getFollowers(id)
+        .then(followers => dispatch({ type: types.SET_FOLLOWERS, followers }));
+};
+
 export const followUser = (followState, userId, followId) => dispatch => {
     return Api.user[followState](userId, followId)
         .then(({ response }) => {
