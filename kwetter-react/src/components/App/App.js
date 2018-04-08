@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Login from '../../pages/login/login';
-import Profile from '../../pages/profile/profile';
+import Login from '../../pages/Login/Login';
+import Profile from '../../pages/Profile/Profile';
+import NotFound from '../../pages/NotFound/NotFound';
 
 class App extends Component {
     render() {
@@ -11,9 +12,7 @@ class App extends Component {
                 <Switch>
                     <Route path="/login" component={Login}/>
                     <Route path="/profile/:username/:kweetsType" component={Profile}/>
-                    <Route path="/404" render={() =>
-                        <div>Not Found</div>
-                    }/>
+                    <Route path="/not-found" component={NotFound}/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>

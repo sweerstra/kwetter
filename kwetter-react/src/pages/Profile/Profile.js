@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './profile.css';
+import './Profile.css';
 import Navigation from '../../components/Navigation/Navigation';
 import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
 import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
@@ -8,6 +8,7 @@ import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
+    checkUserLikes,
     editSelectedUser,
     emptyFoundKweets,
     followUser,
@@ -33,14 +34,21 @@ class Profile extends Component {
         const { username, kweetsType } = match.params;
 
         this.props.onSetSelectedUser(username)
-            .then(({ user }) => {
+            .then(user => {
                 if (isAuthenticated) {
                     const selectedUserId = userLoggedIn.username !== user.username ? user.id : undefined;
                     this.props.onSetFollowing(userLoggedIn.id, selectedUserId);
                     this.props.onSetFollowers(userLoggedIn.id);
                 }
+
+                this.props.onSetKweetsOfUser(username, kweetsType)
+                    .then(() => {
+                        if (isAuthenticated) {
+                            this.props.onCheckUserLikes(userLoggedIn.id);
+                        }
+                    })
             })
-            .then(() => this.props.onSetKweetsOfUser(username, kweetsType));
+            .catch(err => err);
 
         this.props.onSetTrends();
     }
@@ -56,7 +64,7 @@ class Profile extends Component {
         const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, isFollowing, userNotFound } = this.props;
 
         if (userNotFound) {
-            return <Redirect to="/404"/>
+            return <Redirect to="/not-found"/>
         }
 
         const profileDetails = isAuthenticated && isOwnUser
@@ -123,6 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSearchKweets: (text) => dispatch(searchKweets(text)),
     onEmptyFoundKweets: () => dispatch(emptyFoundKweets()),
     onLikeKweet: (kweetId, userId) => dispatch(likeKweet(kweetId, userId)),
+    onCheckUserLikes: (userId) => dispatch(checkUserLikes(userId)),
     onSetTrends: (trends) => dispatch(setTrends(trends)),
     onLogout: () => dispatch(logout())
 });

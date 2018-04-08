@@ -2,9 +2,17 @@ import * as types from '../constants/ActionTypes';
 import Api from '../api';
 
 export const setSelectedUser = (username) => dispatch => {
-    return Api.user.getUser(username)
-        .then(user => dispatch({ type: types.SET_USER, user }))
-        .catch(() => dispatch({ type: types.NOT_FOUND }));
+    return new Promise((resolve, reject) => {
+        return Api.user.getUser(username)
+            .then(user => {
+                dispatch({ type: types.SET_USER, user });
+                resolve(user);
+            })
+            .catch(err => {
+                dispatch({ type: types.NOT_FOUND });
+                reject(err);
+            });
+    });
 };
 
 export const editSelectedUser = (username, user) => dispatch => {
@@ -44,7 +52,7 @@ export const setKweetsOfUser = (username, kweetsType) => dispatch => {
         ['mentions', 'getKweetsByMention']
     ]);
 
-    Api.kweet[kweetsMethods.get(kweetsType)](username)
+    return Api.kweet[kweetsMethods.get(kweetsType)](username)
         .then(kweets => dispatch({ type: types.SET_KWEETS, kweets }));
 };
 
@@ -54,12 +62,17 @@ export const postKweet = (text, { id, ...user }) => dispatch => {
 };
 
 export const likeKweet = (kweetId, userId) => dispatch => {
-    console.log('action', { kweetId, userId });
-    /*return Api.kweet.likeKweet(userId, kweetId)
-        .then(resp => dispatch({ type: types.LIKE_KWEET, resp }))
-        .catch(err => err);*/
+    return Api.kweet.likeKweet(userId, { id: kweetId })
+        .then(({ response }) => {
+            if (response) {
+                dispatch({ type: types.LIKE_KWEET, kweetId });
+            }
+        });
+};
 
-    dispatch({ type: types.LIKE_KWEET, id: kweetId });
+export const checkUserLikes = (userId) => dispatch => {
+    Api.kweet.getUserLikes(userId)
+        .then(likes => dispatch({ type: types.SET_LIKED_KWEETS, likes }));
 };
 
 export const searchKweets = (text) => dispatch => {
@@ -73,7 +86,7 @@ export const emptyFoundKweets = () => ({
 });
 
 export const setTrends = (trends) => dispatch => {
-    Api.kweet.getCurrentTrends()
+    return Api.kweet.getCurrentTrends()
         .then(trends => dispatch({ type: types.SET_TRENDS, trends }));
 };
 

@@ -1,4 +1,11 @@
-import { LIKE_KWEET, POST_KWEET, SET_KWEETS, SET_KWEETS_FOUND, SET_TRENDS } from '../constants/ActionTypes';
+import {
+    LIKE_KWEET,
+    POST_KWEET,
+    SET_KWEETS,
+    SET_KWEETS_FOUND,
+    SET_LIKED_KWEETS,
+    SET_TRENDS
+} from '../constants/ActionTypes';
 
 const kweets = (state = { kweets: [], kweetsFound: [], trends: [] }, action) => {
     switch (action.type) {
@@ -10,15 +17,28 @@ const kweets = (state = { kweets: [], kweetsFound: [], trends: [] }, action) => 
             return { ...state, kweets: [action.kweet, ...state.kweets] };
 
         case LIKE_KWEET:
-            const kweets = state.kweets.map(kweet => {
-                    if (kweet.id === action.id) {
-                        return { ...kweet, likes: 1 /* kweet.likes + 1 */, liked: true };
+            return {
+                ...state,
+                kweets: state.kweets.map(kweet => {
+                        if (kweet.id === action.kweetId) {
+                            return { ...kweet, likes: kweet.likes + 1, liked: true };
+                        }
+                        return kweet;
                     }
-                    return kweet;
-                }
-            );
+                )
+            };
 
-            return { ...state, kweets };
+        case SET_LIKED_KWEETS:
+            return {
+                ...state,
+                kweets: state.kweets.map(kweet => {
+                        if (action.likes.includes(kweet.id)) {
+                            return { ...kweet, liked: true };
+                        }
+                        return kweet;
+                    }
+                )
+            };
 
         case SET_KWEETS_FOUND:
             return { ...state, kweetsFound: action.kweetsFound };

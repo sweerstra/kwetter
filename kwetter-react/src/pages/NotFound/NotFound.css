@@ -1,0 +1,10 @@
+.not-found-404 {
+    margin-top: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.not-found-404__continue a {
+    color: var(--color-primary);
+}

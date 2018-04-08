@@ -21,6 +21,7 @@ export default {
         getCurrentTrends: () => Request.get(`${KWEET_API_URL}/trends`),
         getKweetsByTrend: (trend) => Request.get(`${KWEET_API_URL}/trend/${trend}`),
         getKweetsByMention: (mention) => Request.get(`${KWEET_API_URL}/mention/${mention}`),
-        likeKweet: (userId, kweet) => Request.post(`${KWEET_API_URL}/like/${userId}`, kweet)
+        likeKweet: (userId, kweet) => Request.post(`${KWEET_API_URL}/like/${userId}`, kweet),
+        getUserLikes: (userId) => Request.get(`${KWEET_API_URL}/likes/${userId}`)
     }
 };

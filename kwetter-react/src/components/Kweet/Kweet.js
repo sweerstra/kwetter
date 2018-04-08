@@ -2,7 +2,7 @@ import React from 'react';
 import './Kweet.css';
 import icons from '../../icons';
 
-const Kweet = ({ user: { username, profilePicture }, text, date, likes = 0, liked, onLike }) => (
+const Kweet = ({ user: { username, profilePicture }, text, date, likes, liked, onLike }) => (
     <div className="kweet">
         <div className="kweet__profile-picture">
             <img src={profilePicture}/>
