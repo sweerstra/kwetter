@@ -29,6 +29,8 @@ public class Kweet implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date date;
 
+    private int likes;
+
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> hashtags = new ArrayList<>();
@@ -41,6 +43,7 @@ public class Kweet implements Serializable {
         this.text = text;
         this.user = user;
         this.date = new Timestamp(System.currentTimeMillis());
+        this.likes = 0;
         this.setHashtags();
         this.setMentions();
     }
@@ -102,6 +105,18 @@ public class Kweet implements Serializable {
 
     public void setMentions() {
         this.mentions = getListOfMatchedText("(@\\w+)");
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void incrementLike() {
+        this.likes += 1;
     }
 
     @Override

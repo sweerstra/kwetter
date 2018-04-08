@@ -149,7 +149,13 @@ public class KweetService implements Serializable {
         User user = userDao.findById(userId);
         if (user == null) return false;
 
-        boolean likeResult = user.addLike(kweet);
+        Kweet originalKweet = kweetDao.findById(kweet.getId());
+        if (originalKweet == null) return false;
+
+        originalKweet.incrementLike();
+        Kweet updatedKweet = kweetDao.update(originalKweet);
+
+        boolean likeResult = user.addLike(updatedKweet);
 
         if (likeResult) {
             userDao.update(user);
