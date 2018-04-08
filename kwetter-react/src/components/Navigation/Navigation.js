@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel, userLoggedIn, onLogout }) => (
     <nav className={`${className} light`}>
         <div className="nav__brand h1">
-            <img src={logo}/>
+            <a href={`/profile/${userLoggedIn.username}`}>
+                <img src={logo}/>
+            </a>
             Kwetter
         </div>
         <div className="nav__search">

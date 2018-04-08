@@ -38,9 +38,13 @@ export const followUser = (followState, userId, followId) => dispatch => {
 };
 
 export const setKweetsOfUser = (username, kweetsType) => dispatch => {
-    (kweetsType === 'kweets'
-        ? Api.kweet.getKweets(username)
-        : Api.kweet.getTimeline(username))
+    const kweetsMethods = new Map([
+        ['kweets', 'getKweets'],
+        ['timeline', 'getTimeline'],
+        ['mentions', 'getKweetsByMention']
+    ]);
+
+    Api.kweet[kweetsMethods.get(kweetsType)](username)
         .then(kweets => dispatch({ type: types.SET_KWEETS, kweets }));
 };
 

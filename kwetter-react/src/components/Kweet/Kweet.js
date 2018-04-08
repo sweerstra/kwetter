@@ -1,7 +1,6 @@
 import React from 'react';
 import './Kweet.css';
 import icons from '../../icons';
-import { Link } from 'react-router-dom';
 
 const Kweet = ({ user: { username, profilePicture }, text, date, likes = 0, liked, onLike }) => (
     <div className="kweet">
@@ -10,7 +9,7 @@ const Kweet = ({ user: { username, profilePicture }, text, date, likes = 0, like
         </div>
         <div className="kweet__content">
             <div className="kweet__content__details">
-                <Link to={`/profile/${username}`}>@{username}</Link>
+                <a href={`/profile/${username}/kweets`}>@{username}</a>
                 <span className="date">{new Date(date).toLocaleDateString()}</span>
             </div>
             <div className="kweet__content__text">

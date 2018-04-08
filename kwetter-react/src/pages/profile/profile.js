@@ -82,6 +82,7 @@ class Profile extends Component {
                         onKweetPost={text => this.props.onPostKweet(text, userLoggedIn)}
                         onKweetLike={kweet => this.props.onLikeKweet(kweet.id, userLoggedIn.id)}
                         authenticated={isAuthenticated}
+                        isOwnUser={isOwnUser}
                         kweetsType={this.props.match.params.kweetsType}/>
 
                 <div className="profile__activity">
