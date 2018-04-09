@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './SearchBar.css';
 import icons from '../../icons/index';
 import enhanceWithClickOutside from 'react-click-outside';
-import { debounce } from '../../utils/debounce';
+import { debounce, transformText } from '../../utils';
 
 class SearchBar extends Component {
     constructor(props) {
@@ -36,7 +36,7 @@ class SearchBar extends Component {
                 {suggestions.length > 0 && <ul className="search-bar__list">
                     {suggestions.map((kweet, index) =>
                         <li className="search-bar__list__item" key={index}>
-                            {kweet.text}
+                            {transformText(kweet.text)}
                         </li>
                     )}
                 </ul>}

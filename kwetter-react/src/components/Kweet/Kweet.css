@@ -37,6 +37,7 @@
 
 .kweet__content__text {
     margin: 10px 0;
+    white-space: pre-line;
 }
 
 .kweet__content__text a {

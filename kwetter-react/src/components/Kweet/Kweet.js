@@ -1,6 +1,7 @@
 import React from 'react';
 import './Kweet.css';
 import icons from '../../icons';
+import { transformText } from '../../utils';
 
 const Kweet = ({ user: { username, profilePicture }, text, date, likes, liked, onLike }) => (
     <div className="kweet">
@@ -22,17 +23,5 @@ const Kweet = ({ user: { username, profilePicture }, text, date, likes, liked, o
         </div>
     </div>
 );
-
-const transformText = (text) => {
-    return text.split(' ').map((word, index) => {
-        if (word.startsWith('@')) {
-            return <a href={`/profile/${word.slice(1)}/kweets`} key={index}>{word}</a>;
-        } else if (word.startsWith('#')) {
-            return <a href={`/search/${word.slice(1)}`} key={index}>{word}</a>;
-        } else {
-            return ` ${word} `;
-        }
-    });
-};
 
 export default Kweet;

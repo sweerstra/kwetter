@@ -23,3 +23,8 @@
     background-color: var(--color-primary-light);
     cursor: pointer;
 }
+
+.search-bar a,
+.search-bar a:hover {
+    color: var(--color-primary);
+}
