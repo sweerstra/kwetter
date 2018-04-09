@@ -1,5 +1,6 @@
 .login {
-    --color-tint: var(--color-primary);
+    background-color: var(--color-primary);
+    --color-tint: white;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -17,3 +18,13 @@
 }
 
 .login__content h1 { margin-top: 0; color: var(--color-tint); }
+
+.login__content__button {
+    color: var(--color-tint);
+    border-color: var(--color-tint);
+}
+
+.login__content__button:hover {
+    color: var(--color-primary);
+    background-color: var(--color-tint);
+}

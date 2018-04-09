@@ -1,0 +1,51 @@
+.register {
+    --color-tint: var(--color-primary);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register__content {
+    margin-bottom: 100px;
+    padding: 40px 200px;
+    border: 2px solid var(--color-tint);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.register__content h1 { margin-top: 0; color: var(--color-tint); }
+
+.register__content input {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.input-with-icon {
+    display: flex;
+    align-items: center;
+}
+
+.register__content__login-check {
+    color: var(--color-tint);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register__content__button {
+    margin-top: 10px;
+}
+
+.feather-check {
+    position: relative;
+    right: 30px;
+    stroke: var(--color-success);
+}
+
+.feather-x {
+    position: relative;
+    right: 30px;
+    stroke: var(--color-danger);
+}

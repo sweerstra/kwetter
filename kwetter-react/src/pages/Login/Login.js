@@ -16,7 +16,7 @@ class Login extends Component {
             <div className="login">
                 <div className="login__content">
                     <h1>Kwetter Login</h1>
-                    <form name="formpje" onSubmit={this.onLogin}>
+                    <form onSubmit={this.onLogin}>
                         <input type="text"
                                name="username"
                                placeholder="Username"
@@ -25,7 +25,7 @@ class Login extends Component {
                                name="password"
                                placeholder="Password"
                                spellCheck="false" autoCapitalize="none"/>
-                        <button className="btn">
+                        <button className="login__content__button btn">
                             Login
                         </button>
                     </form>

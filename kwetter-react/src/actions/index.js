@@ -56,6 +56,10 @@ export const setKweetsOfUser = (username, kweetsType) => dispatch => {
         .then(kweets => dispatch({ type: types.SET_KWEETS, kweets }));
 };
 
+export const getUser = (username) => {
+    return Api.user.getUser(username);
+};
+
 export const postKweet = (text, { id, ...user }) => dispatch => {
     return Api.kweet.postKweet(text, id)
         .then(kweet => dispatch({ type: types.POST_KWEET, kweet, user }));
@@ -101,6 +105,15 @@ export const authenticate = (username, password) => dispatch => {
         .catch(err => {
             console.log(err);
             return false;
+        });
+};
+
+export const register = (username, password, shouldLogin) => dispatch => {
+    return Api.user.register(username, password)
+        .then(() => {
+            if (shouldLogin) {
+                dispatch(authenticate(username, password));
+            }
         });
 };
 
