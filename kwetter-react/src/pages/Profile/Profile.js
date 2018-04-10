@@ -5,6 +5,7 @@ import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
 import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
 import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
+import PostKweet from '../../components/PostKweet/PostKweet';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -27,6 +28,8 @@ import Trends from "../../components/Trends/Trends";
 class Profile extends Component {
     constructor(props) {
         super(props);
+
+        this.state = { postKweetOpen: false };
     }
 
     componentDidMount() {
@@ -61,7 +64,9 @@ class Profile extends Component {
     }
 
     render() {
-        const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, isFollowing, userNotFound } = this.props;
+        const { postKweetOpen } = this.state;
+        const { selectedUser, isOwnUser, isAuthenticated, userLoggedIn, isFollowing, userNotFound, match } = this.props;
+        const isActive = (type) => match.params.kweetsType === type ? 'active' : '';
 
         if (userNotFound) {
             return <Redirect to="/not-found"/>
@@ -85,13 +90,24 @@ class Profile extends Component {
                             userLoggedIn={userLoggedIn}
                             onLogout={this.props.onLogout}/>
                 {profileDetails}
-                <Kweets className="profile__kweets"
-                        kweets={this.props.kweets}
-                        onKweetPost={text => this.props.onPostKweet(text, userLoggedIn)}
-                        onKweetLike={kweet => this.props.onLikeKweet(kweet.id, userLoggedIn.id)}
-                        authenticated={isAuthenticated}
-                        isOwnUser={isOwnUser}
-                        kweetsType={this.props.match.params.kweetsType}/>
+
+                <div className="profile__kweets">
+                    {isAuthenticated && <div className="kweets__header">
+                        <a href="kweets" className={`h2 kweets__heading ${isActive('kweets')}`}>Kweets</a>
+                        <a href="timeline" className={`h2 kweets__heading ${isActive('timeline')}`}>Timeline</a>
+                        <a href="mentions" className={`h2 kweets__heading ${isActive('mentions')}`}>Mentions</a>
+                        {!postKweetOpen && isOwnUser && <button className="kweets__header__post-kweet btn"
+                                                                onClick={() => this.setPostKweet(true)}>Post
+                            Kweet</button>}
+                    </div>}
+
+                    {postKweetOpen && <PostKweet onKweetPost={text => this.onPostKweet(text, userLoggedIn)}
+                                                 onCancel={() => this.setPostKweet(false)}/>}
+
+                    <Kweets kweets={this.props.kweets}
+                            onKweetLike={kweet => this.props.onLikeKweet(kweet.id, userLoggedIn.id)}
+                            authenticated={isAuthenticated}/>
+                </div>
 
                 <div className="profile__activity">
                     {isAuthenticated && <ProfileActivity className="profile__profile-activity"
@@ -105,6 +121,13 @@ class Profile extends Component {
             </div>
         );
     }
+
+    onPostKweet = (text, user) => {
+        this.setPostKweet(false);
+        this.props.onPostKweet(text, user);
+    };
+
+    setPostKweet = (postKweetOpen) => this.setState({ postKweetOpen });
 }
 
 const mapStateToProps = ({ auth, user, kweets }) => {
