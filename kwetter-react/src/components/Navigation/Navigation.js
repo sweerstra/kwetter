@@ -23,7 +23,7 @@ const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel, use
                 <Link to="/login" className="nav__login" onClick={onLogout}>Log out</Link>
             </div> :
             <div>
-                <a href="#">Registreer</a>
+                <Link to="/register">Registreer</Link>
                 <Link to="/login" className="nav__login">Log in</Link>
             </div>}
     </nav>

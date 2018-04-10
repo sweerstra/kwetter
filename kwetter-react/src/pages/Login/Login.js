@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Login.css';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authenticate } from '../../actions';
 
@@ -25,6 +25,7 @@ class Login extends Component {
                                name="password"
                                placeholder="Password"
                                spellCheck="false" autoCapitalize="none"/>
+                        <p><Link to="/register" className="login__content__register-link">Or register?</Link></p>
                         <button className="login__content__button btn">
                             Login
                         </button>

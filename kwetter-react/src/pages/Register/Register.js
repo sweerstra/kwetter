@@ -99,7 +99,7 @@ class Register extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    onRegister: (username, password) => dispatch(register(username, password))
+    onRegister: (username, password, shouldLogin) => dispatch(register(username, password, shouldLogin))
 });
 
 export default connect(null, mapDispatchToProps)(Register);
