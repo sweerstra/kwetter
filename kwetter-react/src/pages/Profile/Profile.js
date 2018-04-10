@@ -3,9 +3,9 @@ import './Profile.css';
 import Navigation from '../../components/Navigation/Navigation';
 import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
 import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
-import Kweets from '../../components/Kweets/Kweets';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 import PostKweet from '../../components/PostKweet/PostKweet';
+import KweetsContainer from '../../containers/KweetsContainer';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -13,7 +13,6 @@ import {
     editSelectedUser,
     emptyFoundKweets,
     followUser,
-    likeKweet,
     logout,
     postKweet,
     searchKweets,
@@ -104,9 +103,7 @@ class Profile extends Component {
                     {postKweetOpen && <PostKweet onKweetPost={text => this.onPostKweet(text, userLoggedIn)}
                                                  onCancel={() => this.setPostKweet(false)}/>}
 
-                    <Kweets kweets={this.props.kweets}
-                            onKweetLike={kweet => this.props.onLikeKweet(kweet.id, userLoggedIn.id)}
-                            authenticated={isAuthenticated}/>
+                    <KweetsContainer kweets={this.props.kweets}/>
                 </div>
 
                 <div className="profile__activity">
@@ -153,7 +150,6 @@ const mapDispatchToProps = (dispatch) => ({
     onPostKweet: (text, user) => dispatch(postKweet(text, user)),
     onSearchKweets: (text) => dispatch(searchKweets(text)),
     onEmptyFoundKweets: () => dispatch(emptyFoundKweets()),
-    onLikeKweet: (kweetId, userId) => dispatch(likeKweet(kweetId, userId)),
     onCheckUserLikes: (userId) => dispatch(checkUserLikes(userId)),
     onSetTrends: (trends) => dispatch(setTrends(trends)),
     onLogout: () => dispatch(logout())
