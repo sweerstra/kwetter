@@ -1,9 +1,9 @@
 import React from 'react';
 import './Trends.css';
 
-const Trends = ({ children, trends }) => (
+const Trends = ({ trends }) => (
     <ul className="trends">
-        {children}
+        <h2 className="trends__heading">Trending</h2>
         {trends.map((trend, index) =>
             <li className="trend" key={index}>
                 <a href="#">{trend}</a>

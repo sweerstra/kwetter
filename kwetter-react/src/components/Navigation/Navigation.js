@@ -4,8 +4,8 @@ import logo from '../../images/kwetter-logo.png';
 import SearchBar from '../SearchBar/SearchBar';
 import { Link } from 'react-router-dom';
 
-const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel, userLoggedIn, onLogout }) => (
-    <nav className={`${className} light`}>
+const Navigation = ({ onSearch, kweetSuggestions, onSearchEnter, onSearchCancel, userLoggedIn, onLogout }) => (
+    <nav className="light">
         <div className="nav__brand h1">
             <a href={userLoggedIn ? `/profile/${userLoggedIn.username}` : '/login'}>
                 <img src={logo}/>
@@ -13,7 +13,10 @@ const Navigation = ({ className, onSearch, kweetSuggestions, onSearchCancel, use
             Kwetter
         </div>
         <div className="nav__search">
-            <SearchBar onSearch={onSearch} suggestions={kweetSuggestions} onCancel={onSearchCancel}/>
+            <SearchBar onSearch={onSearch}
+                       suggestions={kweetSuggestions}
+                       onEnter={onSearchEnter}
+                       onCancel={onSearchCancel}/>
         </div>
         {userLoggedIn ?
             <div>

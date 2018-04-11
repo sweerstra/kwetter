@@ -6,7 +6,7 @@
     grid-template-areas: "nav nav nav" "details kweets activity";
 }
 
-.profile__nav {
+.profile nav {
     grid-area: nav;
 }
 

@@ -10,9 +10,7 @@ class SearchBar extends Component {
     }
 
     componentDidMount() {
-        this.searchCallback = debounce(e => {
-            const { value } = e.target;
-
+        this.searchCallback = debounce(value => {
             if (value.length === 0) {
                 this.props.onCancel();
             } else {
@@ -29,6 +27,7 @@ class SearchBar extends Component {
                 <div className="nav__search">
                     <input type="text"
                            onChange={this.onSearchChange}
+                           onKeyDown={this.onSearchKeyDown}
                            onFocus={e => onSearch(e.target.value)}
                            placeholder="Search kweets..."/>
                     <icons.search/>
@@ -45,8 +44,16 @@ class SearchBar extends Component {
     }
 
     onSearchChange = (e) => {
+        const { value } = e.target;
         e.persist();
-        this.searchCallback(e);
+        this.setState({ value });
+        this.searchCallback(value);
+    };
+
+    onSearchKeyDown = ({ keyCode }) => {
+        if (keyCode === 13) {
+            this.props.onEnter(this.state.value);
+        }
     };
 
     handleClickOutside() {

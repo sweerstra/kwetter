@@ -1,4 +1,12 @@
 .search {
     display: grid;
     grid-template-columns: 3fr 7fr;
+    grid-template-rows: 80px 1fr;
+}
+
+.search nav {
+    grid-column: 1 / -1;
+}
+
+.search .kweets {
 }

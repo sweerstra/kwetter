@@ -19,7 +19,7 @@ class EditProfileDetail extends Component {
                      name={name}
                      placeholder={placeholder}
                      autoFocus="true"
-                     onKeyDown={this.onKeyPress}
+                     onKeyDown={this.onKeyDown}
                      onChange={this.onChange}/>
             : children;
 
@@ -37,7 +37,7 @@ class EditProfileDetail extends Component {
         this.setState({ isEditing: true });
     };
 
-    onKeyPress = ({ keyCode }) => {
+    onKeyDown = ({ keyCode }) => {
         const { value } = this.state;
         const { name } = this.props;
 

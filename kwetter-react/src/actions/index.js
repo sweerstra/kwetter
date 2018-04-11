@@ -79,15 +79,14 @@ export const checkUserLikes = (userId) => dispatch => {
         .then(likes => dispatch({ type: types.SET_LIKED_KWEETS, likes }));
 };
 
-export const searchKweets = (text) => dispatch => {
+export const searchKweets = (text) => {
+    return Api.kweet.searchKweets(text);
+};
+
+export const searchAndSetKweets = (text) => dispatch => {
     return Api.kweet.searchKweets(text)
         .then(kweetsFound => dispatch({ type: types.SET_KWEETS_FOUND, kweetsFound }));
 };
-
-export const emptyFoundKweets = () => ({
-    type: types.SET_KWEETS_FOUND,
-    kweetsFound: []
-});
 
 export const setTrends = (trends) => dispatch => {
     return Api.kweet.getCurrentTrends()

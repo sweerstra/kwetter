@@ -7,6 +7,8 @@ class KweetsContainer extends Component {
     render() {
         const { kweets, isAuthenticated, userLoggedIn, onLikeKweet } = this.props;
 
+        console.log('kweets inside', kweets);
+
         return (
             <Kweets
                 kweets={kweets}
@@ -20,10 +22,9 @@ class KweetsContainer extends Component {
     }
 }
 
-const mapStateToProps = ({ auth, kweets }) => {
+const mapStateToProps = ({ auth }) => {
     return ({
-        ...auth,
-        ...kweets
+        ...auth
     });
 };
 

@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import './Profile.css';
-import Navigation from '../../components/Navigation/Navigation';
 import ProfileDetails from '../../components/ProfileDetails/ProfileDetails';
 import ProfileDetailsEditable from '../../components/ProfileDetails/ProfileDetailsEditable';
 import ProfileActivity from '../../components/ProfileActivity/ProfileActivity';
 import PostKweet from '../../components/PostKweet/PostKweet';
+import NavigationContainer from '../../containers/NavigationContainer';
 import KweetsContainer from '../../containers/KweetsContainer';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     checkUserLikes,
     editSelectedUser,
-    emptyFoundKweets,
     followUser,
-    logout,
     postKweet,
-    searchKweets,
     setFollowers,
     setFollowing,
     setKweetsOfUser,
@@ -82,12 +79,9 @@ class Profile extends Component {
 
         return (
             <div className="profile">
-                <Navigation className="profile__nav"
-                            onSearch={this.props.onSearchKweets}
-                            kweetSuggestions={this.props.kweetsFound}
-                            onSearchCancel={this.props.onEmptyFoundKweets}
-                            userLoggedIn={userLoggedIn}
-                            onLogout={this.props.onLogout}/>
+                <NavigationContainer
+                    onSearchEnter={query => this.props.history.push(`/search/kweet/${query}`)}/>
+
                 {profileDetails}
 
                 <div className="profile__kweets">
@@ -95,9 +89,9 @@ class Profile extends Component {
                         <a href="kweets" className={`h2 kweets__heading ${isActive('kweets')}`}>Kweets</a>
                         <a href="timeline" className={`h2 kweets__heading ${isActive('timeline')}`}>Timeline</a>
                         <a href="mentions" className={`h2 kweets__heading ${isActive('mentions')}`}>Mentions</a>
-                        {!postKweetOpen && isOwnUser && <button className="kweets__header__post-kweet btn"
-                                                                onClick={() => this.setPostKweet(true)}>Post
-                            Kweet</button>}
+                        {!postKweetOpen && isOwnUser &&
+                        <button className="kweets__header__post-kweet btn"
+                                onClick={() => this.setPostKweet(true)}>Post Kweet</button>}
                     </div>}
 
                     {postKweetOpen && <PostKweet onKweetPost={text => this.onPostKweet(text, userLoggedIn)}
@@ -111,9 +105,7 @@ class Profile extends Component {
                                                          following={this.props.following}
                                                          followers={this.props.followers}/>}
 
-                    <Trends trends={this.props.trends}>
-                        <h2 className="profile-activity__heading">Trending</h2>
-                    </Trends>
+                    <Trends trends={this.props.trends}/>
                 </div>
             </div>
         );
@@ -148,11 +140,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetFollowers: (userId) => dispatch(setFollowers(userId)),
     onFollowUser: (followState, userId, followId) => dispatch(followUser(followState, userId, followId)),
     onPostKweet: (text, user) => dispatch(postKweet(text, user)),
-    onSearchKweets: (text) => dispatch(searchKweets(text)),
-    onEmptyFoundKweets: () => dispatch(emptyFoundKweets()),
     onCheckUserLikes: (userId) => dispatch(checkUserLikes(userId)),
     onSetTrends: (trends) => dispatch(setTrends(trends)),
-    onLogout: () => dispatch(logout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './Search.css';
 import Trends from '../../components/Trends/Trends';
 import { connect } from 'react-redux';
-import { searchKweets, setTrends } from '../../actions/index';
-import Kweets from '../../components/Kweets/Kweets';
+import { searchAndSetKweets, setTrends } from '../../actions/index';
+import KweetsContainer from '../../containers/KweetsContainer';
+import NavigationContainer from '../../containers/NavigationContainer';
 
 class Search extends Component {
     constructor(props) {
@@ -23,13 +24,14 @@ class Search extends Component {
     render() {
         return (
             <div className="search">
+                <NavigationContainer
+                    onSearchEnter={query => this.props.history.push(query)}/>
+
                 <div className="search__trends">
-                    <Trends trends={this.props.trends}>
-                        <h2>Trending</h2>
-                    </Trends>
+                    <Trends trends={this.props.trends}/>
                 </div>
                 <div className="search__results">
-                    <Kweets kweets={this.props.kweetsFound}/>
+                    <KweetsContainer kweets={this.props.kweetsFound}/>
                 </div>
             </div>
         );
@@ -39,7 +41,7 @@ class Search extends Component {
 const mapStateToProps = ({ kweets }) => ({ ...kweets });
 
 const mapDispatchToProps = (dispatch) => ({
-    onSearchKweets: (query) => dispatch(searchKweets(query)),
+    onSearchKweets: (query) => dispatch(searchAndSetKweets(query)),
     onSetTrends: () => dispatch(setTrends())
 });
 
