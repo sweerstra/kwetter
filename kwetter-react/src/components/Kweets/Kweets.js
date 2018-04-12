@@ -5,7 +5,7 @@ import Kweet from '../Kweet/Kweet';
 const Kweets = ({ kweets, onKweetLike }) => (
     <div className="kweets">
         {kweets.map((kweet, index) =>
-            <Kweet {...kweet} onLike={onKweetLike} key={index}/>
+            <Kweet {...kweet} onLike={() => onKweetLike(kweet)} key={index}/>
         )}
     </div>
 );
