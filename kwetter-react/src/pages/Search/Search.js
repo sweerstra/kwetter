@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Search.css';
 import Trends from '../../components/Trends/Trends';
 import { connect } from 'react-redux';
-import { searchAndSetKweets, setTrends } from '../../actions/index';
+import { searchAndSetKweets, searchAndSetKweetsByTrend, setTrends } from '../../actions/index';
 import KweetsContainer from '../../containers/KweetsContainer';
 import NavigationContainer from '../../containers/NavigationContainer';
 
@@ -12,10 +12,15 @@ class Search extends Component {
     }
 
     componentDidMount() {
-        const { query } = this.props.match.params;
+        const { searchType, query } = this.props.match.params;
 
-        if (query) {
-            this.props.onSearchKweets(query);
+        switch (searchType) {
+            case 'kweet':
+                this.props.onSearchKweets(query);
+                break;
+            case 'trend':
+                this.props.onSearchAndSetKweetsByTrend(query);
+                break;
         }
 
         this.props.onSetTrends();
@@ -42,6 +47,7 @@ const mapStateToProps = ({ kweets }) => ({ ...kweets });
 
 const mapDispatchToProps = (dispatch) => ({
     onSearchKweets: (query) => dispatch(searchAndSetKweets(query)),
+    onSearchAndSetKweetsByTrend: (trend) => dispatch(searchAndSetKweetsByTrend(trend)),
     onSetTrends: () => dispatch(setTrends())
 });
 

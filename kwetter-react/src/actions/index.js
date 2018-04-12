@@ -88,6 +88,11 @@ export const searchAndSetKweets = (text) => dispatch => {
         .then(kweetsFound => dispatch({ type: types.SET_KWEETS_FOUND, kweetsFound }));
 };
 
+export const searchAndSetKweetsByTrend = (trend) => dispatch => {
+    return Api.kweet.getKweetsByTrend(trend)
+        .then(kweetsFound => dispatch({ type: types.SET_KWEETS_FOUND, kweetsFound }));
+};
+
 export const setTrends = (trends) => dispatch => {
     return Api.kweet.getCurrentTrends()
         .then(trends => dispatch({ type: types.SET_TRENDS, trends }));

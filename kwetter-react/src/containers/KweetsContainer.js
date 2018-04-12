@@ -7,8 +7,6 @@ class KweetsContainer extends Component {
     render() {
         const { kweets, isAuthenticated, userLoggedIn, onLikeKweet } = this.props;
 
-        console.log('kweets inside', kweets);
-
         return (
             <Kweets
                 kweets={kweets}

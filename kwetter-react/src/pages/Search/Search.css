@@ -1,6 +1,6 @@
 .search {
     display: grid;
-    grid-template-columns: 3fr 7fr;
+    grid-template-columns: 2fr 8fr;
     grid-template-rows: 80px 1fr;
 }
 
@@ -9,4 +9,5 @@
 }
 
 .search .kweets {
+    border-left: 1px solid var(--color-primary);
 }
