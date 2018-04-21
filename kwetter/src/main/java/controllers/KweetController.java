@@ -1,5 +1,6 @@
 package controllers;
 
+import authentication.JWT;
 import com.google.gson.Gson;
 import domain.Kweet;
 import interceptors.KweetLoggingInterceptor;
@@ -39,6 +40,7 @@ public class KweetController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Interceptors(KweetLoggingInterceptor.class)
+    @JWT
     public Response postKweet(Kweet kweet) {
         Kweet postedKweet = service.postKweet(new Kweet(kweet.getText(), kweet.getUser()));
         if (postedKweet == null) {
@@ -107,6 +109,7 @@ public class KweetController {
     @POST
     @Path("/like/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @JWT
     public Response likeKweet(Kweet kweet, @PathParam("userId") long userId) {
         boolean result = service.likeKweet(kweet, userId);
         return Response.ok(new ResponseBody(result, null)).build();
@@ -114,6 +117,7 @@ public class KweetController {
 
     @GET
     @Path("/likes/{userId}")
+    @JWT
     public Response getLikes(@PathParam("userId") long userId) {
         List<Integer> likes = service.getLikes(userId);
 

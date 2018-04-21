@@ -1,6 +1,5 @@
 package services;
 
-import com.google.common.hash.Hashing;
 import com.mysql.cj.core.util.StringUtils;
 import dao.IUserDao;
 import dao.JPA;
@@ -10,7 +9,6 @@ import domain.UserGroup;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Stateless
@@ -36,11 +34,11 @@ public class UserService implements Serializable {
                 || getUserByUsername(username) != null) return null;
 
         // hash password
-        String sha256HexPassword = Hashing.sha256()
+        /* String sha256HexPassword = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
-                .toString();
+                .toString(); */
 
-        return userDao.create(new User(username, sha256HexPassword));
+        return userDao.create(new User(username, password));
     }
 
     /**

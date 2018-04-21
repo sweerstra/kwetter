@@ -1,5 +1,6 @@
 package controllers;
 
+import authentication.JWT;
 import domain.User;
 import domain.UserGroup;
 import models.ResponseBody;
@@ -70,6 +71,7 @@ public class UserController {
 
     @POST
     @Path("/{id}/follow/{followingId}")
+    @JWT
     public Response followUser(@PathParam("id") long id, @PathParam("followingId") long followingId) {
         boolean result = service.followUser(id, followingId);
         String errorMessage = !result ? "User does not exist or the connection between these users already exists" : null;
@@ -78,6 +80,7 @@ public class UserController {
 
     @POST
     @Path("/{id}/unfollow/{unfollowingId}")
+    @JWT
     public Response unfollowUser(@PathParam("id") long id, @PathParam("unfollowingId") long unfollowingId) {
         boolean result = service.unfollowUser(id, unfollowingId);
         String errorMessage = !result ? "User or the connection between these users does not exist" : null;
@@ -86,12 +89,14 @@ public class UserController {
 
     @GET
     @Path("/{id}/following")
+    @JWT
     public Response getFollowing(@PathParam("id") long id) {
         return Response.ok(service.getFollowing(id)).build();
     }
 
     @GET
     @Path("/{id}/followers")
+    @JWT
     public Response getFollowers(@PathParam("id") long id) {
         return Response.ok(service.getFollowers(id)).build();
     }

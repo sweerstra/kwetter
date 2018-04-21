@@ -40,10 +40,10 @@ public class Startup {
         userService.editUserGroup(2, moderatorGroup);
         userService.editUserGroup(3, adminGroup);
 
-        kweetService.postKweet(new Kweet("heftig ongeluk hier", createdUser));
-        kweetService.postKweet(new Kweet("@moderator1 ben helemaal klaar met jou #fuckmoderators", createdUser));
-        kweetService.postKweet(new Kweet("krijg nou de pest pleuris #hondenlul", createdUser));
-        kweetService.postKweet(new Kweet("@niffo #fissa in de stad #heftig", createdUser));
+        kweetService.postKweet(new Kweet("#heftig ongeluk hier", createdUser));
+        kweetService.postKweet(new Kweet("@moderator1 ben helemaal klaar met jou #kappen", createdUser));
+        kweetService.postKweet(new Kweet("Net een nieuwe fiets gekocht", createdUser));
+        kweetService.postKweet(new Kweet("Feest in de stad #heftig", createdUser));
 
         kweetService.postKweet(new Kweet("@user1 gedraag je, ik ben de moderator hier", createdModerator));
         kweetService.postKweet(new Kweet("Op Kwetter heb ik ook iets te zeggen #metoo", createdModerator));
