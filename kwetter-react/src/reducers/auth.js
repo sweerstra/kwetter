@@ -1,9 +1,11 @@
 import { LOGIN, LOGOUT } from '../constants/ActionTypes';
+import { isExpiredToken } from '../utils/index';
 
-const auth = (state = {
-    isAuthenticated: !!localStorage.getItem('access_token'),
-    userLoggedIn: JSON.parse(localStorage.getItem('logged_in'))
-}, action) => {
+const accessToken = localStorage.getItem('access_token');
+const isAuthenticated = !!accessToken && !isExpiredToken(accessToken);
+const userLoggedIn = isAuthenticated ? JSON.parse(localStorage.getItem('logged_in')) : null;
+
+const auth = (state = { isAuthenticated, userLoggedIn }, action) => {
     switch (action.type) {
         case LOGIN:
             return {

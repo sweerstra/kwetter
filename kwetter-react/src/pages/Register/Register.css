@@ -12,6 +12,7 @@
     border: 2px solid var(--color-tint);
     border-radius: var(--border-radius);
     text-align: center;
+    box-shadow: 0 0 10px 2px var(--color-disabled);
 }
 
 .register__content h1 { margin-top: 0; color: var(--color-tint); }

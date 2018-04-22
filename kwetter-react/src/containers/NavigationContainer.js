@@ -38,12 +38,10 @@ class NavigationContainer extends Component {
     };
 }
 
-const mapStateToProps = ({ auth, kweets }) => {
-    return ({
-        ...auth,
-        ...kweets
-    });
-};
+const mapStateToProps = ({ auth, kweets }) => ({
+    ...auth,
+    ...kweets
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onLogout: () => dispatch(logout())

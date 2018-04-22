@@ -75,12 +75,14 @@ class Profile extends Component {
             : <ProfileDetails className="profile__profile-details"
                               profile={selectedUser}
                               isFollowing={isFollowing}
+                              isAuthenticated={isAuthenticated}
                               onFollowChange={(type, followId) => this.props.onFollowUser(type, userLoggedIn.id, followId)}/>;
 
         return (
             <div className="profile">
                 <NavigationContainer
-                    onSearchEnter={query => this.props.history.push(`/search/kweet/${query}`)}/>
+                    onSearchEnter={query => this.props.history.push(`/search/kweet/${query}`)}
+                />
 
                 {profileDetails}
 
@@ -91,11 +93,11 @@ class Profile extends Component {
                         <a href="mentions" className={`h2 kweets__heading ${isActive('mentions')}`}>Mentions</a>
                         {!postKweetOpen && isOwnUser &&
                         <button className="kweets__header__post-kweet btn"
-                                onClick={() => this.setPostKweet(true)}>Post Kweet</button>}
+                                onClick={() => this.setPostKweetOpen(true)}>Post Kweet</button>}
                     </div>}
 
                     {postKweetOpen && <PostKweet onKweetPost={text => this.onPostKweet(text, userLoggedIn)}
-                                                 onCancel={() => this.setPostKweet(false)}/>}
+                                                 onCancel={() => this.setPostKweetOpen(false)}/>}
 
                     <KweetsContainer kweets={this.props.kweets}/>
                 </div>
@@ -112,11 +114,11 @@ class Profile extends Component {
     }
 
     onPostKweet = (text, user) => {
-        this.setPostKweet(false);
+        this.setPostKweetOpen(false);
         this.props.onPostKweet(text, user);
     };
 
-    setPostKweet = (postKweetOpen) => this.setState({ postKweetOpen });
+    setPostKweetOpen = (postKweetOpen) => this.setState({ postKweetOpen });
 }
 
 const mapStateToProps = ({ auth, user, kweets }) => {

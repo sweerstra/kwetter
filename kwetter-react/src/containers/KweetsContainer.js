@@ -20,11 +20,7 @@ class KweetsContainer extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
-    return ({
-        ...auth
-    });
-};
+const mapStateToProps = ({ auth }) => ({ ...auth });
 
 const mapDispatchToProps = (dispatch) => ({
     onLikeKweet: (kweetId, userId) => dispatch(likeKweet(kweetId, userId))

@@ -16,10 +16,10 @@ class Search extends Component {
 
         switch (searchType) {
             case 'kweet':
-                this.props.onSearchKweets(query);
+                this.props.onSearchKweetsByText(query);
                 break;
             case 'trend':
-                this.props.onSearchAndSetKweetsByTrend(query);
+                this.props.onSearchKweetsByTrend(query);
                 break;
         }
 
@@ -30,8 +30,8 @@ class Search extends Component {
         return (
             <div className="search">
                 <NavigationContainer
-                    onSearchEnter={query => this.props.history.push(query)}/>
-
+                    onSearchEnter={query => this.props.history.push(query)}
+                />
                 <div className="search__trends">
                     <Trends trends={this.props.trends}/>
                 </div>
@@ -46,8 +46,8 @@ class Search extends Component {
 const mapStateToProps = ({ kweets }) => ({ ...kweets });
 
 const mapDispatchToProps = (dispatch) => ({
-    onSearchKweets: (query) => dispatch(searchAndSetKweets(query)),
-    onSearchAndSetKweetsByTrend: (trend) => dispatch(searchAndSetKweetsByTrend(trend)),
+    onSearchKweetsByText: (query) => dispatch(searchAndSetKweets(query)),
+    onSearchKweetsByTrend: (trend) => dispatch(searchAndSetKweetsByTrend(trend)),
     onSetTrends: () => dispatch(setTrends())
 });
 

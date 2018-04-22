@@ -5,7 +5,6 @@ export const debounce = (fn, time) => {
 
     return function () {
         const call = () => fn.apply(this, arguments);
-
         clearTimeout(timeout);
         timeout = setTimeout(call, time);
     }
@@ -21,4 +20,21 @@ export const transformText = (text) => {
             return ` ${word} `;
         }
     });
+};
+
+export const decodeToken = (token) => {
+    const [, url] = token.split('.');
+    const base = url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base));
+};
+
+export const isExpiredToken = (token) => {
+    try {
+        const jwt = decodeToken(token);
+        const currentTime = Date.now() / 1000;
+        return jwt.exp < currentTime;
+    } catch (e) {
+        console.error(e);
+        return true;
+    }
 };

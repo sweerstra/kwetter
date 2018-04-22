@@ -26,6 +26,13 @@ class Request {
 
     _request(url, options) {
         const headers = { 'Content-Type': 'application/json' };
+
+        const token = localStorage.getItem('access_token');
+
+        if (token) {
+            headers.Authorization = token;
+        }
+
         return fetch(url, { ...options, headers })
             .then(resp => resp.json());
     };

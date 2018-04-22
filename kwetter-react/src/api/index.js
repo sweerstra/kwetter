@@ -1,9 +1,9 @@
 import Request from './Request';
-import { KWEET_API_URL, USER_API_URL } from '../constants';
+import { AUTH_API_URL, KWEET_API_URL, USER_API_URL } from '../constants';
 
 export default {
     user: {
-        authenticate: (username, password) => Request.post(`${USER_API_URL}/auth`, { username, password }),
+        authenticate: (username, password) => Request.post(`${AUTH_API_URL}/login`, { username, password }),
         register: (username, password) => Request.post(USER_API_URL, { username, password }),
         getUser: (username) => Request.get(`${USER_API_URL}/${username}`),
         editUser: (user) => Request.put(USER_API_URL, user),

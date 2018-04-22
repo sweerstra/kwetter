@@ -1,5 +1,6 @@
 import * as types from '../constants/ActionTypes';
 import Api from '../api';
+import { decodeToken } from '../utils/index';
 
 export const setSelectedUser = (username) => dispatch => {
     return new Promise((resolve, reject) => {
@@ -100,16 +101,13 @@ export const setTrends = (trends) => dispatch => {
 
 export const authenticate = (username, password) => dispatch => {
     return Api.user.authenticate(username, password)
-        .then(user => {
-            dispatch({ type: types.LOGIN, user });
-            localStorage.setItem('access_token', 'token');
-            localStorage.setItem('logged_in', JSON.stringify(user));
-            return true;
+        .then(token => {
+            localStorage.setItem('access_token', token);
+            const { jti: id, sub: username } = decodeToken(token);
+            localStorage.setItem('logged_in', JSON.stringify({ id, username }));
+            dispatch({ type: types.LOGIN, user: { id, username } });
         })
-        .catch(err => {
-            console.log(err);
-            return false;
-        });
+        .catch(err => console.log(err));
 };
 
 export const register = (username, password, shouldLogin) => dispatch => {
