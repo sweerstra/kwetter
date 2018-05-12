@@ -12,13 +12,14 @@ class NavigationContainer extends Component {
 
     render() {
         const { kweetSuggestions } = this.state;
-        const { userLoggedIn, onSearchEnter, onLogout } = this.props;
+        const { isAuthenticated, userLoggedIn, onSearchEnter, onLogout } = this.props;
 
         return (
             <Navigation onSearch={this.onSearchKweetSuggestions}
                         kweetSuggestions={kweetSuggestions}
                         onSearchEnter={onSearchEnter}
                         onSearchCancel={this.onEmptyKweetSuggestions}
+                        isAuthenticated={isAuthenticated}
                         userLoggedIn={userLoggedIn}
                         onLogout={onLogout}
             />
@@ -27,15 +28,12 @@ class NavigationContainer extends Component {
 
     onSearchKweetSuggestions = (text) => {
         if (text) {
-            console.log('search', text);
             searchKweets(text)
                 .then(kweetSuggestions => this.setState({ kweetSuggestions }));
         }
     };
 
-    onEmptyKweetSuggestions = () => {
-        this.setState({ kweetSuggestions: [] });
-    };
+    onEmptyKweetSuggestions = () => this.setState({ kweetSuggestions: [] });
 }
 
 const mapStateToProps = ({ auth, kweets }) => ({

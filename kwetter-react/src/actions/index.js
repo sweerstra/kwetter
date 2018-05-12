@@ -61,10 +61,15 @@ export const getUser = (username) => {
     return Api.user.getUser(username);
 };
 
-export const postKweet = (text, { id, ...user }) => dispatch => {
-    return Api.kweet.postKweet(text, id)
-        .then(kweet => dispatch({ type: types.POST_KWEET, kweet, user }));
+export const postKweet = (text, user) => dispatch => {
+    return Api.kweet.postKweet(text, user.id)
+        .then(kweet => dispatch(addKweet(kweet)));
 };
+
+export const addKweet = (kweet) => ({
+    type: types.ADD_KWEET,
+    kweet
+});
 
 export const likeKweet = (kweetId, userId) => dispatch => {
     return Api.kweet.likeKweet(userId, { id: kweetId })

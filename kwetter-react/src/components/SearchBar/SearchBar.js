@@ -5,10 +5,6 @@ import enhanceWithClickOutside from 'react-click-outside';
 import { debounce, transformText } from '../../utils';
 
 class SearchBar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.searchCallback = debounce(value => {
             if (value.length === 0) {

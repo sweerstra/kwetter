@@ -9,7 +9,7 @@ const Users = ({ children, users, wrap }) => (
                 <li className="user" key={index}>
                     <div className="user__profile-picture">
                         <a href={`/profile/${username}/kweets`}>
-                            <img src={profilePicture}/>
+                            <img src={profilePicture} alt="Profile"/>
                         </a>
                     </div>
                     {!wrap && <div className="user__username">

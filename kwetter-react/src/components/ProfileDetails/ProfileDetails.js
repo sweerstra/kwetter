@@ -9,7 +9,7 @@ const ProfileDetails = ({ className, profile: { id, username, profilePicture, bi
         </div>
         <div className="profile__details__info">
             <div className="profile__details__info__username">
-                <a href="#" className="h2">
+                <a href={`/profile/${username}/kweets`} className="h2">
                     @{username}
                 </a>
                 {isAuthenticated && <button className={`profile__details__info__follow btn ${isFollowing ? 'red' : ''}`}
@@ -27,7 +27,7 @@ const ProfileDetails = ({ className, profile: { id, username, profilePicture, bi
             </div>
             <div className="profile__details__info__website">
                 <icons.link/>
-                <a href="#">{website}</a>
+                <a href={website}>{website}</a>
             </div>
         </div>
     </div>

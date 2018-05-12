@@ -24,8 +24,8 @@ class Request {
         });
     }
 
-    _request(url, options) {
-        const headers = { 'Content-Type': 'application/json' };
+    _request(url, options = {}) {
+        const headers = { ...options.headers, 'Content-Type': 'application/json' };
 
         const token = localStorage.getItem('access_token');
 

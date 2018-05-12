@@ -9,6 +9,7 @@ import KweetsContainer from '../../containers/KweetsContainer';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
+    addKweet,
     checkUserLikes,
     editSelectedUser,
     followUser,
@@ -50,6 +51,10 @@ class Profile extends Component {
             .catch(err => err);
 
         this.props.onSetTrends();
+
+        if (isAuthenticated) {
+            this.setUpSocketConnection(userLoggedIn.username);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -119,6 +124,24 @@ class Profile extends Component {
     };
 
     setPostKweetOpen = (postKweetOpen) => this.setState({ postKweetOpen });
+
+    setUpSocketConnection = (username) => {
+        const socket = new WebSocket(`ws://localhost:8080/kwetter/socket/${username}`);
+
+        socket.onopen = () => {
+            console.log(`Open WebSocket connection with "${username}"`);
+        };
+
+        socket.onmessage = (message) => {
+            const { match } = this.props;
+            const { username: pageUsername, kweetsType } = match.params;
+
+            if (username === pageUsername && kweetsType === 'timeline') {
+                const kweet = JSON.parse(message.data);
+                this.props.onAddKweet(kweet);
+            }
+        };
+    };
 }
 
 const mapStateToProps = ({ auth, user, kweets }) => {
@@ -135,6 +158,7 @@ const mapStateToProps = ({ auth, user, kweets }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+    onAddKweet: (kweet, user) => dispatch(addKweet(kweet, user)),
     onSetSelectedUser: (username) => dispatch(setSelectedUser(username)),
     onEditSelectedUser: (userame, user) => dispatch(editSelectedUser(userame, user)),
     onSetKweetsOfUser: (username, kweetsType) => dispatch(setKweetsOfUser(username, kweetsType)),

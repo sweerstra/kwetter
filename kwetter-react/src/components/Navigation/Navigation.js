@@ -4,11 +4,11 @@ import logo from '../../images/kwetter-logo.png';
 import SearchBar from '../SearchBar/SearchBar';
 import { Link } from 'react-router-dom';
 
-const Navigation = ({ onSearch, kweetSuggestions, onSearchEnter, onSearchCancel, userLoggedIn, onLogout }) => (
+const Navigation = ({ onSearch, kweetSuggestions, onSearchEnter, onSearchCancel, isAuthenticated, userLoggedIn, onLogout }) => (
     <nav className="light">
         <div className="nav__brand h1">
-            <a href={userLoggedIn ? `/profile/${userLoggedIn.username}` : '/login'}>
-                <img src={logo}/>
+            <a href={isAuthenticated ? `/profile/${userLoggedIn.username}` : '/login'}>
+                <img src={logo} alt="Kwetter Logo"/>
             </a>
             Kwetter
         </div>
@@ -18,7 +18,7 @@ const Navigation = ({ onSearch, kweetSuggestions, onSearchEnter, onSearchCancel,
                        onEnter={onSearchEnter}
                        onCancel={onSearchCancel}/>
         </div>
-        {userLoggedIn ?
+        {isAuthenticated ?
             <div>
                 <span className="nav__logged-in">
                     Logged in as <Link to={`/profile/${userLoggedIn.username}`}>{userLoggedIn.username}</Link>

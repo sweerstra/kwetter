@@ -6,7 +6,7 @@ import { transformText } from '../../utils';
 const Kweet = ({ user: { username, profilePicture }, text, date, likes, liked, onLike }) => (
     <div className="kweet">
         <div className="kweet__profile-picture">
-            <img src={profilePicture}/>
+            <img src={profilePicture} alt="Profile"/>
         </div>
         <div className="kweet__content">
             <div className="kweet__content__details">

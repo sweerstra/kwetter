@@ -7,20 +7,13 @@ import KweetsContainer from '../../containers/KweetsContainer';
 import NavigationContainer from '../../containers/NavigationContainer';
 
 class Search extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         const { searchType, query } = this.props.match.params;
 
-        switch (searchType) {
-            case 'kweet':
-                this.props.onSearchKweetsByText(query);
-                break;
-            case 'trend':
-                this.props.onSearchKweetsByTrend(query);
-                break;
+        if (searchType === 'trend') {
+            this.props.onSearchKweetsByTrend(query);
+        } else {
+            this.props.onSearchKweetsByText(query);
         }
 
         this.props.onSetTrends();

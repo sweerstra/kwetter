@@ -18,7 +18,7 @@ const ProfileDetailsEditable = ({ className, profile: { username, profilePicture
                                name="username"
                                placeholder="Username"
                                onEdit={onEdit}>
-                <a href="#" className="h2">
+                <a href={`/profile/${username}/kweets`} className="h2">
                     @{username}
                 </a>
             </EditProfileDetail>

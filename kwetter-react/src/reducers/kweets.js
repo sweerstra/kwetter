@@ -1,6 +1,6 @@
 import {
+    ADD_KWEET,
     LIKE_KWEET,
-    POST_KWEET,
     SET_KWEETS,
     SET_KWEETS_FOUND,
     SET_LIKED_KWEETS,
@@ -12,8 +12,7 @@ const kweets = (state = { kweets: [], kweetsFound: [], trends: [] }, action) => 
         case SET_KWEETS:
             return { ...state, kweets: action.kweets };
 
-        case POST_KWEET:
-            action.kweet.user = action.user;
+        case ADD_KWEET:
             return { ...state, kweets: [action.kweet, ...state.kweets] };
 
         case LIKE_KWEET:
