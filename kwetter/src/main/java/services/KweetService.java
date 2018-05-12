@@ -6,6 +6,7 @@ import dao.IUserDao;
 import dao.JPA;
 import domain.Kweet;
 import domain.User;
+import websocket.SocketController;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -47,6 +48,13 @@ public class KweetService implements Serializable {
                 Kweet createdKweet = kweetDao.create(kweet);
                 user.addKweet(createdKweet);
                 userDao.update(user);
+
+                createdKweet.getUser().setUsername(user.getUsername());
+                createdKweet.getUser().setProfilePicture(user.getProfilePicture());
+
+                // use web socket to show followers your kweet
+                SocketController.sendKweetSocket(createdKweet, user.getFollowers());
+
                 return createdKweet;
             }
         }
