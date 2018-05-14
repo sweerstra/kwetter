@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import config.Link;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -38,6 +39,9 @@ public class Kweet implements Serializable {
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> mentions = new ArrayList<>();
+
+    @Transient
+    private List<Link> links = new ArrayList<>();
 
     public Kweet(String text, User user) {
         this.text = text;
@@ -117,6 +121,18 @@ public class Kweet implements Serializable {
 
     public void incrementLike() {
         this.likes += 1;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(Link link) {
+        this.links.add(link);
     }
 
     @Override

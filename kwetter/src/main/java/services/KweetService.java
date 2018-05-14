@@ -39,7 +39,7 @@ public class KweetService implements Serializable {
      * @param kweet, to create with text and user id
      * @return Kweet, that gets posted)
      */
-    public Kweet postKweet(Kweet kweet) {
+    public Kweet postKweet(Kweet kweet, boolean withSocket) {
         String text = kweet.getText();
         if (!StringUtils.isNullOrEmpty(text) && text.length() <= 140) {
             User user = userDao.findById(kweet.getUser().getId());
@@ -53,7 +53,9 @@ public class KweetService implements Serializable {
                 createdKweet.getUser().setProfilePicture(user.getProfilePicture());
 
                 // use web socket to show followers your kweet
-                SocketController.sendKweetSocket(createdKweet, user.getFollowers());
+                if (withSocket) {
+                    SocketController.sendKweetSocket(createdKweet, user.getFollowers());
+                }
 
                 return createdKweet;
             }

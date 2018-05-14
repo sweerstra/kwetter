@@ -1,6 +1,7 @@
 package controllers;
 
 import authentication.JWT;
+import config.Link;
 import domain.User;
 import domain.UserGroup;
 import models.ResponseBody;
@@ -9,8 +10,10 @@ import services.UserService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @RequestScoped
@@ -22,12 +25,28 @@ public class UserController {
 
     @GET
     @Path("/{username}")
-    public Response getUser(@PathParam("username") String username) {
+    public Response getUser(@PathParam("username") String username, @Context UriInfo uriInfo) {
         User user = service.getUserByUsername(username);
 
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        String selfHref = uriInfo.getBaseUriBuilder()
+                .path(UserController.class)
+                .path(username)
+                .build()
+                .toString();
+
+        String kweetsHref = uriInfo.getBaseUriBuilder()
+                .path(KweetController.class)
+                .path(UserController.class)
+                .path(username)
+                .build()
+                .toString();
+
+        user.addLink(new Link(selfHref, "self", "GET"));
+        user.addLink(new Link(kweetsHref, "kweets", "GET"));
 
         return Response.ok(user.serialized()).build();
     }

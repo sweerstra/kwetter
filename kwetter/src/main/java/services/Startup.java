@@ -40,14 +40,14 @@ public class Startup {
         userService.editUserGroup(2, moderatorGroup);
         userService.editUserGroup(3, adminGroup);
 
-        kweetService.postKweet(new Kweet("#heftig ongeluk hier", createdUser));
-        kweetService.postKweet(new Kweet("@moderator1 ben helemaal klaar met jou #kappen", createdUser));
-        kweetService.postKweet(new Kweet("Net een nieuwe fiets gekocht", createdUser));
-        kweetService.postKweet(new Kweet("Feest in de stad #heftig", createdUser));
+        kweetService.postKweet(new Kweet("#heftig ongeluk hier", createdUser), false);
+        kweetService.postKweet(new Kweet("@moderator1 ben helemaal klaar met jou #kappen", createdUser), false);
+        kweetService.postKweet(new Kweet("Net een nieuwe fiets gekocht", createdUser), false);
+        kweetService.postKweet(new Kweet("Feest in de stad #heftig", createdUser), false);
 
-        kweetService.postKweet(new Kweet("@user1 gedraag je, ik ben de moderator hier", createdModerator));
-        kweetService.postKweet(new Kweet("Op Kwetter heb ik ook iets te zeggen #metoo", createdModerator));
-        kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", createdAdmin));
+        kweetService.postKweet(new Kweet("@user1 gedraag je, ik ben de moderator hier", createdModerator), false);
+        kweetService.postKweet(new Kweet("Op Kwetter heb ik ook iets te zeggen #metoo", createdModerator), false);
+        kweetService.postKweet(new Kweet("Dit is niet meer normaal #heftig", createdAdmin), false);
 
         user.setProfilePicture("https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg");
         user.setBio("Intuligente jongun man, die graag opzoek is naar baan, stuur mail naar user1@mail.com.");

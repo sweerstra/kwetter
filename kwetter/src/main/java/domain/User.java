@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import config.Link;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -57,6 +58,9 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Kweet> liked = new HashSet<>();
 
+    @Transient
+    private List<Link> links = new ArrayList<>();
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -77,8 +81,6 @@ public class User implements Serializable {
     }
 
     public boolean addLike(Kweet kweet) {
-
-
         return liked.add(kweet);
     }
 
@@ -226,6 +228,18 @@ public class User implements Serializable {
 
     public void setLiked(Set<Kweet> liked) {
         this.liked = liked;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(Link link) {
+        this.links.add(link);
     }
 
     @Override
