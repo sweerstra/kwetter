@@ -1,6 +1,5 @@
 package controllers;
 
-import config.Link;
 import domain.User;
 import services.UserService;
 
@@ -25,17 +24,6 @@ public class UsersController {
     @GET
     public Response getUsers(@Context UriInfo uriInfo) {
         List<User> users = service.getUsers();
-
-        for (User user : users) {
-            String href = uriInfo.getBaseUriBuilder()
-                    .path(UserController.class)
-                    .path("follow")
-                    .path(String.valueOf(user.getId()))
-                    .build()
-                    .toString();
-
-            user.addLink(new Link(href, "follow", "POST"));
-        }
 
         return Response.ok(users).build();
     }

@@ -231,6 +231,10 @@ public class User implements Serializable {
     }
 
     public List<Link> getLinks() {
+        this.addLink(new Link("http://localhost:8080/kwetter/api/user/" + this.username, "self", "GET"));
+        this.addLink(new Link("http://localhost:8080/kwetter/api/user/" + this.id, "remove", "DELETE"));
+        this.addLink(new Link("http://localhost:8080/kwetter/api/user/" + this.id, "edit", "PUT"));
+        this.addLink(new Link("http://localhost:8080/kwetter/api/kweet/user/" + this.username, "kweets", "GET"));
         return links;
     }
 

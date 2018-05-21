@@ -124,6 +124,10 @@ public class Kweet implements Serializable {
     }
 
     public List<Link> getLinks() {
+        this.addLink(new Link("http://localhost:8080/kwetter/api/kweet/" + this.id, "self", "GET"));
+        this.addLink(new Link("http://localhost:8080/kwetter/api/kweet/", "add", "POST"));
+        this.addLink(new Link("http://localhost:8080/kwetter/api/kweet/" + this.id, "remove", "DELETE"));
+        this.addLink(new Link("http://localhost:8080/kwetter/api/kweet/" + this.id, "edit", "PUT"));
         return links;
     }
 

@@ -2,7 +2,6 @@ package controllers;
 
 import authentication.JWT;
 import com.google.gson.Gson;
-import config.Link;
 import domain.Kweet;
 import interceptors.KweetLoggingInterceptor;
 import models.ResponseBody;
@@ -12,10 +11,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @RequestScoped
@@ -28,7 +25,7 @@ public class KweetController {
 
     @GET
     @Path("/{id}")
-    public Response getKweet(@PathParam("id") long id, @Context UriInfo uriInfo) {
+    public Response getKweet(@PathParam("id") long id) {
         Kweet kweet = service.getKweet(id);
 
         if (kweet == null) {
@@ -36,14 +33,6 @@ public class KweetController {
         }
 
         kweet.setUser(null);
-
-        String selfHref = uriInfo.getBaseUriBuilder()
-                .path(UserController.class)
-                .path(String.valueOf(id))
-                .build()
-                .toString();
-
-        kweet.addLink(new Link(selfHref, "self", "GET"));
 
         return Response.ok(gson.toJson(kweet)).build();
     }
@@ -83,20 +72,11 @@ public class KweetController {
 
     @GET
     @Path("/user/{username}")
-    public Response getKweetsOfUser(@PathParam("username") String username, @Context UriInfo uriInfo) {
+    public Response getKweetsOfUser(@PathParam("username") String username) {
         List<Kweet> kweets = service.getKweetsOfUser(username);
 
         if (kweets == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        String href = uriInfo.getBaseUriBuilder()
-                .path(KweetController.class)
-                .build()
-                .toString();
-
-        for (Kweet kweet : kweets) {
-            kweet.addLink(new Link(href, "edit", "PUT"));
         }
 
         return Response.ok(kweets).build();
